@@ -4,8 +4,7 @@ require_once(Path::models() . 'config.php');
 
 class Person {
 	private $id;
-	private $personKindID; // int id of person type
-	//private $personKind; // string person type
+	private $personKindID;
 	private $username; 
 	private $name;
 	private $phone;
@@ -18,11 +17,6 @@ class Person {
 	public function getPersonKindID(){
 		return $this->personKindID;
 	}
-
-	/*
-	public function getPersonKind(){
-		return $this->personKind;
-	}*/
 
 	public function getUsername(){
 		return $this->username;
@@ -45,11 +39,6 @@ class Person {
 	public function setPersonKindID($personKindID){
 		$this->personKindID = $personKindID;
 	}
-
-	/*
-	public function setPersonKind($personKind){
-		$this->personKind = $personKind;
-	}*/
 
 	public function setUsername($username){
 		$this->username = $username;
@@ -149,6 +138,23 @@ class Person {
 			return $results[0]['id'];
 		} else return false;
 	}*/
+
+	/*
+	*	check to see if a person exists on the DB (prevents accidental duplicates)
+	*	
+	*	@param $username | string clemson Username of person submitting 
+	*
+	*	@return bool | false if person doesn't exist,
+	*		int | person id if does exist
+	*/
+	public static function personExists($username){
+		$sql = "SELECT id FROM people WHERE username=?";
+		$sql = $db->prepareQuery($sql, $username);
+		$results = $db->select($sql);
+		if(isset($results[0]['id'])){
+			return $results[0]['id'];	
+		} else return false;
+	}
 }
 
 

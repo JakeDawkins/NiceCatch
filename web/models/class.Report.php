@@ -166,6 +166,24 @@ class Report {
 		} else return false;
 	}
 
+	/*
+	*	check to see if a report exists on the DB (prevents accidental duplicates)
+	*	
+	*	@param $personID | int id of person submitting 
+	*		$dateTime | datetime of report submission
+	*
+	*	@return bool | false if report doesn't exist,
+	*		int | report id if does exist
+	*/
+	public static function reportExists($personID, $dateTime){
+		$sql = "SELECT * FROM `reports` WHERE `personID`=? AND `dateTime`=?";
+		$sql = $db->prepareQuery($sql, $personID, $dateTime);
+		$results = $db->select($sql);
+		if(isset($results[0]['id'])){
+			return $results[0]['id'];	
+		} else return false;
+	}
+
 }
 
 ?>

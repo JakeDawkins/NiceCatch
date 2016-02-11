@@ -111,6 +111,24 @@ class Location {
 			return $results[0]['id'];
 		} else return false;
 	}*/
+
+	/*
+	*	check to see if a location exists on the DB (prevents accidental duplicates)
+	*	
+	*	@param $buildingID | int id of building
+	*		$room | int room number in building (opt null)
+	*
+	*	@return bool | false if location doesn't exist,
+	*		int | location id if does exist
+	*/
+	public static function locationExists($buildingID, $room){
+		$sql = "SELECT * FROM locations WHERE buildingID=? AND room=?";
+		$sql = $db->prepareQuery($sql, $buildingID, $room);
+		$results = $db->select($sql);
+		if(isset($results[0]['id'])){
+			return $results[0]['id'];	
+		} else return false;
+	}
 }
 
 ?>

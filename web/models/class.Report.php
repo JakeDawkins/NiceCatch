@@ -110,28 +110,25 @@ class Report {
 	*/
 	public function save(){
 		$db = new Database();
-		$sql = "SELECT * FROM `reports` WHERE `personID`=? AND `dateTime`=?";
-		$sql = $db->prepareQuery($sql, $this->personID, $this->dateTime);
-		$results = $db->select($sql);
+		// $sql = "SELECT * FROM `reports` WHERE `personID`=? AND `dateTime`=?";
+		// $sql = $db->prepareQuery($sql, $this->personID, $this->dateTime);
+		// $results = $db->select($sql);
 
-		if(count($results) == 0){ //new report
+		$reportInDB = Report::reportExists($this->personID, $this->dateTime);
+
+		if($reportInDB === false){ //new report
 			$sql = "INSERT INTO `reports`(`description`, `involvementKindID`, `reportKindID`, `locationID`, `personID`, `departmentID`, `dateTime`,`statusID`,`actionTaken`) VALUES(?,?,?,?,?,?,?,?,?)";
 			$sql = $db->prepareQuery($sql, $this->description, $this->involvementKindID, $this->reportKindID, $this->locationID, $this->personID, $this->departmentID, $this->dateTime, $this->statusID, $this->actionTaken);
 			$db->query($sql);
 
-			//get id from new report
-			$sql = "SELECT * FROM `reports` WHERE `personID`=? AND `dateTime`=?";
-			$sql = $db->prepareQuery($sql, $this->personID, $this->dateTime);
-			$results = $db->select($sql);
-			if(isset($results[0]['id'])){
-				$this->id = $results[0]['id'];	
+			//get id of new Report
+			$reportInDB = Report::reportExists($this->personID, $this->dateTime);
+			if($reportInDB != false){
+				$this->id = $reportInDB;
 			} else return false;
 		} else { //old report
 			if(is_null($this->id)){ //old report, new object. no local id yet
-				//get id from DB
-				if(isset($results[0]['id'])){
-					$this->id = $results[0]['id'];	
-				} else return false;
+				$this->id = $reportInDB;
 			}
 
 			$sql = "UPDATE reports SET `description`=?, `involvementKindID`=?, `reportKindID`=?, `locationID`=?, `personID`=?, `departmentID`=?, `dateTime`=?, `statusID`=?, `actionTaken`=? WHERE id=?";

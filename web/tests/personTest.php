@@ -81,6 +81,21 @@ class PersonTest extends PHPUnit_Framework_TestCase {
 		$sql = $this->db->prepareQuery($sql, $person->getID());
 		$this->db->query($sql);
 	}
+
+	public function testDelete(){
+		$person = new Person();
+		$person->setPersonKindID(1);
+		$person->setUsername("timmy");
+		$person->setName("Timothy");
+		$person->setPhone("000-101-1010");
+		$person->save();
+
+		$this->assertTrue(Person::personExists($person->getUsername()) != false);
+
+		$person->delete();
+
+		$this->assertTrue(!Person::personExists($person->getUsername()));	
+	}
 }
 
 ?>

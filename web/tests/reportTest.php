@@ -110,6 +110,29 @@ class ReportTest extends PHPUnit_Framework_TestCase {
 		$sql = $this->db->prepareQuery($sql, $rep->getID());
 		$this->db->query($sql);
 	}
+
+	//creates a new object, saves to DB, then deletes it again 
+	public function testDelete(){
+		$rep = new Report();
+		$now = date("Y-m-d H:i:s");
+
+		$rep->setDescription("tester");
+		$rep->setInvolvementKindID(2);
+		$rep->setReportKindID(1);
+		$rep->setLocationID(1);
+		$rep->setPersonID(1);
+		$rep->setDepartmentID(2);
+		$rep->setDateTime($now);
+		$rep->setStatusID(2);
+		$rep->setActionTaken("nothing");
+		$rep->save();
+
+		$this->assertTrue(Report::reportExists($rep->getPersonID(), $rep->getDateTime()) != false);
+
+		$rep->delete();
+
+		$this->assertTrue(!Report::reportExists($rep->getPersonID(), $rep->getDateTime()));
+	}
 }
 
 ?>

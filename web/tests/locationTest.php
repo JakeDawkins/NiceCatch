@@ -72,6 +72,19 @@ class LocationTest extends PHPUnit_Framework_TestCase {
 		$sql = $this->db->prepareQuery($sql, $loc->getID());
 		$this->db->query($sql);
 	}
+
+	public function testDelete(){
+		$loc = new Location();
+		$loc->setBuildingID(1);
+		$loc->setRoom(9999);
+		$loc->save();
+
+		$this->assertTrue(Location::locationExists($loc->getBuildingId(), $loc->getRoom()) != false);
+
+		$loc->delete();
+
+		$this->assertTrue(!Location::locationExists($loc->getBuildingId(), $loc->getRoom()));		
+	}
 }
 
 ?>

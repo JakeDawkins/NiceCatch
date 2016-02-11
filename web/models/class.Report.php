@@ -55,6 +55,23 @@ class Report {
 		return $this->actionTaken;
 	}
 
+	public function toArray()
+    {
+        //return an array version of the Report item
+        return array(
+            'id' => $this->id,
+            'description' => $this->description,
+            'involvementKindID' => $this->involvementKindID,
+            'reportKindID' => $this->reportKindID,
+            'locationID' => $this->locationID,
+            'personID' => $this->personID,
+            'departmentID' => $this->departmentID,
+            'dateTime' => $this->dateTime,
+            'statusID' => $this->statusID,
+            'actionTaken' => $this->actionTaken
+        );
+    }
+
 	//------------------------ SETTERS ------------------------
 
 	public function setID($id){
@@ -182,6 +199,15 @@ class Report {
 		} else return false;
 	}
 
+	/*
+	* 	deletes the current Report from the DB using this object's id
+	*/
+	public function delete(){
+		$db = new Database();
+		$sql = "DELETE FROM reports WHERE id=?";
+		$sql = $db->prepareQuery($sql, $this->id);
+		$db->query($sql);
+	}
 }
 
 ?>

@@ -1,0 +1,37 @@
+API
+http://localhost/api/?controller=___CONTROLLER-NAME___&action=___ACTION-NAME___&___PARAMS___
+
+//------------------------ report controller ------------------------
+insert new report:
+http://localhost/api/?controller=ReportController&action=create&description=this%20is%20a%20test&involvementKind=new involvement&reportKind=new report kind&locationID=1&personID=1&departmentID=1&dateTime=2016-01-01%2000:00:00&statusID=1&actionTaken=none
+
+update report (known id)
+http://localhost/api/?controller=ReportController&action=update&id=5&description=updated%20test&involvementKindID=1&reportKindID=1&locationID=1&personID=1&departmentID=1&dateTime=2016-01-01%2000:00:00&statusID=1&actionTaken=none
+
+delete report (known id)
+http://localhost/api/?controller=ReportController&action=delete&id=5
+
+get report (known id)
+http://localhost/api/?controller=ReportController&action=get&id=1
+
+//------------------------ loader controller ------------------------
+http://localhost/api/?controller=loaderController&action=getDefaultInvolvements
+
+http://localhost/api/?controller=loaderController&action=getDefaultReportKinds
+
+http://localhost/api/?controller=loaderController&action=getBuildings
+
+http://localhost/api/?controller=loaderController&action=getDepartments
+
+//------------------------  ------------------------
+app knows..
+	description, 
+	username, 
+	involvement NAME (API-Loaded), 
+	reportKind NAME (API-Loaded), 
+	buildingID (API), 
+	room #, 
+	departmentID (API), 
+	dateTime, 
+	status (1), 
+	actionTaken (null)

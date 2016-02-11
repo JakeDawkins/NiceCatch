@@ -40,6 +40,10 @@ class Path {
 		return Path::base().'vendor/';
 	}
 
+	static public function controllers(){
+		return Path::base().'controllers/';
+	}
+
 	static public function dbSettings() {
 		return Path::base() . 'nc-db-settings.php';
 	}

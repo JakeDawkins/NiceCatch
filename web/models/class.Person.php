@@ -156,6 +156,16 @@ class Person {
 			return $results[0]['id'];	
 		} else return false;
 	}
+
+	/*
+	* 	deletes the current Person from the DB using this object's id
+	*/
+	public function delete(){
+		$db = new Database();
+		$sql = "DELETE FROM people WHERE id=?";
+		$sql = $db->prepareQuery($sql, $this->id);
+		$db->query($sql);
+	}
 }
 
 

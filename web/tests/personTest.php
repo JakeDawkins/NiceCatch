@@ -10,7 +10,6 @@ class LocationTest extends PHPUnit_Framework_TestCase {
 		$this->testPerson = new Person();
 		$this->testPerson->setID(99);
 		$this->testPerson->setPersonKindID(1);
-		$this->testPerson->setPersonKind("Faculty");
 		$this->testPerson->setUsername("myusername");
 		$this->testPerson->setName("john doe");
 		$this->testPerson->setPhone("555-555-5555");
@@ -28,11 +27,16 @@ class LocationTest extends PHPUnit_Framework_TestCase {
 		$this-> assertEquals(1,$this->testPerson->getPersonKindID());
 		$this-> assertEquals("myusername",$this->testPerson->getUsername());
 		$this-> assertEquals("john doe",$this->testPerson->getName());
-		$this->assertEquals("Faculty", $this->testPerson->getPersonKind());
 		$this-> assertEquals("555-555-5555",$this->testPerson->getPhone());
 	}
 
-
+	/*
+	*	@preq: user with username "bob" has ID 1 in DB.
+	*/
+	public function testPersonExists(){
+		$this->assertTrue(Person::personExists("bob") == 1);
+		$this->assertTrue(!Person::personExists("12345"));
+	}
 }
 
 ?>

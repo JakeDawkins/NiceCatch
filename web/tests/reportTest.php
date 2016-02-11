@@ -39,6 +39,14 @@ class ReportTest extends PHPUnit_Framework_TestCase {
 		$this-> assertEquals(2, $this->testReport->getStatusID());
 		$this-> assertEquals("nothing has been done",$this->testReport->getActionTaken());
 	}
+
+	/*
+	*	@preq: report with person ID 1 with timedate 2016-02-09 00:00:01 in DB with ID 1 
+	*/
+	public function testReportExists(){
+		$this->assertTrue(Report::reportExists(1, "2016-02-09 00:00:01") == 1);
+		$this->assertTrue(!Report::reportExists(0,"2016-02-09 00:00:01"));
+	}
 }
 
 ?>

@@ -148,6 +148,7 @@ class Person {
 	*		int | person id if does exist
 	*/
 	public static function personExists($username){
+		$db = new Database();
 		$sql = "SELECT id FROM people WHERE username=?";
 		$sql = $db->prepareQuery($sql, $username);
 		$results = $db->select($sql);

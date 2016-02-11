@@ -176,6 +176,7 @@ class Report {
 	*		int | report id if does exist
 	*/
 	public static function reportExists($personID, $dateTime){
+		$db = new Database();
 		$sql = "SELECT * FROM `reports` WHERE `personID`=? AND `dateTime`=?";
 		$sql = $db->prepareQuery($sql, $personID, $dateTime);
 		$results = $db->select($sql);

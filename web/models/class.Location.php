@@ -122,6 +122,7 @@ class Location {
 	*		int | location id if does exist
 	*/
 	public static function locationExists($buildingID, $room){
+		$db = new Database();
 		$sql = "SELECT * FROM locations WHERE buildingID=? AND room=?";
 		$sql = $db->prepareQuery($sql, $buildingID, $room);
 		$results = $db->select($sql);

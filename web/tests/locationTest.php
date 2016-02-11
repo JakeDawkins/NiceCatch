@@ -23,14 +23,20 @@ class LocationTest extends PHPUnit_Framework_TestCase {
 	* 	IF THIS FAILS, CHECK SETTERS
 	*/
 	public function testGetters(){
-		$this-> assertEquals(99,$this->testLoc->getID());
-		$this-> assertEquals(1,$this->testLoc->getBuildingID());
-		//$this-> assertEquals(2,$this->testLoc->getDepartmentID());
-		//$this-> assertEquals("2016-01-31 12:21:32",$this->testLoc->getDateTime());
-		$this-> assertEquals(100,$this->testLoc->getRoom());
+		$this->assertEquals(99,$this->testLoc->getID());
+		$this->assertEquals(1,$this->testLoc->getBuildingID());
+		//$this->assertEquals(2,$this->testLoc->getDepartmentID());
+		//$this->assertEquals("2016-01-31 12:21:32",$this->testLoc->getDateTime());
+		$this->assertEquals(100,$this->testLoc->getRoom());
 	}
 
-
+	/*
+	*	@preq: building with ID 1 has a room 100 location in DB
+	*/
+	public function testLocationExists(){
+		$this->assertTrue(Location::locationExists(1,100) == 1); //id of this is 1
+		$this->assertTrue(!Location::locationExists(0,0));
+	}
 }
 
 ?>

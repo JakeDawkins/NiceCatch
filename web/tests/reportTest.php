@@ -71,6 +71,9 @@ class ReportTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(!$rep->fetch(0));
 	}
 
+	/*
+	*	TODO -- test other cases (already exists)
+	*/
 	public function testSave(){
 		$rep = new Report();
 		$now = date("Y-m-d H:i:s");

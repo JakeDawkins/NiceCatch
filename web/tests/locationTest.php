@@ -1,6 +1,5 @@
 <?php
-require_once('../models/Path.php');
-require_once(Path::models() . 'config.php');
+require_once(dirname(dirname(__FILE__)) . "/models/config.php");
 
 class LocationTest extends PHPUnit_Framework_TestCase {
 

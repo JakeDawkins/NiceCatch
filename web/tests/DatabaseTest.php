@@ -1,7 +1,5 @@
 <?php
-include("../models/Path.php");
-include(Path::models() . 'config.php');
-//include(Path::tests() . 'install.php');
+require_once(dirname(dirname(__FILE__)) . "/models/config.php");
 
 class DatabaseTest extends PHPUnit_Framework_TestCase {
 
@@ -41,7 +39,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 
 	/*
 	*	@preq: must be records in buildings where record with id=1 has buildingName of "Bracket Hall"
-	*		first record in locations has timedate of "2016-01-31 12:21:32"
+	*		first record in locations has room of 100
 	*/
 	public function testSelect(){
 		$sql = "SELECT buildingName FROM buildings WHERE id=1";
@@ -51,7 +49,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 		$sql = "SELECT * FROM locations";
 		$result = $this->db->select($sql);
 		$this->assertTrue(count($result) > 0);
-		$this->assertEquals("2016-01-31 12:21:32", $result[0]['dateTime']);
+		$this->assertEquals(100, $result[0]['room']);
 	}
 }
 ?>

@@ -19,10 +19,25 @@ class ReportController
         //given name. get id
 		$report->setReportKindID(getReportKindID($this->_params['reportKind']));
         
-		$report->setLocationID($this->_params['locationID']);
+        //set up location
+        $loc = new Location();
+        
+            $buildingID = Location::lookupBuildingID($this->_params['buildingName']);
+            if($buildingID == false){
+                return array('error' => 'invalid building name');
+            }
+
+            $loc->setBuildingID($buildingID);
+            $loc->setRoom($this->_params['room']);
+            $loc->save(); //creates new location if necessary. sets id
+
+		$report->setLocationID($loc->getID());
 		$report->setPersonID($this->_params['personID']);
-		$report->setDepartmentID($this->_params['departmentID']);
-		$report->setDateTime($this->_params['dateTime']);
+
+        //given dept name. get id
+		$report->setDepartmentID(getDepartmentID($this->_params['department']));
+		
+        $report->setDateTime($this->_params['dateTime']);
 		$report->setStatusID($this->_params['statusID']);
 		$report->setActionTaken($this->_params['actionTaken']);
 		$report->save();

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Efe-Wd-Trm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E39d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Efe-Wd-Trm">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +19,6 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QMY-ML-U77">
                                 <rect key="frame" x="182" y="422" width="236" height="80"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="3B9-QH-vcJ"/>
@@ -34,14 +32,12 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nice Catch Tiger!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="32" translatesAutoresizingMaskIntoConstraints="NO" id="CkU-4u-tSN">
                                 <rect key="frame" x="136" y="83" width="328" height="52"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="43"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVW-p1-Bqa">
                                 <rect key="frame" x="182" y="512" width="236" height="68"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="68" id="bje-BV-UFf"/>
@@ -55,14 +51,12 @@
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Tiger" translatesAutoresizingMaskIntoConstraints="NO" id="9VO-hf-2Ji">
                                 <rect key="frame" x="200" y="143" width="199" height="271"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="271" id="N1A-8g-pfW"/>
                                     <constraint firstAttribute="width" constant="199" id="zo8-dK-Dr1"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="CkU-4u-tSN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2YQ-pS-WPh"/>
@@ -95,7 +89,6 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="28" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="KYH-f5-q6h">
                                 <rect key="frame" x="20" y="72" width="560" height="365.5"/>
-                                <animations/>
                                 <string key="text">Near Miss - incidents or events that could have resulted in injuries or other adverse consequences, but fortunately did not.
 
 The Office of Research Safety strives to promote a culture of safety, integrity, and quality within the University research community. Nice Catch Tiger! is a program to share close calls and near misses in order to alert others and improve safety awareness. If you see or experience a close call that if not “caught” in time could have resulted in a serious injury, please use the following app to contact Research Safety.
@@ -110,7 +103,6 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="KYH-f5-q6h" firstAttribute="top" secondItem="djh-HS-pYK" secondAttribute="bottom" constant="8" id="72d-Md-Dv2"/>
@@ -140,7 +132,6 @@ Please share your experiences with us so that we may continue to improve the saf
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUN-AG-Rhx">
                                 <rect key="frame" x="227" y="536" width="147" height="44"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="5Fo-Ri-Jh8"/>
@@ -155,28 +146,24 @@ Please share your experiences with us so that we may continue to improve the saf
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Department:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcK-CC-Tol">
                                 <rect key="frame" x="38" y="279" width="112" height="24"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Building:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPO-YC-NyR">
                                 <rect key="frame" x="38" y="326" width="78" height="24"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room Number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g9g-XX-us4">
                                 <rect key="frame" x="38" y="385" width="135" height="24"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rbc-TC-WpY">
                                 <rect key="frame" x="185" y="383" width="177" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="177" id="5KL-d9-HEh"/>
                                 </constraints>
@@ -185,7 +172,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H05-0f-Y5A">
                                 <rect key="frame" x="20" y="133" width="137" height="41"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="2hL-8C-I4A"/>
@@ -199,7 +185,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8di-a2-Bcr">
                                 <rect key="frame" x="20" y="72" width="137" height="36"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Upload Photo"/>
@@ -209,35 +194,29 @@ Please share your experiences with us so that we may continue to improve the saf
                             </button>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QMK-zB-Jsh">
                                 <rect key="frame" x="169" y="233" width="51" height="31"/>
-                                <animations/>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Campus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ff2-SA-uhN">
                                 <rect key="frame" x="38" y="234" width="123.5" height="24"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6j-dn-cYj">
                                 <rect key="frame" x="237" y="233" width="51" height="24"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" placeholder="Search for Building" translatesAutoresizingMaskIntoConstraints="NO" id="fOH-OT-O2Y">
                                 <rect key="frame" x="156" y="331" width="206" height="44"/>
-                                <animations/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <searchBar contentMode="redraw" placeholder="Search for Department" translatesAutoresizingMaskIntoConstraints="NO" id="feJ-T2-auE">
                                 <rect key="frame" x="156" y="278" width="206" height="44"/>
-                                <animations/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="13s-iG-Qhj">
                                 <rect key="frame" x="156" y="375" width="206" height="205"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="205" id="FnW-DQ-7J3"/>
@@ -246,7 +225,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </tableView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bsG-IR-dx3">
                                 <rect key="frame" x="185" y="72" width="395" height="102"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="107" id="387-Cy-GHY"/>
                                     <constraint firstAttribute="width" constant="210" id="F9F-i2-4Hm"/>
@@ -263,7 +241,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </imageView>
                             <datePicker contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="ZQn-4c-KXp">
                                 <rect key="frame" x="20" y="441" width="565" height="95"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="95" id="vdi-ma-kDb"/>
                                 </constraints>
@@ -273,7 +250,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </datePicker>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="c2E-ua-BZV">
                                 <rect key="frame" x="156" y="322" width="206" height="219"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="219" id="24c-Zw-UzC"/>
@@ -287,20 +263,17 @@ Please share your experiences with us so that we may continue to improve the saf
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Information:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aX8-M5-V3a">
                                 <rect key="frame" x="20" y="182" width="225.5" height="29"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4i-4Y-fOi">
                                 <rect key="frame" x="38" y="419" width="50" height="24"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="ff2-SA-uhN" firstAttribute="top" secondItem="aX8-M5-V3a" secondAttribute="bottom" constant="23" id="1lA-5O-hrh"/>
@@ -405,35 +378,30 @@ Please share your experiences with us so that we may continue to improve the saf
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check the appropriate report:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="x1W-jr-fyk">
                                 <rect key="frame" x="20" y="72" width="289" height="27"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="What does this involve?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="GER-QQ-E1d">
                                 <rect key="frame" x="20" y="252" width="233" height="26"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Describe Situation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="ID4-kX-68C">
                                 <rect key="frame" x="20" y="426" width="178" height="27"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2KW-JC-Hoh">
                                 <rect key="frame" x="34" y="103" width="512" height="91"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="91" id="rFg-jp-2UB"/>
                                 </constraints>
                             </pickerView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="puF-ra-RsS">
                                 <rect key="frame" x="196" y="202" width="208" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="208" id="X9z-C5-n05"/>
                                     <constraint firstAttribute="height" constant="30" id="hSF-3S-4P1"/>
@@ -443,21 +411,18 @@ Please share your experiences with us so that we may continue to improve the saf
                             </textField>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hB9-hR-1wg">
                                 <rect key="frame" x="44" y="285" width="512" height="93"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="93" id="X4d-VH-BRK"/>
                                 </constraints>
                             </pickerView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fw6-dm-6Dl">
                                 <rect key="frame" x="20" y="452" width="560" height="76"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZ9-oR-S7X">
                                 <rect key="frame" x="205" y="548" width="191" height="44"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="191" id="W02-Mz-v0t"/>
@@ -471,7 +436,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9nx-6J-SDy">
                                 <rect key="frame" x="196" y="386" width="208" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="3c3-5E-TUJ"/>
                                 </constraints>
@@ -480,7 +444,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </textField>
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2lM-G2-gZ9">
                                 <rect key="frame" x="554" y="68" width="39" height="33.5"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="39" id="EmE-PV-h1X"/>
                                     <constraint firstAttribute="height" constant="33.5" id="PBY-sK-tDd"/>
@@ -493,7 +456,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </button>
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yui-jo-wKb">
                                 <rect key="frame" x="554" y="252" width="39" height="33.5"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33.5" id="Hcy-WA-IZZ"/>
                                     <constraint firstAttribute="width" constant="39" id="Uba-WW-4X6"/>
@@ -505,7 +467,6 @@ Please share your experiences with us so that we may continue to improve the saf
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="fw6-dm-6Dl" firstAttribute="leading" secondItem="ID4-kX-68C" secondAttribute="leading" id="24L-S1-XAA"/>
@@ -566,7 +527,6 @@ Please share your experiences with us so that we may continue to improve the saf
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Required Personal Information:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sOp-8h-o5U">
                                 <rect key="frame" x="20" y="72" width="320" height="50"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="OB8-uM-iKa"/>
                                 </constraints>
@@ -576,7 +536,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Designation:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOT-0X-6VE">
                                 <rect key="frame" x="40" y="122" width="155" height="38"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="155" id="rIo-qX-zEX"/>
                                 </constraints>
@@ -586,28 +545,24 @@ Please share your experiences with us so that we may continue to improve the saf
                             </label>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iqy-t2-7Yc">
                                 <rect key="frame" x="155" y="113" width="215" height="55"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="215" id="aM7-BD-sOe"/>
                                 </constraints>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Optional Personal Information:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yyw-hT-aIL">
                                 <rect key="frame" x="20" y="232" width="320" height="33"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="flV-Dp-vI3">
                                 <rect key="frame" x="40" y="273" width="130" height="38"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s7g-ky-7zt">
                                 <rect key="frame" x="40" y="319" width="65" height="38"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="65" id="Q8a-zx-7Oy"/>
                                 </constraints>
@@ -617,14 +572,12 @@ Please share your experiences with us so that we may continue to improve the saf
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wc0-fS-uA7">
                                 <rect key="frame" x="40" y="365" width="137" height="38"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hsk-V9-4Ew">
                                 <rect key="frame" x="188" y="277" width="175" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="0GU-uE-eBT"/>
                                 </constraints>
@@ -633,7 +586,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fMN-hY-J7L">
                                 <rect key="frame" x="188" y="323" width="175" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="6iE-Gq-tfG"/>
                                 </constraints>
@@ -642,7 +594,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gbi-QG-P7d">
                                 <rect key="frame" x="188" y="369" width="175" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="atF-ma-hTI"/>
                                 </constraints>
@@ -651,7 +602,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B48-Cb-mLt">
                                 <rect key="frame" x="200" y="504" width="200" height="60"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="WgN-9E-jyg"/>
@@ -665,7 +615,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqZ-tP-CNT">
                                 <rect key="frame" x="93" y="177" width="196" height="30"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="VSQ-h2-1Iw"/>
                                     <constraint firstAttribute="width" constant="196" id="dfC-Cb-8pA"/>
@@ -674,7 +623,6 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sOp-8h-o5U" firstAttribute="trailing" secondItem="Yyw-hT-aIL" secondAttribute="trailing" id="0uq-4h-oOv"/>
@@ -738,7 +686,6 @@ Please share your experiences with us so that we may continue to improve the saf
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0gb-dz-Kpi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

@@ -1,6 +1,4 @@
 <?php
-//require_once('Path.php');
-//require_once(Path::models() . 'config.php');
 require_once('config.php');
 
 class Location {
@@ -96,12 +94,13 @@ class Location {
 
 	/*
 	*	finds a building's id for usage in the person object
+	*	doesn't create building if doesn't exist. 
+	*	Building list Supposed to be static?
 	*
 	*	@param $building | string building to lookup id for
 	*
 	*	@return int | id if found, bool (false) otherwise
 	*/
-	/*
 	public static function lookupBuildingID($building){
 		$db = new Database();
 		$sql = "SELECT id FROM buildings WHERE buildingName=?";
@@ -111,7 +110,7 @@ class Location {
 		if(isset($results[0]['id'])){
 			return $results[0]['id'];
 		} else return false;
-	}*/
+	}
 
 	/*
 	*	check to see if a location exists on the DB (prevents accidental duplicates)

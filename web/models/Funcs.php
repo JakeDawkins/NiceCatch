@@ -1,6 +1,4 @@
 <?php
-//require_once('Path.php');
-//require_once(Path::models() . 'config.php');
 require_once('config.php');
 
 //for cleaning and validating form inputs.
@@ -11,7 +9,6 @@ function test_input($data) {
 	return $data;
 }
 
-//TODO -- loader class
 //------------------------ LOOKUP METHODS (FOR Loader Controller) ------------------------
 //involvements, report kinds, buildings, departments
 
@@ -76,7 +73,7 @@ function getDepartments(){
 /*
 *	adds a new involvement if necessary. returns the id
 */
-function getInvolvementID($involvement){
+function getInvolvementKindID($involvement){
 	$db = new Database();
 	$sql = "SELECT * FROM involvementKinds WHERE involvementKind=?";
 	$sql = $db->prepareQuery($sql, $involvement);
@@ -125,7 +122,16 @@ function getReportKindID($reportKind){
 	} else return false;
 }
 
+function getDepartmentID($departmentName){
+	$db = new Database();
+	$sql = "SELECT id FROM departments WHERE departmentName=?";
+	$sql = $db->prepareQuery($sql, $departmentName);
 
+	$results = $db->select($sql);
+	if(isset($results[0]['id'])){
+		return $results[0]['id'];
+	} else return -1;
+}
 
 
 ?>

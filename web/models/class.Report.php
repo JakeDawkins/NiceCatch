@@ -1,6 +1,7 @@
 <?php
-require_once('Path.php');
-require_once(Path::models() . 'config.php');
+//require_once('Path.php');
+//require_once(Path::models() . 'config.php');
+require_once('config.php');
 
 class Report {
 	private $id;

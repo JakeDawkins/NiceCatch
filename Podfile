@@ -3,3 +3,4 @@ platform :ios, '8.0'
 use_frameworks!
 
 pod ‘Parse’
+pod 'SwiftHTTP', '~> 1.0.4'

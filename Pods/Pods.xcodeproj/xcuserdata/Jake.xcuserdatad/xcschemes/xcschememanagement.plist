@@ -19,20 +19,30 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftHTTP.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0B0133E41219B691AE9EA1CCA1419A76</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>511B536F0DE06D9C3BD65397A91990C0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>708E01B006A9F88B3C13711562282B5E</key>
+		<key>5A1F74BA9C2EA40E69CC3F8356FD9094</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>98F4912D748E09626D1B314043FB9EB3</key>
+		<key>708E01B006A9F88B3C13711562282B5E</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -14,7 +14,7 @@ try {
      
     //get the controller and format it correctly so the first
     //letter is always capitalized
-    $controller = ucfirst(strtolower($params['controller']));
+    $controller = ucfirst(strtolower($params['controller'])) . 'Controller';
      
     //get the action and format it correctly so all the
     //letters are not capitalized, and append 'Action'

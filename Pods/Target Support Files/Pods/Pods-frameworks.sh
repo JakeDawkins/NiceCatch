@@ -84,12 +84,12 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/Parse.framework"
-  install_framework "Pods/SwiftHTTP.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/Parse.framework"
-  install_framework "Pods/SwiftHTTP.framework"
 fi

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Alamofire
 
 class locationController: UIViewController, UIImagePickerControllerDelegate,
 UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate {
@@ -16,6 +17,11 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     var useFilteredData = false
     
     @IBOutlet var backgroundView: UIView!
+    
+    var buildings: Array<String> = []
+    var jsonArray:NSMutableArray?
+    var campusBuildingNames:Array<String> = []
+    var departmentNames:Array<String> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +50,44 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
         useFilteredData = false
+        
+        //------------------------ LOAD BUILDING NAMES FROM DB ------------------------
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getBuildings").responseJSON { response in
+            
+            if let JSON = response.result.value {
+                self.jsonArray = JSON["data"] as? NSMutableArray
+                if(self.jsonArray != nil){
+                    for item in self.jsonArray! {
+                        //print(item["buildingName"]!)
+                        let string = item["buildingName"]!
+                        //print("String is \(string!)")
+                        
+                        self.campusBuildingNames.append(string! as! String)
+                    }
+                }
+                
+                print("BuildingNames array is \(self.campusBuildingNames)")
+            }
+        }
+        
+        //------------------------ LOAD DEPARTMENT NAMES FROM DB ------------------------
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDepartments").responseJSON { response in
+            
+            if let JSON = response.result.value {
+                self.jsonArray = JSON["data"] as? NSMutableArray
+                if(self.jsonArray != nil){
+                    for item in self.jsonArray! {
+                        //print(item["buildingName"]!)
+                        let string = item["departmentName"]!
+                        //print("String is \(string!)")
+                        
+                        self.departmentNames.append(string! as! String)
+                    }
+                }
+                
+                print("departmentNames array is \(self.departmentNames)")
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -107,14 +151,14 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     @IBOutlet weak var buildingSearch: UISearchBar!
     @IBOutlet weak var buildingTable: UITableView!
-    let campusBuildingNames = ["Brackett Hall", "BRC", "Brooks Center", "Cook Lab", "Earle Hall", "Fluor Daniel", "Freeman Hall", "Godfrey", "Godley Snell", "Harris A. Smith", "Hunter Hall", "Jordan", "Kinard Lab", "Lee Hall", "Lehotsky Hall", "Life Science", "Long Hall", "Lowry", "McAdams Hall", "Newman Hall", "Olin Hall", "Poole", "Ravenel", "Rhodes Annex", "Rhodes Hall", "Riggs", "Sirrine Hall"]
+    //let campusBuildingNames = ["Brackett Hall", "BRC", "Brooks Center", "Cook Lab", "Earle Hall", "Fluor Daniel", "Freeman Hall", "Godfrey", "Godley Snell", "Harris A. Smith", "Hunter Hall", "Jordan", "Kinard Lab", "Lee Hall", "Lehotsky Hall", "Life Science", "Long Hall", "Lowry", "McAdams Hall", "Newman Hall", "Olin Hall", "Poole", "Ravenel", "Rhodes Annex", "Rhodes Hall", "Riggs", "Sirrine Hall"]
     var filteredCampusBuildings = [String]()
     let otherBuildingNames = ["AMRL", "Ansell", "CETL", "Cherry Farm", "Endocrine Lab", "Environmental Tox", "Griffith", "HP Cooper", "ICAR", "Lashch Lab", "Patewood", "Pee Dee", "Pesticide Bldg", "Rich Lab", "Vet Diagnostic Center"]
     var filteredOtherBuildings = [String]()
     
     @IBOutlet weak var departmentSearch: UISearchBar!
     @IBOutlet weak var departmentTable: UITableView!
-    let departmentNames = ["Agricultural & Environmental Sciences", "Animal & Veterinary Sciences", "Architecture", "Art", "Automotive Engineering", "Bioengineering", "Biological Sciences", "Chemical & Biomolecular Engineering", "Chemistry", "Civil Engineering", "Construction Science & Management", "Electrical & Computer Engineering", "Environmental Engineering", "Food, Nutrition & Packaging Science", "Forestry & Environmetnal Conservaton", "Genetics & Biochemistry", "Materials Science & Engineering", "Mechanical Engineering", "Nursing", "Physics & Astronomy", "Public Health Sciences"]
+    /*let departmentNames = ["Agricultural & Environmental Sciences", "Animal & Veterinary Sciences", "Architecture", "Art", "Automotive Engineering", "Bioengineering", "Biological Sciences", "Chemical & Biomolecular Engineering", "Chemistry", "Civil Engineering", "Construction Science & Management", "Electrical & Computer Engineering", "Environmental Engineering", "Food, Nutrition & Packaging Science", "Forestry & Environmetnal Conservaton", "Genetics & Biochemistry", "Materials Science & Engineering", "Mechanical Engineering", "Nursing", "Physics & Astronomy", "Public Health Sciences"]*/
     var filteredDepartNames = [String]()
     
     @IBOutlet weak var datePicker: UIDatePicker!

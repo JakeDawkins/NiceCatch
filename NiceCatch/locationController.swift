@@ -18,10 +18,27 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     @IBOutlet var backgroundView: UIView!
     
+    @IBOutlet weak var roomNumField: UITextField!
+    
     var buildings: Array<String> = []
     var jsonArray:NSMutableArray?
     var campusBuildingNames:Array<String> = []
     var departmentNames:Array<String> = []
+    
+    @IBOutlet weak var buildingSearch: UISearchBar!
+    @IBOutlet weak var buildingTable: UITableView!
+    var filteredCampusBuildings = [String]()
+    let otherBuildingNames = ["AMRL", "Ansell", "CETL", "Cherry Farm", "Endocrine Lab", "Environmental Tox", "Griffith", "HP Cooper", "ICAR", "Lashch Lab", "Patewood", "Pee Dee", "Pesticide Bldg", "Rich Lab", "Vet Diagnostic Center"]
+    var filteredOtherBuildings = [String]()
+    
+    @IBOutlet weak var departmentSearch: UISearchBar!
+    @IBOutlet weak var departmentTable: UITableView!
+    var filteredDepartNames = [String]()
+    
+    @IBOutlet weak var datePicker: UIDatePicker!
+    
+    @IBOutlet weak var myImageView: UIImageView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +117,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
-    @IBOutlet weak var roomNumField: UITextField!
+    
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -149,19 +166,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         }*/
     }
     
-    @IBOutlet weak var buildingSearch: UISearchBar!
-    @IBOutlet weak var buildingTable: UITableView!
-    //let campusBuildingNames = ["Brackett Hall", "BRC", "Brooks Center", "Cook Lab", "Earle Hall", "Fluor Daniel", "Freeman Hall", "Godfrey", "Godley Snell", "Harris A. Smith", "Hunter Hall", "Jordan", "Kinard Lab", "Lee Hall", "Lehotsky Hall", "Life Science", "Long Hall", "Lowry", "McAdams Hall", "Newman Hall", "Olin Hall", "Poole", "Ravenel", "Rhodes Annex", "Rhodes Hall", "Riggs", "Sirrine Hall"]
-    var filteredCampusBuildings = [String]()
-    let otherBuildingNames = ["AMRL", "Ansell", "CETL", "Cherry Farm", "Endocrine Lab", "Environmental Tox", "Griffith", "HP Cooper", "ICAR", "Lashch Lab", "Patewood", "Pee Dee", "Pesticide Bldg", "Rich Lab", "Vet Diagnostic Center"]
-    var filteredOtherBuildings = [String]()
-    
-    @IBOutlet weak var departmentSearch: UISearchBar!
-    @IBOutlet weak var departmentTable: UITableView!
-    /*let departmentNames = ["Agricultural & Environmental Sciences", "Animal & Veterinary Sciences", "Architecture", "Art", "Automotive Engineering", "Bioengineering", "Biological Sciences", "Chemical & Biomolecular Engineering", "Chemistry", "Civil Engineering", "Construction Science & Management", "Electrical & Computer Engineering", "Environmental Engineering", "Food, Nutrition & Packaging Science", "Forestry & Environmetnal Conservaton", "Genetics & Biochemistry", "Materials Science & Engineering", "Mechanical Engineering", "Nursing", "Physics & Astronomy", "Public Health Sciences"]*/
-    var filteredDepartNames = [String]()
-    
-    @IBOutlet weak var datePicker: UIDatePicker!
     
     func filterContentForSearchText(searchText: String) {
         if buildingTable.hidden == false {
@@ -308,8 +312,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             self.view.endEditing(true)
         }
     }
-    
-    @IBOutlet weak var myImageView: UIImageView!
     
     //MARK: Delegates
     func imagePickerController(picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [String : AnyObject]) {

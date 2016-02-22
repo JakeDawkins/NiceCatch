@@ -10,7 +10,21 @@ function test_input($data) {
 }
 
 //------------------------ LOOKUP METHODS (FOR Loader Controller) ------------------------
-//involvements, report kinds, buildings, departments
+
+function getDefaultPersonKinds(){
+	$db = new Database();
+	$sql = "SELECT * FROM personKinds WHERE `default`=1";
+	$results = $db->select($sql);
+	$personKinds = array();
+
+	if(is_array($results)){
+		foreach($results as $result){
+			$personKinds[] = array('id' => $result['id'], 'personKind' => $result['personKind'], 'default' => $result['default']);
+		}
+	}
+	return $personKinds;	
+}
+
 
 function getDefaultInvolvements(){
 	$db = new Database();

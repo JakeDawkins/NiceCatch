@@ -17,6 +17,10 @@ class LoaderController
         return getDefaultReportKinds();
     }
 
+    public function getDefaultPersonKindsAction(){
+        return getDefaultPersonKinds();
+    }
+
     public function getBuildingsAction(){
         return getBuildings();
     }

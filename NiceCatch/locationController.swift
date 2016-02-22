@@ -70,38 +70,28 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         
         //------------------------ LOAD BUILDING NAMES FROM DB ------------------------
         Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getBuildings").responseJSON { response in
-            
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
                     for item in self.jsonArray! {
-                        //print(item["buildingName"]!)
                         let string = item["buildingName"]!
-                        //print("String is \(string!)")
-                        
                         self.campusBuildingNames.append(string! as! String)
                     }
                 }
-                
-                print("BuildingNames array is \(self.campusBuildingNames)")
+                //print("BuildingNames array is \(self.campusBuildingNames)")
             }
         }
         
         //------------------------ LOAD DEPARTMENT NAMES FROM DB ------------------------
         Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDepartments").responseJSON { response in
-            
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
                     for item in self.jsonArray! {
-                        //print(item["buildingName"]!)
                         let string = item["departmentName"]!
-                        //print("String is \(string!)")
-                        
                         self.departmentNames.append(string! as! String)
                     }
                 }
-                
                 print("departmentNames array is \(self.departmentNames)")
             }
         }
@@ -116,8 +106,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
-    
-    
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -142,10 +130,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             self.view.center.y = self.view.center.y - keyboardHeight + CGFloat(50)
             hasMoved = true
             view.bringSubviewToFront(buildingTable)
-        } /*else if !hasMoved {
-            self.view.center.y = self.view.center.y - keyboardHeight + CGFloat(30)
-            hasMoved = true
-        }*/
+        }
     }
     
     func keyboardWillHide(notification: NSNotification) {
@@ -160,10 +145,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         } else if hasMoved && buildingSearch.isFirstResponder() {
             self.view.center.y = self.view.center.y + keyboardHeight - CGFloat(50)
             hasMoved = false
-        } /*else if hasMoved {
-            self.view.center.y = self.view.center.y + keyboardHeight - CGFloat(30)
-            hasMoved = false
-        }*/
+        }
     }
     
     
@@ -348,11 +330,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         
         let deliveryTime = NSDateFormatter.localizedStringFromDate(datePicker.date, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
         finalReportData.time = deliveryTime
-        
-        /*print("Department Name: \(finalReportData.departmentName)")
-        print("Building Name: \(finalReportData.buildingName)")
-        print("Time: \(finalReportData.roomNum)")
-        print("Time: \(finalReportData.time)")*/
     }
 
 }

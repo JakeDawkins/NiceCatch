@@ -11,8 +11,24 @@ import UIKit
 import MessageUI
 import CoreData
 import Parse
+import Alamofire
 
 class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, MFMailComposeViewControllerDelegate, UITextFieldDelegate {
+    
+    @IBOutlet weak var designTextField: UITextField!
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var phoneNumField: UITextField!
+    
+    @IBOutlet weak var designPicker: UIPickerView!
+    
+    //let designData = ["Faculty", "Staff", "Student", "Other"]
+    var designData:Array<String> = []
+    var jsonArray:NSMutableArray?
+    
+    
+    
+    //------------------------ UI METHODS ------------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +46,21 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        
+        //------------------------ LOAD DESIGNATION NAMES FROM DB ------------------------
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDefaultPersonKinds").responseJSON { response in
+            if let JSON = response.result.value {
+                self.jsonArray = JSON["data"] as? NSMutableArray
+                if(self.jsonArray != nil){
+                    for item in self.jsonArray! {
+                        let string = item["personKind"]!
+                        self.designData.append(string! as! String)
+                    }
+                }
+                //print("BuildingNames array is \(self.campusBuildingNames)")
+                self.designPicker.reloadAllComponents()
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,11 +73,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
     
-    @IBOutlet weak var designTextField: UITextField!
-    @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var emailField: UITextField!
-    @IBOutlet weak var phoneNumField: UITextField!
-    
+    //------------------------ KEYBOARD METHODS ------------------------
+
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
@@ -78,9 +106,6 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
     }
     
-    @IBOutlet weak var designPicker: UIPickerView!
-    let designData = ["Faculty", "Staff", "Student", "Other"]
-    
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -97,7 +122,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var designSelection: String = ""
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row == 3 {
+        if designData[row] == "Other" {
             designTextField.hidden = false;
         } else {
             designTextField.hidden = true;

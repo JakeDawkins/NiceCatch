@@ -18,10 +18,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     var jsonArray:NSMutableArray?
 
     @IBOutlet weak var reportPicker: UIPickerView!
-    //let reportData = ["Close Call", "Lesson Learned", "Safety Issue", "Other"]
-    
     @IBOutlet weak var involvePicker: UIPickerView!
-    //let involveData = ["Work Practice/Procedure", "Chemical", "Equipment", "Work Space Condition", "Other"]
     
     //these are hidden "other" text fields
     @IBOutlet weak var reportTextBox: UITextField!
@@ -29,6 +26,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     
     @IBOutlet weak var incidentView: UITextView!
     
+    //------------------------ UI Methods ------------------------
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,6 +60,8 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
                 }
                 print("reportData array is \(self.reportData)")
             }
+            //update the picker
+            self.reportPicker.reloadAllComponents()
         }
         
         //-------- LOAD INVOLVEMENT NAMES FROM DB --------
@@ -76,6 +76,8 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
                 }
                 print("involveData array is \(self.involveData)")
             }
+            //update the picker
+            self.involvePicker.reloadAllComponents()
         }
     }//end viewDidLoad
     
@@ -83,6 +85,8 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //------------------------ KEYBOARD METHODS ------------------------
     
     func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -99,6 +103,33 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         return false
     }
     
+    var hasMoved = false
+    
+    //begin editing
+    func keyboardWillShow(notification: NSNotification) {
+        let info:NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        
+        let keyboardHeight: CGFloat = keyboardSize.height
+        
+        if !hasMoved && incidentView.isFirstResponder() {
+            self.view.center.y = self.view.center.y - keyboardHeight
+            hasMoved = true
+        }
+    }
+    
+    //done editing
+    func keyboardWillHide(notification: NSNotification) {
+        let info: NSDictionary = notification.userInfo!
+        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        
+        let keyboardHeight: CGFloat = keyboardSize.height
+        
+        if hasMoved && incidentView.isFirstResponder() {
+            self.view.center.y = self.view.center.y + keyboardHeight
+            hasMoved = false
+        }
+    }
     //------------------------ ACTION HANDLERS ------------------------
     
     @IBAction func reportInfoPressed(sender: AnyObject) {
@@ -135,35 +166,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         self.view.endEditing(true)
     }
     
-    //------------------------ KEYBOARD HIDING & PICKER METHODS ------------------------
-    
-    var hasMoved = false
-    
-    //begin editing
-    func keyboardWillShow(notification: NSNotification) {
-        let info:NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        
-        let keyboardHeight: CGFloat = keyboardSize.height
-        
-        if !hasMoved && incidentView.isFirstResponder() {
-            self.view.center.y = self.view.center.y - keyboardHeight
-            hasMoved = true
-        }
-    }
-    
-    //done editing
-    func keyboardWillHide(notification: NSNotification) {
-        let info: NSDictionary = notification.userInfo!
-        let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
-        
-        let keyboardHeight: CGFloat = keyboardSize.height
-        
-        if hasMoved && incidentView.isFirstResponder() {
-            self.view.center.y = self.view.center.y + keyboardHeight
-            hasMoved = false
-        }
-    }
+    //------------------------ PICKER METHODS ------------------------
     
     //how many pickers are in the view (always 1 in this case)
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -193,17 +196,17 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     var involveSelection: String = ""
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == reportPicker {
-            if row == 3 { //"other" chosen
-                reportTextBox.hidden = false;
+            if reportData[row] == "Other" {
+                reportTextBox.hidden = false
             } else {
-                reportTextBox.hidden = true;
+                reportTextBox.hidden = true
             }
             reportSelection = reportData[row]
         } else {
-            if row == 4 { //"other" chosen
-                involveTextBox.hidden = false;
+            if involveData[row] == "Other" {
+                involveTextBox.hidden = false
             } else {
-                involveTextBox.hidden = true;
+                involveTextBox.hidden = true
             }
             involveSelection = involveData[row]
         }

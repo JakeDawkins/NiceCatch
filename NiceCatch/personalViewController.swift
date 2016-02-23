@@ -143,8 +143,11 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         finalReportData.phoneNum = phoneNumField.text!
     }
     
+    
+    //------------------------ ACTION HANDLERS ------------------------
     var isContact = false
 
+    //This submits the form and calls method to save to DB
     @IBAction func submitClicked(sender: AnyObject) {
         self.addPersonalInfo()
         
@@ -175,6 +178,10 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
+    
+    
+    //------------------------ EMAIL METHODS ------------------------
+    //------------------------ TODO: REMOVE ------------------------
     
     func sendEmail() {
         let mailComposeViewController = self.configuredMailComposeViewController()
@@ -234,6 +241,9 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //------------------------ HELPER METHODS ------------------------
+    
+    //
     func addToDatabase() {
         //var personAdded = false
         let newPerson = PFObject(className:"Person")

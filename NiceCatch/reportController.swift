@@ -58,7 +58,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
                         self.reportData.append(string! as! String)
                     }
                 }
-                print("reportData array is \(self.reportData)")
+                //print("reportData array is \(self.reportData)")
             }
             //update the picker
             self.reportPicker.reloadAllComponents()
@@ -74,7 +74,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
                         self.involveData.append(string! as! String)
                     }
                 }
-                print("involveData array is \(self.involveData)")
+                //print("involveData array is \(self.involveData)")
             }
             //update the picker
             self.involvePicker.reloadAllComponents()

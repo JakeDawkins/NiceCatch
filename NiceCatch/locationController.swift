@@ -92,7 +92,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                         self.departmentNames.append(string! as! String)
                     }
                 }
-                print("departmentNames array is \(self.departmentNames)")
+                //print("departmentNames array is \(self.departmentNames)")
             }
         }
     }

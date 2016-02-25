@@ -16,10 +16,6 @@ try {
     //letter is always capitalized
     $controller = ucfirst(strtolower($params['controller'])) . 'Controller';
      
-    //get the action and format it correctly so all the
-    //letters are not capitalized, and append 'Action'
-    //$action = strtolower($params['action']).'Action';
-
     //use HTTP request method for action, instead of url param unless provided
     $action = strtolower($_SERVER['REQUEST_METHOD']);
     if(isset($params['action'])){

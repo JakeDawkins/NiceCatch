@@ -10,28 +10,40 @@ import Foundation
 import UIKit
 import Parse
 
-class infoViewController: UIViewController {
+class infoViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var infoLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = NSTextAlignment.Justified
+        myMutableString = NSMutableAttributedString(string: myString as String)
         
-        let attributedString = NSAttributedString(string: infoLabel.text!,
-            attributes: [
-                NSParagraphStyleAttributeName: paragraphStyle,
-                NSBaselineOffsetAttributeName: NSNumber(float: 0)
-            ])
+        myMutableString.addAttribute(NSForegroundColorAttributeName, value: UIColor.blueColor(), range: NSRange(location:114,length:19))
+
+        hyperlink.attributedText = myMutableString
         
-        infoLabel.attributedText = attributedString
+        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "labelAction:")
+        hyperlink.addGestureRecognizer(tap)
+        tap.delegate = self // Remember to extend your class with UIGestureRecognizerDelegate
+
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBOutlet weak var hyperlink: UILabel!
+    var myString:NSString = "If you have a serious safety or ethical concern but do not feel comfortable sharing your identity, please use the confidental hotline."
+    var myMutableString = NSMutableAttributedString()
+    
+    // Receive action
+    func labelAction(gr:UITapGestureRecognizer)
+    {
+        UIApplication.sharedApplication().openURL(NSURL(string:"http://www.clemson.edu/administration/internalaudit/ethicsline.html")!)
+    }
+    
+
     
 }

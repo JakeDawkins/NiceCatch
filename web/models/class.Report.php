@@ -132,7 +132,9 @@ class Report {
 		// $sql = $db->prepareQuery($sql, $this->personID, $this->dateTime);
 		// $results = $db->select($sql);
 
-		$reportInDB = Report::reportExists($this->personID, $this->dateTime);
+		//$reportInDB = Report::reportExists($this->personID, $this->dateTime);
+		//if($reportInDB != false) echo "IN DB";
+		$reportInDB = isset($this->id);
 
 		if($reportInDB === false){ //new report
 			$sql = "INSERT INTO `reports`(`description`, `involvementKindID`, `reportKindID`, `locationID`, `personID`, `departmentID`, `dateTime`,`statusID`,`actionTaken`) VALUES(?,?,?,?,?,?,?,?,?)";
@@ -182,6 +184,7 @@ class Report {
 	}
 
 	/*
+	*	TODO -- remove. id set should be enough
 	*	check to see if a report exists on the DB (prevents accidental duplicates)
 	*	
 	*	@param $personID | int id of person submitting 

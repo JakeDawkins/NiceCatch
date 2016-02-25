@@ -18,7 +18,13 @@ try {
      
     //get the action and format it correctly so all the
     //letters are not capitalized, and append 'Action'
-    $action = strtolower($params['action']).'Action';
+    //$action = strtolower($params['action']).'Action';
+
+    //use HTTP request method for action, instead of url param unless provided
+    $action = strtolower($_SERVER['REQUEST_METHOD']);
+    if(isset($params['action'])){
+        $action = strtolower($params['action']).'Action';
+    }
  
     //check if the controller exists. if not, throw an exception
     if(file_exists(Path::controllers() . "{$controller}.php")) {

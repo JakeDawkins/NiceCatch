@@ -2,8 +2,6 @@
 
 require_once("models/config.php");
 
-echo getDefaultPersonKinds();
-
 ?>
 
 <!DOCTYPE html>

@@ -24,6 +24,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     @IBOutlet weak var reportTextBox: UITextField!
     @IBOutlet weak var involveTextBox: UITextField!
     
+    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var incidentView: UITextView!
     
     //------------------------ UI Methods ------------------------
@@ -142,6 +143,27 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         let alert = UIAlertController(title: "Involvement Defintions", message: "Work Practice/Procedure – Examples include the use of outdated procedures and missing steps to complete the procedure/process safely and successfully.\n\nChemical – Examples include chemical spills and the use of improper Personal Protective Equipment while handling chemicals.\n\nEquipment – Examples include faulty equipment or the use of the wrong equipment for the task.\n\nWorkplace Condition – Examples include poor housekeeping (clutter), skipping/tripping hazards, and limited workspace to safely complete the task.", preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //---------------- VALIDATION ----------------
+    //determine whether to block segue or not
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        if (incidentView.text.isEmpty
+            || (reportSelection == "Other" && reportTextBox.text == "")
+            || (involveSelection == "Other" && involveTextBox.text == "")
+            ){
+            let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
+            
+            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+            alertController.addAction(OKAction)
+            
+            self.presentViewController(alertController, animated: true) {}
+            
+            return false
+        }
+        
+        // by default, transition
+        return true
     }
     
     @IBAction func saveInfoPress(sender: AnyObject) {

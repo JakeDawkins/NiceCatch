@@ -323,6 +323,8 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         presentViewController(photoPicker, animated: true, completion: nil)
     }
     
+    
+    //------------------------ ACTION HANDLERS ------------------------
     @IBAction func nextButtonPressed(sender: AnyObject) {
         finalReportData.departmentName = departmentSearch.text!
         finalReportData.buildingName = buildingSearch.text!
@@ -331,5 +333,28 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         let deliveryTime = NSDateFormatter.localizedStringFromDate(datePicker.date, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
         finalReportData.time = deliveryTime
     }
+    
+    
+    //---------------- VALIDATION ----------------
+    //determine whether to block segue or not
+    /*
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        if (incidentView.text.isEmpty
+            || (reportSelection == "Other" && reportTextBox.text == "")
+            || (involveSelection == "Other" && involveTextBox.text == "")
+            ){
+                let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+                alertController.addAction(OKAction)
+                
+                self.presentViewController(alertController, animated: true) {}
+                
+                return false
+        }
+        
+        // by default, transition
+        return true
+    }*/
 
 }

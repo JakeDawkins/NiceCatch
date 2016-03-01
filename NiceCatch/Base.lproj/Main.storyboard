@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E39d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Efe-Wd-Trm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E49a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Efe-Wd-Trm">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -169,7 +169,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 </variation>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2wF-MX-2vq">
-                                <rect key="frame" x="20" y="413.5" width="560" height="0.0"/>
+                                <rect key="frame" x="20" y="414" width="560" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="heightClass=regular-widthClass=regular">
@@ -279,16 +279,16 @@ Please share your experiences with us so that we may continue to improve the saf
                                     <action selector="uploadPhotoClicked:" destination="ExZ-KH-azE" eventType="touchUpInside" id="ASi-ZA-FDZ"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QMK-zB-Jsh">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QMK-zB-Jsh">
                                 <rect key="frame" x="169" y="233" width="51" height="31"/>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Campus" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ff2-SA-uhN">
-                                <rect key="frame" x="38" y="234" width="123.5" height="24"/>
+                                <rect key="frame" x="38" y="234" width="124" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Other" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6j-dn-cYj">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Other" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6j-dn-cYj">
                                 <rect key="frame" x="237" y="233" width="51" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -349,7 +349,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 </connections>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Information:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aX8-M5-V3a">
-                                <rect key="frame" x="20" y="182" width="225.5" height="29"/>
+                                <rect key="frame" x="20" y="182" width="226" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -511,6 +511,9 @@ Please share your experiences with us so that we may continue to improve the saf
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DZ9-oR-S7X">
                                 <rect key="frame" x="205" y="548" width="191" height="44"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="reportNextButton">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="191" id="W02-Mz-v0t"/>
                                 </constraints>
@@ -530,7 +533,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2lM-G2-gZ9">
-                                <rect key="frame" x="554" y="68" width="39" height="33.5"/>
+                                <rect key="frame" x="554" y="68" width="39" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="39" id="EmE-PV-h1X"/>
                                     <constraint firstAttribute="height" constant="33.5" id="PBY-sK-tDd"/>
@@ -542,7 +545,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 </connections>
                             </button>
                             <button autoresizesSubviews="NO" opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yui-jo-wKb">
-                                <rect key="frame" x="554" y="252" width="39" height="33.5"/>
+                                <rect key="frame" x="554" y="252" width="39" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33.5" id="Hcy-WA-IZZ"/>
                                     <constraint firstAttribute="width" constant="39" id="Uba-WW-4X6"/>
@@ -592,6 +595,7 @@ Please share your experiences with us so that we may continue to improve the saf
                         <outlet property="incidentView" destination="fw6-dm-6Dl" id="u99-bQ-ezc"/>
                         <outlet property="involvePicker" destination="hB9-hR-1wg" id="HzU-79-MPl"/>
                         <outlet property="involveTextBox" destination="9nx-6J-SDy" id="m8t-Is-8RB"/>
+                        <outlet property="nextButton" destination="DZ9-oR-S7X" id="1FT-jB-PSe"/>
                         <outlet property="reportPicker" destination="2KW-JC-Hoh" id="ZdS-Lw-599"/>
                         <outlet property="reportTextBox" destination="puF-ra-RsS" id="8SO-tU-yge"/>
                     </connections>

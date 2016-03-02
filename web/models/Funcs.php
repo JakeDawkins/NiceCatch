@@ -111,6 +111,21 @@ function getInvolvementKindID($involvement){
 }
 
 /*
+*	given an existing involvement kind id, update the kind to the given name
+*/
+function updateInvolvementKind($id, $involvementKind){
+	$db = new Database();
+	$sql = "UPDATE involvementKinds SET involvementKind=? WHERE id=?";
+	$sql = $db->prepareQuery($sql, $involvementKind, $id);
+
+	$db->query($sql);
+	return array(
+		'id' => $id,
+		'involvementKind' => $involvementKind
+		);
+}
+
+/*
 *	adds a new report kind if necessary. returns the id
 */
 function getReportKindID($reportKind){

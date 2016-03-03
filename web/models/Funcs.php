@@ -151,6 +151,18 @@ function getReportKindID($reportKind){
 	} else return false;
 }
 
+function updateReportKind($id,$reportKind){
+	$db = new Database();
+	$sql = "UPDATE reportKinds SET reportKind=? WHERE id=?";
+	$sql = $db->prepareQuery($sql, $reportKind, $id);
+
+	$db->query($sql);
+	return array(
+		'id' => $id,
+		'reportKind' => $reportKind
+		);
+}
+
 function getDepartmentID($departmentName){
 	$db = new Database();
 	$sql = "SELECT id FROM departments WHERE departmentName=?";
@@ -162,5 +174,42 @@ function getDepartmentID($departmentName){
 	} else return -1;
 }
 
+/*
+*	adds a new person kind if necessary. returns the id
+*/
+function getPersonKindID($personKind){
+	$db = new Database();
+	$sql = "SELECT * FROM personKinds WHERE personKind=?";
+	$sql = $db->prepareQuery($sql, $personKind);
+
+	$results = $db->select($sql);
+	if(isset($results[0]['id'])){
+		return $results[0]['id'];	
+	} else { //add new involvement
+		$sql = "INSERT INTO personKinds(`personKind`,`default`) VALUES(?,0)";
+		$sql = $db->prepareQuery($sql, $personKind);
+		$db->query($sql);
+	}
+
+	$sql = "SELECT * FROM personKinds WHERE personKind=?";
+	$sql = $db->prepareQuery($sql, $personKind);
+
+	$results = $db->select($sql);
+	if(isset($results[0]['id'])){
+		return $results[0]['id'];	
+	} else return false;
+}
+
+function updatePersonKind($id,$personKind){
+	$db = new Database();
+	$sql = "UPDATE personKinds SET personKind=? WHERE id=?";
+	$sql = $db->prepareQuery($sql, $personKind, $id);
+
+	$db->query($sql);
+	return array(
+		'id' => $id,
+		'personKind' => $personKind
+		);
+}
 
 ?>

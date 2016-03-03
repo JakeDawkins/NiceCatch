@@ -39,7 +39,7 @@ class NiceCatchAPI extends API
         // echo "VERB " . $this->verb . "\n";
     }
 
-    //------------------------ INFO LOADERS ENDPOINTS ------------------------
+    //------------------------ INVOLVEMENTS ENDPOINT ------------------------
     public function involvements(){
         if($this->method == 'GET'){
             return getDefaultInvolvements();
@@ -62,18 +62,44 @@ class NiceCatchAPI extends API
     public function reportKinds(){
         if($this->method == 'GET'){
             return getDefaultReportKinds();
-        } else if ($this->method == 'POST'){
-            return "POST -- ADD NEW REPORT KIND";
-        } else return "endpoint does not recognize " . $this->method . " requests";
+        } else if($this->method == 'POST'){
+            //if the ID is set, editing an existing reportKind
+            if(isset($this->request['id']) && isset($this->request['reportKind'])){
+                return updateReportKind($this->request['id'],$this->request['reportKind']);
+            } elseif(!isset($this->request['reportKind'])){
+                return "endpoint requires a reportKind";
+            }
+
+            //new report kind (if not in DB)
+            return array(
+                'id' => getReportKindID($this->request['reportKind']),
+                'reportKind' => $this->request['reportKind']
+            );
+        } else return "endpoint does not recognize " . $this->method . " requests";   
         
     }
 
     public function personKinds(){
         if($this->method == 'GET'){
             return getDefaultPersonKinds();
-        } else if ($this->method == 'POST'){
-            return "POST -- ADD NEW PERSON KIND";
-        } else return "endpoint does not recognize " . $this->method . " requests";
+        } else if($this->method == 'POST'){
+            //if the ID is set, editing an existing personKind
+            if(isset($this->request['id']) && isset($this->request['personKind'])){
+                return updatePersonKind($this->request['id'],$this->request['personKind']);
+            } elseif(!isset($this->request['personKind'])){
+                return "endpoint requires a personKind";
+            }
+
+            //new report kind (if not in DB)
+            return array(
+                'id' => getPersonKind($this->request['personKind']),
+                'personKind' => $this->request['personKind']
+            );
+        } else return "endpoint does not recognize " . $this->method . " requests";   
+
+
+
+
     }
 
     public function buildings(){

@@ -96,26 +96,18 @@ class NiceCatchAPI extends API
                 'personKind' => $this->request['personKind']
             );
         } else return "endpoint does not recognize " . $this->method . " requests";   
-
-
-
-
     }
 
     public function buildings(){
         if($this->method == 'GET'){
             return getBuildings();
-        } else if ($this->method == 'POST'){
-            return "POST -- ADD NEW BUILDING";
-        } else return "endpoint does not recognize " . $this->method . " requests";
+        } else return "endpoint does not recognize " . $this->method . " requests";   
     }
 
     public function departments(){
         if($this->method == 'GET'){
             return getDepartments();
-        } else if ($this->method == 'POST'){
-            return "POST -- ADD NEW DEPARTMENT";
-        } else return "endpoint does not recognize " . $this->method . " requests";
+        } else return "endpoint does not recognize " . $this->method . " requests";   
     }
 
     //------------------------ reports ENDPOINT ------------------------
@@ -132,12 +124,8 @@ class NiceCatchAPI extends API
 
     //handler for API call to the reports collection
     private function reportsCollection(){
-        if($this->method == 'GET'){
-            return "REPORTS COLLECTION (GET)";
-        } else if($this->method == 'POST'){
-            return "REPORTS COLLECTION (POST)";
-        } else if ($this->method == 'DELETE'){
-            return "REPORTS COLLECTION (DELETE)";
+        if($this->method == 'POST'){
+            return $this->reportPost();
         } else return "endpoint does not recognize " . $this->method . " requests";
     }
 
@@ -148,7 +136,7 @@ class NiceCatchAPI extends API
         if($this->method == 'GET'){
             return "SINGLE REPORT (GET)";
         } else if($this->method == 'POST'){
-            return "SINGLE REPORT (POST)";
+            return "UPDATE REPORT (POST)";
         } else if ($this->method == 'DELETE'){
             return "SINGLE REPORT (DELETE)";
         }
@@ -159,48 +147,93 @@ class NiceCatchAPI extends API
         $report = new Report();
 
         //update if an id exists
-        if(isset($this->_params['id'])){
-            $report->setID($this->_params['id']);
-            echo "ID: " . $this->_params['id'] . "\n";
+        if(isset($this->request['id'])){
+            $report->setID($this->request['id']);
         }
 
-        $report->setDescription($this->_params['description']);
+        $report->setDescription($this->request['description']);
 
         //given name. get id
-        $report->setInvolvementKindID(getInvolvementKindID($this->_params['involvementKind']));
+        $report->setInvolvementKindID(getInvolvementKindID($this->request['involvementKind']));
 
         //given name. get id
-        $report->setReportKindID(getReportKindID($this->_params['reportKind']));
+        $report->setReportKindID(getReportKindID($this->request['reportKind']));
         
         //set up location
-        $loc = new Location();
-        
-            $buildingID = Location::lookupBuildingID($this->_params['buildingName']);
-            if($buildingID == false){
-                return array('error' => 'invalid building name');
-            }
+        if(!$this->requestFieldsSubmitted(["buildingName","room"]))
+            return "error: missing location information";
+        $locID = $this->setUpLocation();
+        if($locID != -1) $report->setLocationID($locID);
+        else return "error: invalid location information";
 
-            $loc->setBuildingID($buildingID);
-            $loc->setRoom($this->_params['room']);
-            $loc->save(); //creates new location if necessary. sets id
-
-        $report->setLocationID($loc->getID());
-        $report->setPersonID($this->_params['personID']);
+        //set up person
+        if(!$this->requestFieldsSubmitted(["personKind","username","name","phone"]))
+            return "error: missing person information";
+        $personID = $this->setUpPerson();
+        if($personID != -1) $report->setPersonID($personID);
+        else return "error: invalid person data";
 
         //given dept name. get id
-        $report->setDepartmentID(getDepartmentID($this->_params['department']));
+        $report->setDepartmentID(getDepartmentID($this->request['department']));
         
-        $report->setDateTime($this->_params['dateTime']);
-        $report->setStatusID($this->_params['statusID']);
-        $report->setActionTaken($this->_params['actionTaken']);
+        $report->setDateTime($this->request['dateTime']);
+        $report->setStatusID($this->request['statusID']);
+        $report->setActionTaken($this->request['actionTaken']);
         $report->save();
 
         //return the report item in array format
         return $report->toArray();
     }
 
-    //------------------------ USER ENDPOINT ------------------------
+    //------------------------ HELPERS ------------------------
 
-    
+    /*
+    *   creates a person using request data
+    *   @preq personKind, username, name, and phone are set
+    *   @ret int | person id if valid request data, -1 otherwise
+    */
+    private function setUpPerson(){
+        $person = new Person();
+        
+        $person->setPersonKindID(getPersonKindID($this->request['personKind']));
+        $person->setUsername($this->request['username']);
+        $person->setName($this->request['name']);
+        $person->setPhone($this->request['phone']);
+        $person->save();
+
+        return $person->getID();
+    }
+
+    /*
+    *   creates a location using request data
+    *   @ret int | location id if valid request data, -1 otherwise
+    */
+    private function setUpLocation(){
+        $location = new Location();
+
+        $buildingID = Location::lookupBuildingID($this->request['buildingName']);
+        if($buildingID == false){ 
+            //building not found
+            return -1;
+        }
+
+        $location->setBuildingID($buildingID);
+        $location->setRoom($this->request['room']);
+        $location->save(); //creates new location if necessary. sets id
+
+        return $location->getID();
+    }
+
+    //checks if all necessary variables are set
+    //$vars is an array
+    private function requestFieldsSubmitted($vars){
+        if(is_array($vars)){
+            foreach($vars as $var){
+                if(!isset($this->request[$var])) return false;
+            }
+            return true;
+        }
+        return false;
+    }
  }
  ?>

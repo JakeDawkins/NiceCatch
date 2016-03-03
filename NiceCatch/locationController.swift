@@ -337,11 +337,10 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     //---------------- VALIDATION ----------------
     //determine whether to block segue or not
-    /*
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
-        if (incidentView.text.isEmpty
-            || (reportSelection == "Other" && reportTextBox.text == "")
-            || (involveSelection == "Other" && involveTextBox.text == "")
+        if (roomNumField.text == ""
+            || (buildingSearch.text == "")
+            || (departmentSearch.text == "")
             ){
                 let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
                 
@@ -355,6 +354,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         
         // by default, transition
         return true
-    }*/
+    }
 
 }

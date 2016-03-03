@@ -145,34 +145,6 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     //This submits the form and calls method to save to DB
     @IBAction func submitClicked(sender: AnyObject) {
         self.addPersonalInfo()
-        
-//        let alert = UIAlertController(title: "Alert", message: "Do you want someone from Research Safety to contact you?", preferredStyle: UIAlertControllerStyle.Alert)
-//        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.Default, handler: { action in
-//            switch action.style{
-//                case .Default:
-//                    self.isContact = true
-//                    self.addToDatabase()
-//                    self.presentThankYou()
-//                case .Cancel:
-//                    print("cancel")
-//                case .Destructive:
-//                    print("destructive")
-//            }
-//        }))
-//        alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.Default, handler: { action in
-//            switch action.style{
-//                case .Default:
-//                    self.isContact = false
-//                    self.addToDatabase()
-//                    self.presentThankYou()
-//                case .Cancel:
-//                    print("cancel")
-//                case .Destructive:
-//                    print("destructive")
-//            }
-//        }))
-//        self.presentViewController(alert, animated: true, completion: nil)
-
         self.addToDatabase()
         self.presentThankYou()
     }
@@ -190,6 +162,21 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     //------------------------ HELPER METHODS ------------------------
     
     func addToDatabase() {
+        //-------- VALIDATION --------
+        if ((designSelection == "Other" && designTextField.text == "")
+            || (nameField.text == "")
+            || (emailField.text == "")
+            ){
+                let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
+                
+                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+                alertController.addAction(OKAction)
+                
+                self.presentViewController(alertController, animated: true) {}
+                
+                return
+        }
+        
         let params = [
             "description":finalReportData.incidentDesc,
             "involvementKind":finalReportData.involveKind,

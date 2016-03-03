@@ -84,7 +84,12 @@ abstract class API
     //run the request through the endpoint
     public function processAPI() {
         if (method_exists($this, $this->endpoint)) {
-            return $this->_response($this->{$this->endpoint}($this->args));
+            $finalArr = array();
+            $finalArr["data"] = $this->{$this->endpoint}($this->args);
+            $finalArr["success"] = "true";
+
+            //return $this->_response($this->{$this->endpoint}($this->args));
+            return $this->_response($finalArr);
         }
         return $this->_response("No Endpoint: $this->endpoint", 404);
     }

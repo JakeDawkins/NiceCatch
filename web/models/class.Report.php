@@ -1,6 +1,4 @@
 <?php
-//require_once('Path.php');
-//require_once(Path::models() . 'config.php');
 require_once('config.php');
 
 class Report {
@@ -74,7 +72,8 @@ class Report {
             'departmentID' => $this->departmentID,
             'dateTime' => $this->dateTime,
             'statusID' => $this->statusID,
-            'actionTaken' => $this->actionTaken
+            'actionTaken' => $this->actionTaken,
+            'photoPath' => $this->photoPath
         );
     }
 
@@ -174,7 +173,7 @@ class Report {
 		$results = $db->select($sql);
 
 		if(count($results) != 0){
-			$this->setID($id);
+			$this->setID($results[0]['id']);
 			$this->setDescription($results[0]['description']);
 			$this->setInvolvementKindID($results[0]['involvementKindID']);
 			$this->setReportKindID($results[0]['reportKindID']);

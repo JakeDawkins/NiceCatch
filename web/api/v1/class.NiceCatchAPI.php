@@ -197,12 +197,19 @@ class NiceCatchAPI extends API
 
     private function reportPhotoPost(){
         if(!$this->validatePhoto()) return 'error: photo upload failed'; 
+        $report = new Report();
+
+        //fetch and check for valid report
+        $report->fetch($this->args[0]);
+        if($report->getID() == null){
+            return 'error: failed to load report with id ' . $this->args[0];
+        }
 
         //report id
-        $report = $this->args[0];
+        $reportID = $this->args[0];
 
         $photo = $this->files['photo'];
-        $upload_dir = Path::uploads() . $report . '/';
+        $upload_dir = Path::uploads() . $reportID . '/';
 
         //make the directory if it doesn't already exist
         if(!file_exists($upload_dir)){
@@ -234,7 +241,11 @@ class NiceCatchAPI extends API
         //set proper file permissions on new file
         chmod($upload_dir . $name, 0644);
 
-        return 'file upload successful';
+        //update the report in DB with file location
+        $report->setPhotoPath("" . $upload_dir . $name);
+        $report->save();
+
+        return $report->toArray();
     }
 
     //------------------------ HELPERS ------------------------

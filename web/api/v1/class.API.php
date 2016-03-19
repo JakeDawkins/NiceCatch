@@ -35,11 +35,11 @@ abstract class API
      * Property: file
      * Stores the input of the PUT request
      */
-    protected $file = Null;
+    //protected $file = Null;
 
     /**
     *   Property: files
-    *   from the $_FILES variable
+    *   from the $_FILES variable (for uploading photos)
     */
     protected $files = null;
 
@@ -82,7 +82,7 @@ abstract class API
             break;
         case 'PUT':
             $this->request = $this->_cleanInputs($_GET);
-            $this->file = file_get_contents("php://input");
+            //$this->file = file_get_contents("php://input");
             break;
         default:
             $this->_response('Invalid Method', 405);

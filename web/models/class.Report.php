@@ -141,8 +141,8 @@ class Report {
 		$reportInDB = isset($this->id);
 
 		if($reportInDB === false){ //new report
-			$sql = "INSERT INTO `reports`(`description`, `involvementKindID`, `reportKindID`, `locationID`, `personID`, `departmentID`, `dateTime`,`statusID`,`actionTaken`) VALUES(?,?,?,?,?,?,?,?,?)";
-			$sql = $db->prepareQuery($sql, $this->description, $this->involvementKindID, $this->reportKindID, $this->locationID, $this->personID, $this->departmentID, $this->dateTime, $this->statusID, $this->actionTaken);
+			$sql = "INSERT INTO `reports`(`description`, `involvementKindID`, `reportKindID`, `locationID`, `personID`, `departmentID`, `dateTime`,`statusID`,`actionTaken`, `photoPath`) VALUES(?,?,?,?,?,?,?,?,?,?)";
+			$sql = $db->prepareQuery($sql, $this->description, $this->involvementKindID, $this->reportKindID, $this->locationID, $this->personID, $this->departmentID, $this->dateTime, $this->statusID, $this->actionTaken, $this->photoPath);
 			$db->query($sql);
 
 			//get id of new Report
@@ -155,8 +155,8 @@ class Report {
 				$this->id = $reportInDB;
 			}
 
-			$sql = "UPDATE reports SET `description`=?, `involvementKindID`=?, `reportKindID`=?, `locationID`=?, `personID`=?, `departmentID`=?, `dateTime`=?, `statusID`=?, `actionTaken`=? WHERE id=?";
-			$sql = $db->prepareQuery($sql, $this->description, $this->involvementKindID, $this->reportKindID, $this->locationID, $this->personID, $this->departmentID, $this->dateTime, $this->statusID, $this->actionTaken, $this->id);
+			$sql = "UPDATE reports SET `description`=?, `involvementKindID`=?, `reportKindID`=?, `locationID`=?, `personID`=?, `departmentID`=?, `dateTime`=?, `statusID`=?, `actionTaken`=?, `photoPath`=? WHERE id=?";
+			$sql = $db->prepareQuery($sql, $this->description, $this->involvementKindID, $this->reportKindID, $this->locationID, $this->personID, $this->departmentID, $this->dateTime, $this->statusID, $this->actionTaken, $this->photoPath, $this->id);
 			$db->query($sql);
 		}
 	}
@@ -184,6 +184,7 @@ class Report {
 			$this->setDateTime($results[0]['dateTime']);
 			$this->setStatusID($results[0]['statusID']);
 			$this->setActionTaken($results[0]['actionTaken']);
+			$this->setPhotoPath($results[0]['photoPath']);
 		} else return false;
 	}
 

@@ -205,6 +205,24 @@ class NiceCatchAPI extends API
             return 'error: broken photo path';
         }
 
+        //find photo type
+        //$filetype = exif_imagetype($report->getPhotoPath());
+
+        /*
+        return 'filetype: ' . $filetype;
+
+        switch($filetype){
+
+            case 3:
+                header('content-type: image/png');
+            case IMAGETYPE_JPEG:
+                header('content-type: image/jpeg');
+            case IMAGETYPE_GIF:
+                header('content-type: image/gif');
+            default:
+                return 'error: stored image type not recognized';
+        }*/
+        
         header('content-type: image/png');
         echo $img;
     }

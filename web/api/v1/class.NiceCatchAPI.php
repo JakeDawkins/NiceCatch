@@ -192,7 +192,21 @@ class NiceCatchAPI extends API
     }
 
     private function reportPhotoGet(){
-        $report = $this->args[0];
+        $reportID = $this->args[0];
+        $report = new Report();
+        $report->fetch($reportID);
+        if($report->getPhotoPath() == null){
+            return 'error: no photo for this report';
+        }
+
+        //echo image to browser/client
+        $img = file_get_contents($report->getPhotoPath());
+        if($img == false){ //make sure photo loaded
+            return 'error: broken photo path';
+        }
+
+        header('content-type: image/png');
+        echo $img;
     }
 
     private function reportPhotoPost(){
@@ -242,7 +256,7 @@ class NiceCatchAPI extends API
         chmod($upload_dir . $name, 0644);
 
         //update the report in DB with file location
-        $report->setPhotoPath("" . $upload_dir . $name);
+        $report->setPhotoPath($upload_dir . $name);
         $report->save();
 
         return $report->toArray();

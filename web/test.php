@@ -10,6 +10,6 @@ require_once("models/config.php");
 	<title>test</title>
 </head>
 <body>
-
+<?php echo phpinfo(); ?>
 </body>
 </html>

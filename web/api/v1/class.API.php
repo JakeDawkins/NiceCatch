@@ -38,6 +38,12 @@ abstract class API
     protected $file = Null;
 
     /**
+    *   Property: files
+    *   from the $_FILES variable
+    */
+    protected $files = null;
+
+    /**
      * Constructor: __construct
      * Allow for CORS, assemble and pre-process the data
      */
@@ -67,13 +73,16 @@ abstract class API
         case 'DELETE':
         case 'POST':
             $this->request = $this->_cleanInputs($_POST);
+            if(isset($_FILES)){
+                $this->files = $_FILES;
+            }
             break;
         case 'GET':
             $this->request = $this->_cleanInputs($_GET);
             break;
         case 'PUT':
             $this->request = $this->_cleanInputs($_GET);
-            //$this->file = file_get_contents("php://input");
+            $this->file = file_get_contents("php://input");
             break;
         default:
             $this->_response('Invalid Method', 405);

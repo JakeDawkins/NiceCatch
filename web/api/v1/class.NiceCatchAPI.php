@@ -3,62 +3,49 @@ require_once 'class.API.php';
 
 class NiceCatchAPI extends API
 {
+    /*
+    *   CONSTRUCTOR
+    *   ENDPOINTS
+    *       1.0 INVOLVEMENTS
+    *       1.1 REPORT KINDS
+    *       1.2 PERSON KINDS
+    *       1.3 BUILDINGS
+    *       1.4 DEPARTMENTS
+    *       1.5 REPORTS
+    *       1.6 REPORT (invisible)
+    *   HELPERS
+    *       2.0 SET UP PERSON
+    *       2.1 SET UP LOCATION
+    *       2.2 REQUEST FIELDS SUBMITTED
+    *       2.3 VALIDATE PHOTO
+    */    
+
     public function __construct($request, $origin) {
         parent::__construct($request);
-
-        // Abstracted out for example
-        /*
-        $APIKey = new Models\APIKey();
-        $User = new Models\User();
-
-        if (!array_key_exists('apiKey', $this->request)) {
-            throw new Exception('No API Key provided');
-        } else if (!$APIKey->verifyKey($this->request['apiKey'], $origin)) {
-            throw new Exception('Invalid API Key');
-        } else if (array_key_exists('token', $this->request) &&
-             !$User->get('token', $this->request['token'])) {
-
-            throw new Exception('Invalid User Token');
-        }
-
-        $this->User = $User;*/
-
-        // if(is_array($this->args)){
-        //      echo "ARGS ";
-        //      print_r($this->args);
-        //      echo "\n";
-        // } else echo "ARGS " . $this->args . "\n";
-    
-        // echo "ENDPOINT " . $this->endpoint . "\n";
-        
-        // echo "REQUEST " . $this->request . "\n";
-        //if(is_array($this->request)) print_r($this->request);
-
-        // echo "FILE " . $this->file . "\n";
-        
-        // echo "VERB " . $this->verb . "\n";
     }
 
-    //------------------------ INVOLVEMENTS ENDPOINT ------------------------
+    //------------------------ INVOLVEMENTS ENDPOINT <1.0> ------------------------
     public function involvements(){
         if($this->method == 'GET'){
+            //get a list of default involvement kinds
             return getDefaultInvolvements();
         } else if($this->method == 'POST'){
-            //if the ID is set, editing an existing involvement
             if(isset($this->request['id']) && isset($this->request['involvementKind'])){
+                //if the ID is set, editing an existing involvement
                 return updateInvolvementKind($this->request['id'],$this->request['involvementKind']);
             } elseif(!isset($this->request['involvementKind'])){
                 return "endpoint requires an involvementKind";
+            } else {
+                //new involvement (if not in DB)
+                return array(
+                    'id' => getInvolvementKindID($this->request['involvementKind']),
+                    'involvementKind' => $this->request['involvementKind']
+                );    
             }
-
-            //new involvement (if not in DB)
-            return array(
-                'id' => getInvolvementKindID($this->request['involvementKind']),
-                'involvementKind' => $this->request['involvementKind']
-            );
         } else return "endpoint does not recognize " . $this->method . " requests";   
     }
 
+    //------------------------ REPORT KINDS ENDPOINT <1.1> ------------------------
     public function reportKinds(){
         if($this->method == 'GET'){
             return getDefaultReportKinds();
@@ -68,17 +55,18 @@ class NiceCatchAPI extends API
                 return updateReportKind($this->request['id'],$this->request['reportKind']);
             } elseif(!isset($this->request['reportKind'])){
                 return "endpoint requires a reportKind";
+            } else {
+                //new report kind (if not in DB)
+                return array(
+                    'id' => getReportKindID($this->request['reportKind']),
+                    'reportKind' => $this->request['reportKind']
+                );                
             }
-
-            //new report kind (if not in DB)
-            return array(
-                'id' => getReportKindID($this->request['reportKind']),
-                'reportKind' => $this->request['reportKind']
-            );
         } else return "endpoint does not recognize " . $this->method . " requests";   
         
     }
 
+    //------------------------ PERSON KINDS ENDPOINT <1.2> ------------------------
     public function personKinds(){
         if($this->method == 'GET'){
             return getDefaultPersonKinds();
@@ -88,35 +76,40 @@ class NiceCatchAPI extends API
                 return updatePersonKind($this->request['id'],$this->request['personKind']);
             } elseif(!isset($this->request['personKind'])){
                 return "endpoint requires a personKind";
+            } else {
+                //new report kind (if not in DB)
+                return array(
+                    'id' => getPersonKind($this->request['personKind']),
+                    'personKind' => $this->request['personKind']
+                );                
             }
-
-            //new report kind (if not in DB)
-            return array(
-                'id' => getPersonKind($this->request['personKind']),
-                'personKind' => $this->request['personKind']
-            );
         } else return "endpoint does not recognize " . $this->method . " requests";   
     }
 
+    //------------------------ BUILDINGS ENDPOINT <1.3> ------------------------
     public function buildings(){
         if($this->method == 'GET'){
             return getBuildings();
         } else return "endpoint does not recognize " . $this->method . " requests";   
     }
 
+    //------------------------ DEPARTMENTS ENDPOINT <1.4> ------------------------
     public function departments(){
         if($this->method == 'GET'){
             return getDepartments();
         } else return "endpoint does not recognize " . $this->method . " requests";   
     }
 
-    //------------------------ reports ENDPOINT ------------------------
+    //------------------------ REPORTS ENDPOINT <1.5> ------------------------
     protected function reports(){
         //URI: /api/v1/reports
         if(!is_array($this->args) || count($this->args) == 0){
             return $this->reportsCollection();
         } else if(count($this->args) == 1){ //URI: /api/v1/reports/<ID>
             return $this->report();
+        } else if(count($this->args) == 2 && $this->args[1] == 'photo') {
+            //an individual photo's report
+            return $this->reportPhoto();
         } else {
             return "IMPROPER API CALL";
         }
@@ -129,7 +122,7 @@ class NiceCatchAPI extends API
         } else return "endpoint does not recognize " . $this->method . " requests";
     }
 
-    //------------------------ REPORT endpoint (invisible) ------------------------
+    //------------------------ REPORT ENDPOINT (invisible) <1.6> ------------------------
 
     //handler for API call to a single note
     private function report(){
@@ -185,9 +178,68 @@ class NiceCatchAPI extends API
         return $report->toArray();
     }
 
+    //handles uploading or getting a report's photo
+    private function reportPhoto(){
+        switch($this->method){
+            case 'GET':
+                return $this->reportPhotoGet();
+            case 'POST':
+                return $this->reportPhotoPost();
+            default:
+                return 'error: endpoint does not recognize ' . $this->method . ' requests';
+        }
+
+    }
+
+    private function reportPhotoGet(){
+        $report = $this->args[0];
+    }
+
+    private function reportPhotoPost(){
+        if(!$this->validatePhoto()) return 'error: photo upload failed'; 
+
+        //report id
+        $report = $this->args[0];
+
+        $photo = $this->files['photo'];
+        $upload_dir = Path::uploads() . $report . '/';
+
+        //make the directory if it doesn't already exist
+        if(!file_exists($upload_dir)){
+            mkdir($upload_dir, 0755, true);
+        }
+
+        //make sure there wasnt an error with the upload
+        if($photo['error'] !== UPLOAD_ERR_OK){
+            return 'error: photo upload error';
+        }
+
+        //make sure filename is safe
+        $name = preg_replace("/[^A-Z0-9._-]/i", "_", $photo['name']);
+
+        //different dir for each report
+        $i = 0;
+        $parts = pathinfo($name);
+        while(file_exists($upload_dir . $name)){
+            //myfile-1.png
+            $name = $parts['filename'] . '-' . $i . '.' . $parts['extension'];
+        }
+
+        //move file from temp directory
+        $success = move_uploaded_file($photo['tmp_name'], $upload_dir . $name);
+        if(!$success){
+            return 'error: unable to save file';
+        }
+
+        //set proper file permissions on new file
+        chmod($upload_dir . $name, 0644);
+
+        return 'file upload successful';
+    }
+
     //------------------------ HELPERS ------------------------
 
-    /*
+    /*  <2.0>
     *   creates a person using request data
     *   @preq personKind, username, name, and phone are set
     *   @ret int | person id if valid request data, -1 otherwise
@@ -204,7 +256,7 @@ class NiceCatchAPI extends API
         return $person->getID();
     }
 
-    /*
+    /*  <2.1>
     *   creates a location using request data
     *   @ret int | location id if valid request data, -1 otherwise
     */
@@ -224,14 +276,34 @@ class NiceCatchAPI extends API
         return $location->getID();
     }
 
-    //checks if all necessary variables are set
-    //$vars is an array
+    /*  <2.2>
+    *   checks if all necessary variables are set
+    *   $vars is an array
+    */
     private function requestFieldsSubmitted($vars){
         if(is_array($vars)){
             foreach($vars as $var){
                 if(!isset($this->request[$var])) return false;
             }
             return true;
+        }
+        return false;
+    }
+
+    /*  <2.3>
+    *   validates an image to make sure it is valid
+    *   helps prevent incorrect uploads/malicious files
+    */
+    private function validatePhoto(){
+        if(!empty($this->files['photo'])){
+            $photo = $this->files['photo'];
+            
+            //verify file is correct type (gif, jpeg, png)
+            $filetype = exif_imagetype($photo['tmp_name']);
+            $allowed = array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG);
+            if(in_array($filetype, $allowed)){
+                return true;
+            }
         }
         return false;
     }

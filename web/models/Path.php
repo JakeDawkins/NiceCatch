@@ -48,6 +48,10 @@ if(!class_exists('Path')){
 			return Path::base() . 'nc-db-settings.php';
 		}
 
+		static public function uploads(){
+			return Path::base() . 'uploads/';
+		}
+
 	}	
 }
 

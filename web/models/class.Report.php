@@ -14,6 +14,7 @@ class Report {
 	private $dateTime;
 	private $statusID;
 	private $actionTaken;
+	private $photoPath;
 
 	//------------------------ GETTERS ------------------------
 	public function getID(){
@@ -54,6 +55,10 @@ class Report {
 
 	public function getActionTaken(){
 		return $this->actionTaken;
+	}
+
+	public function getPhotoPath(){
+		return $this->photoPath;
 	}
 
 	public function toArray()
@@ -115,6 +120,10 @@ class Report {
 		$this->actionTaken = $actionTaken;
 	}
 
+	public function setPhotoPath($photoPath){
+		$this->photoPath = $photoPath;
+	}
+
 	//------------------------ DB METHODS ------------------------
 
 	/*
@@ -128,12 +137,7 @@ class Report {
 	*/
 	public function save(){
 		$db = new Database();
-		// $sql = "SELECT * FROM `reports` WHERE `personID`=? AND `dateTime`=?";
-		// $sql = $db->prepareQuery($sql, $this->personID, $this->dateTime);
-		// $results = $db->select($sql);
 
-		//$reportInDB = Report::reportExists($this->personID, $this->dateTime);
-		//if($reportInDB != false) echo "IN DB";
 		$reportInDB = isset($this->id);
 
 		if($reportInDB === false){ //new report

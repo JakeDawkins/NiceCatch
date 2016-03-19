@@ -56,6 +56,26 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 self.designPicker.reloadAllComponents()
             }
         }
+        
+        //-------- load the defaults --------
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let defaultFullName = defaults.stringForKey("reportUserFullName"){
+            nameField.text = defaultFullName
+        }
+        if let defaultUserEmail = defaults.stringForKey("reportUserEmail"){
+            emailField.text = defaultUserEmail
+        }
+        if let defaultUserPhone = defaults.stringForKey("reportUserPhone"){
+            phoneNumField.text = defaultUserPhone
+        }
+        if let defaultUserDesignationPicker = defaults.stringForKey("reportUserDesignationPicker"){
+            if let pickerIndex = self.designData.indexOf(defaultUserDesignationPicker){
+                    designPicker.selectRow(pickerIndex, inComponent: 1, animated: true)
+            }
+        }
+        if let defaultUserDesignationTextField = defaults.stringForKey("reportUserDesignationTextField"){
+            designTextField.text = defaultUserDesignationTextField
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -176,6 +196,14 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 
                 return
         }
+        
+        //save the defaults
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(nameField.text, forKey: "reportUserFullName")
+        defaults.setObject(emailField.text, forKey: "reportUserEmail")
+        defaults.setObject(phoneNumField.text, forKey: "reportUserPhone")
+        defaults.setObject(designSelection, forKey: "reportUserDesignationPicker")
+        defaults.setObject(designTextField.text, forKey: "reportUserDesignationTextField")
         
         let params = [
             "description":finalReportData.incidentDesc,

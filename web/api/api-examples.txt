@@ -1,17 +1,311 @@
-//------------------------  ------------------------
+URL Scheme
+http://localhost/api/v1/ENDPOINT
 
+* Responses may not be exhaustive, but format is correct
 
+//------------------------ BUILDINGS ENDPOINT ------------------------
+---- GET DEFAULT BUILDINGS ----
+GET -- localhost/api/v1/buildings
+RESPONSE: 
+	{
+  		"data": [
+    		{
+      			"id": "1",
+      			"buildingName": "Brackett Hall"
+    		}, 
+    		{
+      			"id": "2",
+      			"buildingName": "BRC"
+    		}, 
+		],
+  		"success": "true"
+	}
+//------------------------ DEPARTMENTS ENDPOINT ------------------------
+---- GET DEFAULT DEPARTMENTS ----
+GET -- localhost/api/v1/departments
+RESPONSE: 
+	{
+		"data": [
+			{
+	      		"id": "1",
+	      		"departmentName": "Agricultural & Environmental Sciences"
+	    	},
+	    	{
+	      		"id": "2",
+	      		"departmentName": "etc"
+	    	}
+	    	
+		],
+	  	"success": "true"
+	}
 
+//------------------------ INVOLVEMENTS ENDPOINT ------------------------
 
-//------------------------  ------------------------
-app knows..
-	description, 
-	username, 
-	involvement NAME (API-Loaded), 
-	reportKind NAME (API-Loaded), 
-	buildingID (API), 
-	room #, 
-	departmentID (API), 
-	dateTime, 
-	status (1), 
-	actionTaken (null)
+* difference in new, update, and lookup is only whether the id is given or not
+* response will look the same for all 3
+
+---- GET DEFAULT INVOLVEMENTS ----
+GET -- http://localhost/api/v1/involvements
+RESPONSE:
+	{
+		"data": [
+			{
+				"id": "1",
+				"involvementKind": "Work Practice/Procedure",
+				"default": "1"
+			},
+		],
+		"success": "true"
+	}
+
+---- NEW INVOLVEMENT ----
+POST -- http://localhost/api/v1/involvements
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "involvementKind":"new involvement"
+RESPONSE:
+	{
+		"data": {
+			"id": "9",
+			"involvementKind": "new involvement"
+		},
+		"success": "true"
+	}
+
+---- UPDATE INVOLVEMENT ----
+* must know id of involvement
+POST -- http://localhost/api/v1/involvements
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "involvementKind":"updated title", "id":30
+RESPONSE:
+	{
+		"data": {
+			"id": "30",
+			"involvementKind": "updated title"
+		},
+		"success": "true"
+	}
+
+---- LOOK UP INVOLVEMENT ----
+* uses title of involvement in request only
+POST -- http://localhost/api/v1/ENDPOINT
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "involvementKind":"My involvement"
+RESPONSE:
+	{
+		"data": {
+			"id": "9",
+			"involvementKind": "My involvement"
+		},
+		"success": "true"
+	}
+
+//------------------------ PERSON KINDS ENDPOINT ------------------------
+
+* difference in new, update, and lookup is only whether the id is given or not
+* response will look the same for all 3
+
+---- GET DEFAULT PERSON KINDS ----
+GET -- http://localhost/api/v1/personKinds
+RESPONSE:
+	{
+		"data": [
+			{
+				"id": "1",
+				"personKind": "Faculty",
+				"default": "1"
+			},
+			{
+				"id": "4",
+				"personKind": "Other",
+				"default": "1"
+			}
+		],
+		"success": "true"
+	}
+
+---- NEW PERSON KIND ----
+POST -- http://localhost/api/v1/personKinds
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "personKind":"my new title"
+RESPONSE:
+	{
+		"data": {
+			"id": "5",
+			"personKind": "my new title"
+		},
+		"success": "true"
+	}
+
+---- UPDATE PERSON KIND ----
+* must use id to update
+POST -- http://localhost/api/v1/personKinds
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "id":5, "personKind":"my updated title"
+RESPONSE:
+	{
+		"data": {
+			"id": "5",
+			"personKind": "my updated title"
+		},
+		"success": "true"
+	}
+
+---- LOOK UP PERSON KIND ----
+* use name to lookup
+POST -- http://localhost/api/v1/personKinds
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "personKind":"my updated title"
+RESPONSE:
+	{
+		"data": {
+			"id": "5",
+			"personKind": "my updated title"
+		},
+		"success": "true"
+	}
+
+//------------------------ REPORT KINDS ENDPOINT ------------------------
+
+* difference in new, update, and lookup is only whether the id is given or not
+* response will look the same for all 3
+
+---- GET DEFAULT REPORT KINDS ---- 
+GET -- http://localhost/api/v1/reportKinds
+RESPONSE:
+	{
+		"data": [
+			{
+				"id": "1",
+				"reportKind": "Close Call",
+				"default": "1"
+			},
+			{
+				"id": "4",
+				"reportKind": "Other",
+				"default": "1"
+			}
+		],
+		"success": "true"
+	}
+
+---- NEW REPORT KIND ----
+POST -- http://localhost/api/v1/reportKinds
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "reportKind":"my new kind"
+RESPONSE: 
+	{
+		"data": {
+			"id": "5",
+			"reportKind": "my new kind"
+		},
+		"success": "true"
+	}
+
+---- UPDATE REPORT KIND ----
+POST -- http://localhost/api/v1/reportKinds
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "id":5, "reportKind":"my updated kind"
+RESPONSE: 
+	{
+		"data": {
+			"id": "5",
+			"reportKind": "my updated kind"
+		},
+		"success": "true"
+	}
+
+---- LOOK UP REPORT KIND ----
+POST -- http://localhost/api/v1/reportKinds
+HEADER -- content-type: application/x-www-form-urlencoded
+BODY -- "reportKind":"my updated kind"
+RESPONSE: 
+	{
+		"data": {
+			"id": "5",
+			"reportKind": "my updated kind"
+		},
+		"success": "true"
+	}
+
+//------------------------ REPORTS ENDPOINT ------------------------
+---- NEW REPORT ----
+POST -- http://localhost/api/v1/reports
+Header -- content-type: application/x-www-form-urlencoded
+BODY: 
+    "description": "I almost spilled something",
+    "involvementKind": "Radiation",
+    "reportKind": "Safety Issue",
+    "buildingName": "Riggs",
+    "room": "105",
+    "personKind": "Student",
+    "username": "johndoe",
+    "name": "John Doe",
+    "phone": "864-555-5555",
+    "department": "Architecture",
+    "dateTime": "2016-03-03 09:49:25",
+    "statusID": "1",
+    "actionTaken": "none"
+RESPONSE:
+	{
+		"data": {
+			"id": "9",
+			"description": "I almost spilled something",
+			"involvementKindID": "5",
+			"reportKindID": "3",
+			"locationID": "11",
+			"personID": "5",
+			"departmentID": "3",
+			"dateTime": "2016-03-03 09:49:25",
+			"statusID": "1",
+			"actionTaken": "none",
+			"photoPath": null
+		},
+		"success": "true"
+	}
+
+//------------------------ REPORT ENDPOINT ------------------------
+---- GET REPORT ----
+GET -- http://localhost/api/v1/report/1
+RESPONSE: 
+	{
+		"data": {
+			"id": "1",
+			"description": "this is a test",
+			"involvementKindID": "2",
+			"reportKindID": "1",
+			"locationID": "1",
+			"personID": "1",
+			"departmentID": "2",
+			"dateTime": "2016-02-09 00:00:01",
+			"statusID": null,
+			"actionTaken": null,
+			"photoPath": "/Users/Jake/git/NiceCatch/web/uploads/1/google.png"
+		},
+		"success": "true"
+	}
+
+---- GET REPORT PHOTO ----
+GET -- http://localhost/api/v1/reports/12345/photo
+RESPONSE: PHOTO
+
+---- ADD REPORT PHOTO ----
+* currently only accepts png
+POST -- http://localhost/api/v1/reports/12345/photo
+BODY: "photo":PHOTO_FILE
+RESPONSE: 
+	{
+		"data": {
+			"id": "1",
+			"description": "this is a test",
+			"involvementKindID": "2",
+			"reportKindID": "1",
+			"locationID": "1",
+			"personID": "1",
+			"departmentID": "2",
+			"dateTime": "2016-02-09 00:00:01",
+			"statusID": null,
+			"actionTaken": null,
+			"photoPath": "/Users/Jake/git/NiceCatch/web/uploads/1/google.png"
+		},
+		"success": "true"
+	}

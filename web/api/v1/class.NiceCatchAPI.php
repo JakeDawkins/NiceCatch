@@ -79,7 +79,7 @@ class NiceCatchAPI extends API
             } else {
                 //new report kind (if not in DB)
                 return array(
-                    'id' => getPersonKind($this->request['personKind']),
+                    'id' => getPersonKindID($this->request['personKind']),
                     'personKind' => $this->request['personKind']
                 );                
             }
@@ -118,6 +118,8 @@ class NiceCatchAPI extends API
     //handler for API call to the reports collection
     private function reportsCollection(){
         if($this->method == 'POST'){
+            if(!$this->requestFieldsSubmitted(["description","involvementKind","reportKind","buildingName","personKind","username","name","phone","department","dateTime","statusID","actionTaken"]))
+                return "error: missing report information";
             return $this->reportPost();
         } else return "endpoint does not recognize " . $this->method . " requests";
     }
@@ -127,7 +129,7 @@ class NiceCatchAPI extends API
     //handler for API call to a single note
     private function report(){
         if($this->method == 'GET'){
-            return "SINGLE REPORT (GET)";
+            return $this->reportGet();
         } else if($this->method == 'POST'){
             return "UPDATE REPORT (POST)";
         } else if ($this->method == 'DELETE'){
@@ -175,6 +177,14 @@ class NiceCatchAPI extends API
         $report->save();
 
         //return the report item in array format
+        return $report->toArray();
+    }
+
+    //return data for a single report
+    private function reportGet(){
+        $reportID = $this->args[0];
+        $report = new Report();
+        $report->fetch($reportID);
         return $report->toArray();
     }
 

@@ -16,6 +16,9 @@ require_once 'class.API.php';
 *       2.1 SET UP LOCATION
 *       2.2 REQUEST FIELDS SUBMITTED
 *       2.3 VALIDATE PHOTO
+*
+*   Known Issues: 
+*   - for photo get, api tries to set header after echo image
 */ 
 
 class NiceCatchAPI extends API {
@@ -288,6 +291,7 @@ class NiceCatchAPI extends API {
         }*/
         
         header('content-type: image/png');
+        header("HTTP/1.1 200 OK");
         echo $img;
     }
 

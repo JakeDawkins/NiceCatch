@@ -1,127 +1,166 @@
 <?php
 require_once 'class.API.php';
 
-class NiceCatchAPI extends API
-{
-    /*
-    *   CONSTRUCTOR
-    *   ENDPOINTS
-    *       1.0 INVOLVEMENTS
-    *       1.1 REPORT KINDS
-    *       1.2 PERSON KINDS
-    *       1.3 BUILDINGS
-    *       1.4 DEPARTMENTS
-    *       1.5 REPORTS
-    *       1.6 REPORT (invisible)
-    *   HELPERS
-    *       2.0 SET UP PERSON
-    *       2.1 SET UP LOCATION
-    *       2.2 REQUEST FIELDS SUBMITTED
-    *       2.3 VALIDATE PHOTO
-    */    
+/*
+*   CONSTRUCTOR
+*   ENDPOINTS
+*       1.0 INVOLVEMENTS
+*       1.1 REPORT KINDS
+*       1.2 PERSON KINDS
+*       1.3 BUILDINGS
+*       1.4 DEPARTMENTS
+*       1.5 REPORTS
+*       1.6 REPORT (invisible)
+*   HELPERS
+*       2.0 SET UP PERSON
+*       2.1 SET UP LOCATION
+*       2.2 REQUEST FIELDS SUBMITTED
+*       2.3 VALIDATE PHOTO
+*/ 
+
+class NiceCatchAPI extends API {
+    //what to return from endpoint for processing
+    //code is http status code.
+    private $response = array('code' => 200, 'data' => null, 'message' => '');
 
     public function __construct($request, $origin) {
         parent::__construct($request);
+        //$this->response = array('code' => 200, 'data' => null);        
     }
 
     //------------------------ INVOLVEMENTS ENDPOINT <1.0> ------------------------
     public function involvements(){
         if($this->method == 'GET'){
             //get a list of default involvement kinds
-            return getDefaultInvolvements();
+            $this->response['data'] = getDefaultInvolvements();
         } else if($this->method == 'POST'){
             if(isset($this->request['id']) && isset($this->request['involvementKind'])){
                 //if the ID is set, editing an existing involvement
-                return updateInvolvementKind($this->request['id'],$this->request['involvementKind']);
-            } elseif(!isset($this->request['involvementKind'])){
-                return "endpoint requires an involvementKind";
+                $this->response['data'] = updateInvolvementKind($this->request['id'],$this->request['involvementKind']);
+            } elseif(!$this->requestFieldsSubmitted(array('involvementKind'))){
+                //not all necessary values submitted
+                $this->response['message'] = "endpoint requires an involvementKind";
+                $this->response['code'] = 400;
             } else {
                 //new involvement (if not in DB)
-                return array(
+                $this->response['data'] = array(
                     'id' => getInvolvementKindID($this->request['involvementKind']),
                     'involvementKind' => $this->request['involvementKind']
                 );    
             }
-        } else return "endpoint does not recognize " . $this->method . " requests";   
+        } else { 
+            $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['code'] = 405;
+        }
+
+        return $this->response;
     }
 
     //------------------------ REPORT KINDS ENDPOINT <1.1> ------------------------
     public function reportKinds(){
         if($this->method == 'GET'){
-            return getDefaultReportKinds();
+            $this->response['data'] = getDefaultReportKinds();
         } else if($this->method == 'POST'){
-            //if the ID is set, editing an existing reportKind
-            if(isset($this->request['id']) && isset($this->request['reportKind'])){
-                return updateReportKind($this->request['id'],$this->request['reportKind']);
-            } elseif(!isset($this->request['reportKind'])){
-                return "endpoint requires a reportKind";
+            if($this->requestFieldsSubmitted(array('id','reportKind'))){
+                //if the ID is set, editing an existing reportKind
+                $this->response['data'] = updateReportKind($this->request['id'],$this->request['reportKind']);
+            } elseif(!$this->requestFieldsSubmitted(array('reportKind'))){
+                //if no reportKind is set, invalid
+                $this->response['message'] = "endpoint requires a reportKind";
+                $this->response['code'] = 400;
             } else {
                 //new report kind (if not in DB)
-                return array(
+                $this->response['data'] = array(
                     'id' => getReportKindID($this->request['reportKind']),
                     'reportKind' => $this->request['reportKind']
                 );                
             }
-        } else return "endpoint does not recognize " . $this->method . " requests";   
-        
+        } else {
+            $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['code'] = 405;
+        }
+        return $this->response;
     }
 
     //------------------------ PERSON KINDS ENDPOINT <1.2> ------------------------
     public function personKinds(){
         if($this->method == 'GET'){
-            return getDefaultPersonKinds();
+            $this->response['data'] = getDefaultPersonKinds();
         } else if($this->method == 'POST'){
             //if the ID is set, editing an existing personKind
-            if(isset($this->request['id']) && isset($this->request['personKind'])){
-                return updatePersonKind($this->request['id'],$this->request['personKind']);
-            } elseif(!isset($this->request['personKind'])){
-                return "endpoint requires a personKind";
+            if($this->requestFieldsSubmitted(array('id','personKind'))){
+                $this->response['data'] = updatePersonKind($this->request['id'],$this->request['personKind']);
+            } elseif(!$this->requestFieldsSubmitted(array('personKind'))){
+                $this->response['message'] = "endpoint requires a personKind";
+                $this->response['code'] = 400;
             } else {
                 //new report kind (if not in DB)
-                return array(
+                $this->response['data'] = array(
                     'id' => getPersonKindID($this->request['personKind']),
                     'personKind' => $this->request['personKind']
                 );                
             }
-        } else return "endpoint does not recognize " . $this->method . " requests";   
+        } else { 
+            $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['code'] = 405;
+        }
+
+        return $this->response;
     }
 
     //------------------------ BUILDINGS ENDPOINT <1.3> ------------------------
     public function buildings(){
         if($this->method == 'GET'){
-            return getBuildings();
-        } else return "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['data'] = getBuildings();
+        } else {
+            $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['code'] = 405;
+        }
+
+        return $this->response;
     }
 
     //------------------------ DEPARTMENTS ENDPOINT <1.4> ------------------------
     public function departments(){
         if($this->method == 'GET'){
-            return getDepartments();
-        } else return "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['data'] = getDepartments();
+        } else { 
+            $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";   
+            $this->response['code'] = 405;
+        }
+
+        return $this->response;
     }
 
     //------------------------ REPORTS ENDPOINT <1.5> ------------------------
     protected function reports(){
         //URI: /api/v1/reports
         if(!is_array($this->args) || count($this->args) == 0){
-            return $this->reportsCollection();
+            $this->response['data'] = $this->reportsCollection();
         } else if(count($this->args) == 1){ //URI: /api/v1/reports/<ID>
-            return $this->report();
+            $this->response['data'] = $this->report();
         } else if(count($this->args) == 2 && $this->args[1] == 'photo') {
             //an individual photo's report
-            return $this->reportPhoto();
+            $this->response['data'] = $this->reportPhoto();
         } else {
-            return "IMPROPER API CALL";
+            $this->response['message'] = "improper API call to reports endpoint";
+            $this->response['code'] = 400;
         }
+
+        return $this->response;
     }
 
     //handler for API call to the reports collection
     private function reportsCollection(){
         if($this->method == 'POST'){
             if(!$this->requestFieldsSubmitted(["description","involvementKind","reportKind","buildingName","personKind","username","name","phone","department","dateTime","statusID","actionTaken"]))
-                return "error: missing report information";
+                $this->response['message'] = "error: missing report information";
+                $this->response['code'] = 400;
             return $this->reportPost();
-        } else return "endpoint does not recognize " . $this->method . " requests";
+        } else {
+            $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";
+            $this->response['code'] = 405;
+        }
     }
 
     //------------------------ REPORT ENDPOINT (invisible) <1.6> ------------------------
@@ -131,9 +170,11 @@ class NiceCatchAPI extends API
         if($this->method == 'GET'){
             return $this->reportGet();
         } else if($this->method == 'POST'){
-            return "UPDATE REPORT (POST)";
+            $this->response['message'] = "Update Report (POST) not implemented";
+            $this->response['code'] = 400;
         } else if ($this->method == 'DELETE'){
-            return "SINGLE REPORT (DELETE)";
+            $this->response['message'] = "Single Report (DELETE) not implemented";
+            $this->response['code'] = 400;
         }
     }
 
@@ -155,18 +196,28 @@ class NiceCatchAPI extends API
         $report->setReportKindID(getReportKindID($this->request['reportKind']));
         
         //set up location
-        if(!$this->requestFieldsSubmitted(["buildingName","room"]))
-            return "error: missing location information";
+        if(!$this->requestFieldsSubmitted(["buildingName","room"])){
+            $this->response['message'] = "error: missing location information";
+            $this->response['code'] = 400;
+        }
         $locID = $this->setUpLocation();
         if($locID != -1) $report->setLocationID($locID);
-        else return "error: invalid location information";
+        else {
+            $this->response['message'] = "error: invalid location information";
+            $this->response['code'] = 400;
+        }
 
         //set up person
-        if(!$this->requestFieldsSubmitted(["personKind","username","name","phone"]))
-            return "error: missing person information";
+        if(!$this->requestFieldsSubmitted(["personKind","username","name","phone"])){
+            $this->response['message'] = "error: missing person information";
+            $this->response['code'] = 400;
+        }
         $personID = $this->setUpPerson();
         if($personID != -1) $report->setPersonID($personID);
-        else return "error: invalid person data";
+        else { 
+            $this->response['message'] = "error: invalid person data";
+            $this->response['code'] = 400;
+        }
 
         //given dept name. get id
         $report->setDepartmentID(getDepartmentID($this->request['department']));
@@ -196,7 +247,8 @@ class NiceCatchAPI extends API
             case 'POST':
                 return $this->reportPhotoPost();
             default:
-                return 'error: endpoint does not recognize ' . $this->method . ' requests';
+                $this->response['message'] = 'error: endpoint does not recognize ' . $this->method . ' requests';
+                $this->response['code'] = 405;
         }
 
     }
@@ -206,13 +258,15 @@ class NiceCatchAPI extends API
         $report = new Report();
         $report->fetch($reportID);
         if($report->getPhotoPath() == null){
-            return 'error: no photo for this report';
+            $this->response['message'] = 'error: no photo for this report';
+            $this->response['code'] = 400;
         }
 
         //echo image to browser/client
         $img = file_get_contents($report->getPhotoPath());
         if($img == false){ //make sure photo loaded
-            return 'error: broken photo path';
+            $this->response['message'] = 'error: broken photo path';
+            $this->response['code'] = 500;
         }
 
         //find photo type
@@ -244,7 +298,8 @@ class NiceCatchAPI extends API
         //fetch and check for valid report
         $report->fetch($this->args[0]);
         if($report->getID() == null){
-            return 'error: failed to load report with id ' . $this->args[0];
+            $this->response['message'] = 'error: failed to load report with id ' . $this->args[0];
+            $this->response['code'] = 405;
         }
 
         //report id
@@ -260,7 +315,8 @@ class NiceCatchAPI extends API
 
         //make sure there wasnt an error with the upload
         if($photo['error'] !== UPLOAD_ERR_OK){
-            return 'error: photo upload error';
+            $this->response['message'] = 'error: photo upload error';
+            $this->response['code'] = 400;
         }
 
         //make sure filename is safe
@@ -277,7 +333,8 @@ class NiceCatchAPI extends API
         //move file from temp directory
         $success = move_uploaded_file($photo['tmp_name'], $upload_dir . $name);
         if(!$success){
-            return 'error: unable to save file';
+            $this->response['message'] = 'error: unable to save file';
+            $this->response['code'] = 500;
         }
 
         //set proper file permissions on new file

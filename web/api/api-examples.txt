@@ -1,11 +1,11 @@
 URL Scheme
-http://localhost/api/v1/ENDPOINT
+http://http://people.cs.clemson.edu/~jacksod/api/v1/ENDPOINT
 
 * Responses may not be exhaustive, but format is correct
 
 //------------------------ BUILDINGS ENDPOINT ------------------------
 ---- GET DEFAULT BUILDINGS ----
-GET -- localhost/api/v1/buildings
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/buildings
 RESPONSE: 
 	{
   		"data": [
@@ -18,11 +18,11 @@ RESPONSE:
       			"buildingName": "BRC"
     		}, 
 		],
-  		"success": "true"
+  		"message": ""
 	}
 //------------------------ DEPARTMENTS ENDPOINT ------------------------
 ---- GET DEFAULT DEPARTMENTS ----
-GET -- localhost/api/v1/departments
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/departments
 RESPONSE: 
 	{
 		"data": [
@@ -36,7 +36,7 @@ RESPONSE:
 	    	}
 	    	
 		],
-	  	"success": "true"
+	  	"message": ""
 	}
 
 //------------------------ INVOLVEMENTS ENDPOINT ------------------------
@@ -45,7 +45,7 @@ RESPONSE:
 * response will look the same for all 3
 
 ---- GET DEFAULT INVOLVEMENTS ----
-GET -- http://localhost/api/v1/involvements
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/involvements
 RESPONSE:
 	{
 		"data": [
@@ -55,11 +55,11 @@ RESPONSE:
 				"default": "1"
 			},
 		],
-		"success": "true"
+		"message": ""
 	}
 
 ---- NEW INVOLVEMENT ----
-POST -- http://localhost/api/v1/involvements
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/involvements
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "involvementKind":"new involvement"
 RESPONSE:
@@ -68,12 +68,12 @@ RESPONSE:
 			"id": "9",
 			"involvementKind": "new involvement"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- UPDATE INVOLVEMENT ----
 * must know id of involvement
-POST -- http://localhost/api/v1/involvements
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/involvements
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "involvementKind":"updated title", "id":30
 RESPONSE:
@@ -82,12 +82,12 @@ RESPONSE:
 			"id": "30",
 			"involvementKind": "updated title"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- LOOK UP INVOLVEMENT ----
 * uses title of involvement in request only
-POST -- http://localhost/api/v1/ENDPOINT
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/ENDPOINT
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "involvementKind":"My involvement"
 RESPONSE:
@@ -96,7 +96,7 @@ RESPONSE:
 			"id": "9",
 			"involvementKind": "My involvement"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 //------------------------ PERSON KINDS ENDPOINT ------------------------
@@ -105,7 +105,7 @@ RESPONSE:
 * response will look the same for all 3
 
 ---- GET DEFAULT PERSON KINDS ----
-GET -- http://localhost/api/v1/personKinds
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/personKinds
 RESPONSE:
 	{
 		"data": [
@@ -120,11 +120,11 @@ RESPONSE:
 				"default": "1"
 			}
 		],
-		"success": "true"
+		"message": ""
 	}
 
 ---- NEW PERSON KIND ----
-POST -- http://localhost/api/v1/personKinds
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/personKinds
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "personKind":"my new title"
 RESPONSE:
@@ -133,12 +133,12 @@ RESPONSE:
 			"id": "5",
 			"personKind": "my new title"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- UPDATE PERSON KIND ----
 * must use id to update
-POST -- http://localhost/api/v1/personKinds
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/personKinds
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "id":5, "personKind":"my updated title"
 RESPONSE:
@@ -147,12 +147,12 @@ RESPONSE:
 			"id": "5",
 			"personKind": "my updated title"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- LOOK UP PERSON KIND ----
 * use name to lookup
-POST -- http://localhost/api/v1/personKinds
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/personKinds
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "personKind":"my updated title"
 RESPONSE:
@@ -161,7 +161,7 @@ RESPONSE:
 			"id": "5",
 			"personKind": "my updated title"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 //------------------------ REPORT KINDS ENDPOINT ------------------------
@@ -170,7 +170,7 @@ RESPONSE:
 * response will look the same for all 3
 
 ---- GET DEFAULT REPORT KINDS ---- 
-GET -- http://localhost/api/v1/reportKinds
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/reportKinds
 RESPONSE:
 	{
 		"data": [
@@ -185,11 +185,11 @@ RESPONSE:
 				"default": "1"
 			}
 		],
-		"success": "true"
+		"message": ""
 	}
 
 ---- NEW REPORT KIND ----
-POST -- http://localhost/api/v1/reportKinds
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/reportKinds
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "reportKind":"my new kind"
 RESPONSE: 
@@ -198,11 +198,11 @@ RESPONSE:
 			"id": "5",
 			"reportKind": "my new kind"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- UPDATE REPORT KIND ----
-POST -- http://localhost/api/v1/reportKinds
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/reportKinds
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "id":5, "reportKind":"my updated kind"
 RESPONSE: 
@@ -211,11 +211,11 @@ RESPONSE:
 			"id": "5",
 			"reportKind": "my updated kind"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- LOOK UP REPORT KIND ----
-POST -- http://localhost/api/v1/reportKinds
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/reportKinds
 HEADER -- content-type: application/x-www-form-urlencoded
 BODY -- "reportKind":"my updated kind"
 RESPONSE: 
@@ -224,12 +224,12 @@ RESPONSE:
 			"id": "5",
 			"reportKind": "my updated kind"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 //------------------------ REPORTS ENDPOINT ------------------------
 ---- NEW REPORT ----
-POST -- http://localhost/api/v1/reports
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/reports
 Header -- content-type: application/x-www-form-urlencoded
 BODY: 
     "description": "I almost spilled something",
@@ -260,12 +260,12 @@ RESPONSE:
 			"actionTaken": "none",
 			"photoPath": null
 		},
-		"success": "true"
+		"message": ""
 	}
 
 //------------------------ REPORT ENDPOINT ------------------------
 ---- GET REPORT ----
-GET -- http://localhost/api/v1/report/1
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/report/1
 RESPONSE: 
 	{
 		"data": {
@@ -281,16 +281,16 @@ RESPONSE:
 			"actionTaken": null,
 			"photoPath": "/Users/Jake/git/NiceCatch/web/uploads/1/google.png"
 		},
-		"success": "true"
+		"message": ""
 	}
 
 ---- GET REPORT PHOTO ----
-GET -- http://localhost/api/v1/reports/12345/photo
+GET -- http://people.cs.clemson.edu/~jacksod/api/v1/reports/12345/photo
 RESPONSE: PHOTO
 
 ---- ADD REPORT PHOTO ----
 * currently only accepts png
-POST -- http://localhost/api/v1/reports/12345/photo
+POST -- http://people.cs.clemson.edu/~jacksod/api/v1/reports/12345/photo
 BODY: "photo":PHOTO_FILE
 RESPONSE: 
 	{
@@ -307,5 +307,5 @@ RESPONSE:
 			"actionTaken": null,
 			"photoPath": "/Users/Jake/git/NiceCatch/web/uploads/1/google.png"
 		},
-		"success": "true"
+		"message": ""
 	}

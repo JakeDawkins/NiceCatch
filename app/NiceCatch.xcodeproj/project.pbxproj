@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6E28E5AF525F0B58A1273E49 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2901B7171E0740E5725F0AFE /* Pods.framework */; };
+		8C11670F1C88976A006E1D06 /* navigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C11670E1C88976A006E1D06 /* navigationController.swift */; };
 		8C1319E91BF3D4ED00BE9902 /* reportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1319E81BF3D4ED00BE9902 /* reportController.swift */; };
 		8C17A9531BF04D4200E503D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C17A9521BF04D4200E503D9 /* AppDelegate.swift */; };
 		8C17A9551BF04D4200E503D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C17A9541BF04D4200E503D9 /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		2901B7171E0740E5725F0AFE /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C11670E1C88976A006E1D06 /* navigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = navigationController.swift; sourceTree = "<group>"; };
 		8C1319E81BF3D4ED00BE9902 /* reportController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = reportController.swift; sourceTree = "<group>"; };
 		8C17A94F1BF04D4200E503D9 /* NiceCatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NiceCatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C17A9521BF04D4200E503D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				8CE000701C0F792B00D23EC3 /* infoViewController.swift */,
 				8CDC602B1C0294F700875395 /* finalReportData.swift */,
 				8C17A9561BF04D4200E503D9 /* Main.storyboard */,
+				8C11670E1C88976A006E1D06 /* navigationController.swift */,
 				8CF6E04C1BFC0C7E006A0372 /* locationController.swift */,
 				8CB1A9E71BFA472D00DC3929 /* personalViewController.swift */,
 				8C1319E81BF3D4ED00BE9902 /* reportController.swift */,
@@ -227,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CDC602C1C0294F800875395 /* finalReportData.swift in Sources */,
+				8C11670F1C88976A006E1D06 /* navigationController.swift in Sources */,
 				8CF6E04D1BFC0C7E006A0372 /* locationController.swift in Sources */,
 				8C17A9551BF04D4200E503D9 /* ViewController.swift in Sources */,
 				8CB1A9E81BFA472D00DC3929 /* personalViewController.swift in Sources */,
@@ -349,7 +353,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NiceCatch/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.clemson.cs4820.dbattle.NiceCatch-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -365,7 +368,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NiceCatch/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.clemson.cs4820.dbattle.NiceCatch-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -10,10 +10,9 @@ import Foundation
 import UIKit
 import Alamofire
 
-class locationController: UIViewController, UIImagePickerControllerDelegate,
+class locationController: UIViewController,
 UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate {
     
-    let photoPicker = UIImagePickerController()
     var useFilteredData = false
     
     @IBOutlet var backgroundView: UIView!
@@ -37,12 +36,8 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     @IBOutlet weak var datePicker: UIDatePicker!
     
-    @IBOutlet weak var myImageView: UIImageView!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        photoPicker.delegate = self
         buildingSearch.delegate = self
         departmentSearch.delegate = self
         
@@ -69,7 +64,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         useFilteredData = false
         
         //------------------------ LOAD BUILDING NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getBuildings").responseJSON { response in
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/buildings").responseJSON { response in
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
@@ -83,7 +78,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         }
         
         //------------------------ LOAD DEPARTMENT NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDepartments").responseJSON { response in
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/departments").responseJSON { response in
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
@@ -165,10 +160,12 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         if searchBar == buildingSearch {
             departmentTable.hidden = true
             buildingTable.hidden = false
+            datePicker.hidden = true
             buildingTable.reloadData()
         } else {
             buildingTable.hidden = true
             departmentTable.hidden = false
+            roomNumField.hidden = true
             departmentTable.reloadData()
         }
         return true
@@ -177,8 +174,10 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool {
         if searchBar == buildingSearch {
             buildingTable.hidden = true
+            datePicker.hidden = false
         } else {
             departmentTable.hidden = true
+            roomNumField.hidden = false
         }
         return true
     }
@@ -295,65 +294,13 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         }
     }
     
-    //MARK: Delegates
-    func imagePickerController(picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        myImageView.contentMode = .ScaleAspectFit
-        myImageView.image = chosenImage
-        finalReportData.image = chosenImage
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    @IBAction func takePhotoClicked(sender: AnyObject) {
-        if (UIImagePickerController.availableCaptureModesForCameraDevice(.Rear) != nil) {
-            photoPicker.sourceType = .Camera
-            presentViewController(photoPicker, animated: true, completion: nil)
-        } else {
-            // Do nothing
-        }
-    }
-    
-    @IBAction func uploadPhotoClicked(sender: AnyObject) {
-        photoPicker.allowsEditing = false
-        photoPicker.sourceType = .PhotoLibrary
-        presentViewController(photoPicker, animated: true, completion: nil)
-    }
-    
-    
-    //------------------------ ACTION HANDLERS ------------------------
     @IBAction func nextButtonPressed(sender: AnyObject) {
         finalReportData.departmentName = departmentSearch.text!
         finalReportData.buildingName = buildingSearch.text!
         finalReportData.roomNum = roomNumField.text!
-        
+
         let deliveryTime = NSDateFormatter.localizedStringFromDate(datePicker.date, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
         finalReportData.time = deliveryTime
-    }
-    
-    
-    //---------------- VALIDATION ----------------
-    //determine whether to block segue or not
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
-        if (roomNumField.text == ""
-            || (buildingSearch.text == "")
-            || (departmentSearch.text == "")
-            ){
-                let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
-                
-                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
-                alertController.addAction(OKAction)
-                
-                self.presentViewController(alertController, animated: true) {}
-                
-                return false
-        }
-        
-        // by default, transition
-        return true
     }
 
 }

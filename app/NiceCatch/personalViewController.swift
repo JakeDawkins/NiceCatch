@@ -11,7 +11,7 @@ import UIKit
 import CoreData
 import Alamofire
 
-class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var designTextField: UITextField!
     @IBOutlet weak var nameField: UITextField!
@@ -27,6 +27,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        photoPicker.delegate = self
         
         designPicker.dataSource = self
         designPicker.delegate = self
@@ -56,26 +58,6 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 self.designPicker.reloadAllComponents()
             }
         }
-        
-        //-------- load the defaults --------
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let defaultFullName = defaults.stringForKey("reportUserFullName"){
-            nameField.text = defaultFullName
-        }
-        if let defaultUserEmail = defaults.stringForKey("reportUserEmail"){
-            emailField.text = defaultUserEmail
-        }
-        if let defaultUserPhone = defaults.stringForKey("reportUserPhone"){
-            phoneNumField.text = defaultUserPhone
-        }
-        if let defaultUserDesignationPicker = defaults.stringForKey("reportUserDesignationPicker"){
-            if let pickerIndex = self.designData.indexOf(defaultUserDesignationPicker){
-                    designPicker.selectRow(pickerIndex, inComponent: 1, animated: true)
-            }
-        }
-        if let defaultUserDesignationTextField = defaults.stringForKey("reportUserDesignationTextField"){
-            designTextField.text = defaultUserDesignationTextField
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -87,6 +69,38 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
+    
+    //Images
+    let photoPicker = UIImagePickerController()
+    @IBOutlet weak var myImageView: UIImageView!
+    
+    func imagePickerController(picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let chosenImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        myImageView.contentMode = .ScaleAspectFit
+        myImageView.image = chosenImage
+        finalReportData.image = chosenImage
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func takePhotoClicked(sender: AnyObject) {
+        if (UIImagePickerController.availableCaptureModesForCameraDevice(.Rear) != nil) {
+            photoPicker.sourceType = .Camera
+            presentViewController(photoPicker, animated: true, completion: nil)
+        } else {
+            // Do nothing
+        }
+    }
+    
+    @IBAction func uploadPhotoClicked(sender: AnyObject) {
+        photoPicker.allowsEditing = false
+        photoPicker.sourceType = .PhotoLibrary
+        presentViewController(photoPicker, animated: true, completion: nil)
+    }
+
     
     //------------------------ KEYBOARD METHODS ------------------------
 
@@ -169,7 +183,6 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.presentThankYou()
     }
     
-    
     //popup window that appears after submission
     func presentThankYou() {
         let alert = UIAlertController(title: "Thank You!", message: "Thank you for submitting a Nice Catch! report. The Research Safety office will review your report.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -177,34 +190,10 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-
     
     //------------------------ HELPER METHODS ------------------------
     
     func addToDatabase() {
-        //-------- VALIDATION --------
-        if ((designSelection == "Other" && designTextField.text == "")
-            || (nameField.text == "")
-            || (emailField.text == "")
-            ){
-                let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
-                
-                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
-                alertController.addAction(OKAction)
-                
-                self.presentViewController(alertController, animated: true) {}
-                
-                return
-        }
-        
-        //save the defaults
-        let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(nameField.text, forKey: "reportUserFullName")
-        defaults.setObject(emailField.text, forKey: "reportUserEmail")
-        defaults.setObject(phoneNumField.text, forKey: "reportUserPhone")
-        defaults.setObject(designSelection, forKey: "reportUserDesignationPicker")
-        defaults.setObject(designTextField.text, forKey: "reportUserDesignationTextField")
-        
         let params = [
             "description":finalReportData.incidentDesc,
             "involvementKind":finalReportData.involveKind,

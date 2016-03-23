@@ -24,10 +24,10 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     @IBOutlet weak var reportTextBox: UITextField!
     @IBOutlet weak var involveTextBox: UITextField!
     
-    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var incidentView: UITextView!
     
     //------------------------ UI Methods ------------------------
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,7 +50,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         view.addGestureRecognizer(tap)
         
         //-------- LOAD REPORT KINDS FROM DB --------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDefaultReportKinds").responseJSON { response in
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/reportKinds").responseJSON { response in
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
@@ -66,7 +66,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         }
         
         //-------- LOAD INVOLVEMENT NAMES FROM DB --------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDefaultInvolvements").responseJSON { response in
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/involvements").responseJSON { response in
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
@@ -145,27 +145,6 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    //---------------- VALIDATION ----------------
-    //determine whether to block segue or not
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
-        if (incidentView.text.isEmpty
-            || (reportSelection == "Other" && reportTextBox.text == "")
-            || (involveSelection == "Other" && involveTextBox.text == "")
-            ){
-            let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
-            
-            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
-            alertController.addAction(OKAction)
-            
-            self.presentViewController(alertController, animated: true) {}
-            
-            return false
-        }
-        
-        // by default, transition
-        return true
-    }
-    
     @IBAction func saveInfoPress(sender: AnyObject) {
         if reportSelection == "Other" {
             finalReportData.reportKind = reportTextBox.text!
@@ -234,5 +213,32 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         }
     }
     
-
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+        let pickerLabel = UILabel()
+        var titleData:String
+        if pickerView == reportPicker {
+            titleData = reportData[row]
+        } else {
+            titleData = involveData[row]
+        }
+        if (self.view.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.Regular) {
+            let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 36.0)!,NSForegroundColorAttributeName:UIColor.blackColor()])
+            pickerLabel.attributedText = myTitle
+            pickerLabel.textAlignment = .Center
+            return pickerLabel
+        } else {
+            let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 24.0)!,NSForegroundColorAttributeName:UIColor.blackColor()])
+            pickerLabel.attributedText = myTitle
+            pickerLabel.textAlignment = .Center
+            return pickerLabel
+        }
+    }
+    
+    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        if (self.view.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.Regular) {
+            return 36.0
+        } else {
+            return 30.0
+        }
+    }
 }

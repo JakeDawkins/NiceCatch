@@ -20,6 +20,6 @@ struct finalReportData {
     static var time: String = ""
     static var designation: String = ""
     static var name: String = ""
-    static var email: String = ""
+    static var username: String = ""
     static var phoneNum: String = ""
 }

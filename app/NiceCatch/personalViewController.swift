@@ -15,7 +15,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBOutlet weak var designTextField: UITextField!
     @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var phoneNumField: UITextField!
     
     @IBOutlet weak var designPicker: UIPickerView!
@@ -36,7 +36,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         designTextField.delegate = self
         nameField.delegate = self
-        emailField.delegate = self
+        usernameField.delegate = self
         phoneNumField.delegate = self
         
         // Keyboard stuff.
@@ -45,7 +45,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
         //------------------------ LOAD DESIGNATION NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/?controller=loader&action=getDefaultPersonKinds").responseJSON { response in
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/personKinds").responseJSON { response in
             if let JSON = response.result.value {
                 self.jsonArray = JSON["data"] as? NSMutableArray
                 if(self.jsonArray != nil){
@@ -168,7 +168,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             finalReportData.designation = designSelection
         }
         finalReportData.name = nameField.text!
-        finalReportData.email = emailField.text!
+        finalReportData.username = usernameField.text!
         finalReportData.phoneNum = phoneNumField.text!
     }
     
@@ -200,14 +200,17 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "reportKind":finalReportData.reportKind,
             "buildingName":finalReportData.buildingName,
             "room":finalReportData.roomNum,
-            "personID":"1", //CHANGE
+            "personKind":finalReportData.designation,
+            "name":finalReportData.name,
+            "username":finalReportData.username,
+            "phone":finalReportData.phoneNum,
             "department":finalReportData.departmentName,
             "dateTime":"2016-02-25 11:13:01",
-            "statusID":"1", //FOR NEW REPORTS
+            "statusID":"1", //open report id (for all new reports)
             "actionTaken":""
         ]
         
-        Alamofire.request(.POST, "http://people.cs.clemson.edu/~jacksod/api/?controller=report", parameters: params).responseJSON { response in
+        Alamofire.request(.POST, "http://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
             if let JSON = response.result.value {
                 print(JSON)
             }

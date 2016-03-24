@@ -23,3 +23,11 @@ struct finalReportData {
     static var username: String = ""
     static var phoneNum: String = ""
 }
+
+struct preloadedData {
+    static var involvements: [String] = []
+    static var reportKinds: [String] = []
+    static var buildings: [String] = []
+    static var departments: [String] = []
+    static var personKinds: [String] = []
+}

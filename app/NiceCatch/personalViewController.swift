@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 import Alamofire
+import SwiftyJSON
 
 class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -22,6 +23,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     var designData:Array<String> = []
     var jsonArray:NSMutableArray?
+    
     
     //------------------------ UI METHODS ------------------------
     
@@ -190,7 +192,104 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    func uploadPhoto(){
+        print("photo upload")
+        
+        let myUrl = NSURL(string: "https://http://people.cs.clemson.edu/~jacksod/api/v1/report/\(finalReportData.remoteID)/photo");
+        
+        let request = NSMutableURLRequest(URL:myUrl!);
+        request.HTTPMethod = "POST";
+        
+        let param = [
+            "description":finalReportData.incidentDesc,
+            "involvementKind":finalReportData.involveKind,
+            "reportKind":finalReportData.reportKind,
+            "buildingName":finalReportData.buildingName,
+            "room":finalReportData.roomNum,
+            "personKind":finalReportData.designation,
+            "name":finalReportData.name,
+            "username":finalReportData.username,
+            "phone":finalReportData.phoneNum,
+            "department":finalReportData.departmentName,
+            "dateTime":"2016-03-29 16:48:01",
+            "statusID":"1", //open report id (for all new reports)
+            "actionTaken":""
+        ]
+        
+        let boundary = "Boundary-\(NSUUID().UUIDString)"
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        
+        //let imageData = UIImageJPEGRepresentation(finalReportData.image, 1)
+        let imageData = UIImagePNGRepresentation(finalReportData.image)
+        
+        //no image, return
+        if(imageData==nil)  { return; }
+        
+        request.HTTPBody = createBodyWithParameters(param, filePathKey: "photo", imageDataKey: imageData!, boundary: boundary)
+        
+        
+        
+        //myActivityIndicator.startAnimating();
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            
+            print("Task completed")
+            if let data = data {
+                do {
+                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            print(jsonResult)
+                        })
+                    } //if let jsonResult
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+            /*
+            if error != nil {
+                print("error=\(error)")
+                return
+            }
+            
+            // You can print out response object
+            print("******* response = \(response)")
+            
+            // Print out reponse body
+            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            print("****** response data = \(responseString!)")
+            
+            do {
+                var json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as? NSDictionary
+            } catch error as NSError {
+                 print(error.localizedDescription)
+            }
+            
+            
+            
+            dispatch_async(dispatch_get_main_queue(),{
+                //self.myActivityIndicator.stopAnimating()
+                //self.myImageView.image = nil;
+            });
+            
+            print(json)*/
+            /*
+             if let parseJSON = json {
+             var firstNameValue = parseJSON["firstName"] as? String
+             println("firstNameValue: \(firstNameValue)")
+             }
+             */
+        }
+        
+        task.resume()
+
+    }//func
     
+
     //------------------------ HELPER METHODS ------------------------
     
     func addToDatabase() {
@@ -205,15 +304,64 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "username":finalReportData.username,
             "phone":finalReportData.phoneNum,
             "department":finalReportData.departmentName,
-            "dateTime":"2016-02-25 11:13:01",
+            "dateTime":"2016-03-29 16:48:01",
             "statusID":"1", //open report id (for all new reports)
             "actionTaken":""
         ]
         
         Alamofire.request(.POST, "http://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
-            if let JSON = response.result.value {
-                print(JSON)
+            if let _ = response.result.value {
+                let json = JSON(data: response.data!)
+                //print(json)
+                
+                let jsonData = json["data"]
+                //print(jsonData)
+                
+                if let remoteID = Int(jsonData["id"].stringValue){
+                    print("remote id: \(remoteID)")
+                    finalReportData.remoteID = remoteID
+                    self.uploadPhoto()
+                } else {
+                    print("error getting remote ID")
+                    return
+                }
+            }//if let _
+        }//request
+    }//func
+    
+    func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: NSData, boundary: String) -> NSData {
+        var body = NSMutableData();
+        
+        if parameters != nil {
+            for (key, value) in parameters! {
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                body.appendString("\(value)\r\n")
             }
         }
+        
+        let filename = "report-image.png"
+        
+        let mimetype = "image/png"
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+        body.appendData(imageDataKey)
+        body.appendString("\r\n")
+        
+        
+        
+        body.appendString("--\(boundary)--\r\n")
+        
+        return body
+    }//func
+}
+
+extension NSMutableData {
+    
+    func appendString(string: String) {
+        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        appendData(data!)
     }
 }

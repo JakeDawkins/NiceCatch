@@ -22,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		23EE26861CA42F2400F07DC2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Pods/../build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		23EE26881CA446B100F07DC2 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		2901B7171E0740E5725F0AFE /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C11670E1C88976A006E1D06 /* navigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = navigationController.swift; sourceTree = "<group>"; };
 		8C1319E81BF3D4ED00BE9902 /* reportController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = reportController.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		8541CBCDADC50E7BFC6AB722 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				23EE26861CA42F2400F07DC2 /* SwiftyJSON.framework */,
 				2901B7171E0740E5725F0AFE /* Pods.framework */,
 			);
 			name = Frameworks;
@@ -102,6 +105,7 @@
 				8C635CF51C12638800631262 /* Assets.xcassets */,
 				8C17A95E1BF04D4200E503D9 /* LaunchScreen.storyboard */,
 				8C17A9611BF04D4200E503D9 /* Info.plist */,
+				23EE26881CA446B100F07DC2 /* MyPlayground.playground */,
 			);
 			path = NiceCatch;
 			sourceTree = "<group>";
@@ -352,6 +356,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = NiceCatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.clemson.cs4820.dbattle.NiceCatch-1";
@@ -367,6 +375,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = NiceCatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.clemson.cs4820.dbattle.NiceCatch-1";

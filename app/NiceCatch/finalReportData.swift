@@ -22,6 +22,7 @@ struct finalReportData {
     static var name: String = ""
     static var username: String = ""
     static var phoneNum: String = ""
+    static var remoteID: Int = -1
 }
 
 struct preloadedData {

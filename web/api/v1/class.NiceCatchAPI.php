@@ -199,7 +199,7 @@ class NiceCatchAPI extends API {
         $report->setReportKindID(getReportKindID($this->request['reportKind']));
         
         //set up location
-        if(!$this->requestFieldsSubmitted(["buildingName","room"])){
+        if(!$this->requestFieldsSubmitted(["buildingName"])){
             $this->response['message'] = "error: missing location information";
             $this->response['code'] = 400;
         }
@@ -384,7 +384,12 @@ class NiceCatchAPI extends API {
         }
 
         $location->setBuildingID($buildingID);
-        $location->setRoom($this->request['room']);
+
+        //handle reports with no room set
+        if(isset($this->request['room'])){
+            $location->setRoom($this->request['room']);    
+        } else $location->setRoom('null');
+        
         $location->save(); //creates new location if necessary. sets id
 
         return $location->getID();

@@ -330,7 +330,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }//func
     
     func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: NSData, boundary: String) -> NSData {
-        var body = NSMutableData();
+        let body = NSMutableData();
         
         if parameters != nil {
             for (key, value) in parameters! {

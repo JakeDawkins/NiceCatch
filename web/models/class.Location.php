@@ -4,7 +4,7 @@ require_once('config.php');
 class Location {
 	private $id;
 	private $buildingID;
-	private $room;
+	private $room = null;
 
 	//------------------------ GETTERS ------------------------
 	public function getID(){
@@ -70,11 +70,6 @@ class Location {
 					$this->setID($results[0]['id']);	
 				} else return false;
 			}
-
-			//update the location record
-			// $sql = "UPDATE locations SET buildingID=?, room=? WHERE id=?";
-			// $sql = $db->prepareQuery($sql, $this->buildingID, $this->room, $this->id);
-			// $db->query($sql);
 		}
 	}
 

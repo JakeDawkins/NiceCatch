@@ -47,7 +47,7 @@ func preload(){
             }
             print("involvementKinds array is \(preloadedData.involvementKinds)")
         }
-    }    
+    }
     
     //-------- LOAD REPORT KINDS FROM DB --------
     Alamofire.request(.GET, "https://people.cs.clemson.edu/~jacksod/api/v1/reportKinds").responseJSON { response in

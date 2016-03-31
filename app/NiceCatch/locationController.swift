@@ -19,6 +19,11 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     @IBOutlet weak var roomNumField: UITextField!
     
+    var buildings: Array<String> = []
+    var jsonArray:NSMutableArray?
+    var campusBuildingNames:Array<String> = []
+    var departmentNames:Array<String> = []
+    
     @IBOutlet weak var buildingSearch: UISearchBar!
     @IBOutlet weak var buildingTable: UITableView!
     var filteredCampusBuildings = [String]()
@@ -30,6 +35,14 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     var filteredDepartNames = [String]()
     
     @IBOutlet weak var datePicker: UIDatePicker!
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        // Keyboard stuff.
+        let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: #selector(locationController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(locationController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,16 +60,44 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         buildingTable.hidden = true
         departmentTable.hidden = true
         
-        locSwitch.addTarget(self, action: Selector("stateChanged:"), forControlEvents: UIControlEvents.ValueChanged)
+        locSwitch.addTarget(self, action: #selector(locationController.stateChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
         roomNumField.delegate = self
         
         // Keyboard stuff.
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        center.addObserver(self, selector: #selector(locationController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: #selector(locationController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         useFilteredData = false
+        
+        //------------------------ LOAD BUILDING NAMES FROM DB ------------------------
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/buildings").responseJSON { response in
+            if let JSON = response.result.value {
+                self.jsonArray = JSON["data"] as? NSMutableArray
+                if(self.jsonArray != nil){
+                    for item in self.jsonArray! {
+                        let string = item["buildingName"]!
+                        self.campusBuildingNames.append(string! as! String)
+                    }
+                }
+                //print("BuildingNames array is \(self.campusBuildingNames)")
+            }
+        }
+        
+        //------------------------ LOAD DEPARTMENT NAMES FROM DB ------------------------
+        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/departments").responseJSON { response in
+            if let JSON = response.result.value {
+                self.jsonArray = JSON["data"] as? NSMutableArray
+                if(self.jsonArray != nil){
+                    for item in self.jsonArray! {
+                        let string = item["departmentName"]!
+                        self.departmentNames.append(string! as! String)
+                    }
+                }
+                //print("departmentNames array is \(self.departmentNames)")
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -68,8 +109,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     }
-
-    //------------------------ KEYBOARD ------------------------
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -78,22 +117,24 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     var hasMoved = false
     
-    @IBOutlet weak var incidentView: UITextView!
-    
     func keyboardWillShow(notification: NSNotification) {
         let info:NSDictionary = notification.userInfo!
         let keyboardSize = (info[UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
         
         let keyboardHeight: CGFloat = keyboardSize.height
         
-        if !hasMoved && departmentSearch.isFirstResponder() {
-            self.view.center.y = self.view.center.y - keyboardHeight + CGFloat(90)
-            hasMoved = true
-        } else if !hasMoved && buildingSearch.isFirstResponder() {
-            //print("here")
-            self.view.center.y = self.view.center.y - keyboardHeight + CGFloat(50)
-            hasMoved = true
-            view.bringSubviewToFront(buildingTable)
+        if (self.view.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.Regular) {
+            //nothing
+        } else {
+            if !hasMoved && departmentSearch.isFirstResponder() {
+                self.view.center.y = self.view.center.y - keyboardHeight + CGFloat(90)
+                hasMoved = true
+            } else if !hasMoved && buildingSearch.isFirstResponder() {
+                //print("here")
+                self.view.center.y = self.view.center.y - keyboardHeight + CGFloat(50)
+                hasMoved = true
+                view.bringSubviewToFront(buildingTable)
+            }
         }
     }
     
@@ -103,12 +144,16 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         
         let keyboardHeight: CGFloat = keyboardSize.height
         
-        if hasMoved && departmentSearch.isFirstResponder() {
-            self.view.center.y = self.view.center.y + keyboardHeight - CGFloat(90)
-            hasMoved = false
-        } else if hasMoved && buildingSearch.isFirstResponder() {
-            self.view.center.y = self.view.center.y + keyboardHeight - CGFloat(50)
-            hasMoved = false
+        if (self.view.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.Regular) {
+            //nothing
+        } else {
+            if hasMoved && departmentSearch.isFirstResponder() {
+                self.view.center.y = self.view.center.y + keyboardHeight - CGFloat(90)
+                hasMoved = false
+            } else if hasMoved && buildingSearch.isFirstResponder() {
+                self.view.center.y = self.view.center.y + keyboardHeight - CGFloat(50)
+                hasMoved = false
+            }
         }
     }
     
@@ -118,10 +163,10 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             if locSwitch.on {
                 filteredOtherBuildings = otherBuildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
             } else {
-                filteredCampusBuildings = preloadedData.buildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
+                filteredCampusBuildings = campusBuildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
             }
         } else {
-            filteredDepartNames = preloadedData.departmentNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
+            filteredDepartNames = departmentNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
         }
     }
     
@@ -193,14 +238,14 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                 if locSwitch.on {
                     return otherBuildingNames.count
                 } else {
-                    return preloadedData.buildingNames.count
+                    return campusBuildingNames.count
                 }
             }
         } else {
             if useFilteredData {
                 return filteredDepartNames.count
             } else {
-                return preloadedData.departmentNames.count
+                return departmentNames.count
             }
         }
     }
@@ -218,7 +263,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                 if locSwitch.on {
                     cell.textLabel?.text = otherBuildingNames[indexPath.row]
                 } else {
-                    cell.textLabel?.text = preloadedData.buildingNames[indexPath.row]
+                    cell.textLabel?.text = campusBuildingNames[indexPath.row]
                 }
             }
             return cell
@@ -227,7 +272,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             if useFilteredData {
                 cell2.textLabel?.text = filteredDepartNames[indexPath.row]
             } else {
-                cell2.textLabel?.text = preloadedData.departmentNames[indexPath.row]
+                cell2.textLabel?.text = departmentNames[indexPath.row]
             }
             return cell2
         }
@@ -245,7 +290,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                 if locSwitch.on {
                     buildingSearch.text = otherBuildingNames[indexPath.row]
                 } else {
-                    buildingSearch.text = preloadedData.buildingNames[indexPath.row]
+                    buildingSearch.text = campusBuildingNames[indexPath.row]
                 }
             }
             useFilteredData = false
@@ -255,7 +300,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             if useFilteredData {
                 departmentSearch.text = filteredDepartNames[indexPath.row]
             } else {
-                departmentSearch.text = preloadedData.departmentNames[indexPath.row]
+                departmentSearch.text = departmentNames[indexPath.row]
             }
             useFilteredData = false
             departmentTable.hidden = true
@@ -272,25 +317,4 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         finalReportData.time = deliveryTime
     }
 
-    //---------------- VALIDATION ----------------
-    //determine whether to block segue or not
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
-        if ((buildingSearch.text == "")
-            || (departmentSearch.text == "")
-            ){
-            let alertController = UIAlertController(title: "Invalid Input", message: "You must select a building and Department", preferredStyle: .Alert)
-            
-            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
-            alertController.addAction(OKAction)
-            
-            self.presentViewController(alertController, animated: true) {}
-            
-            return false
-        }
-        
-        // by default, transition
-        return true
-    }
-
-    
 }

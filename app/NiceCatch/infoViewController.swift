@@ -22,7 +22,7 @@ class infoViewController: UIViewController, UIGestureRecognizerDelegate {
 
         hyperlink.attributedText = myMutableString
         
-        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "labelAction:")
+        let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewController.labelAction(_:)))
         hyperlink.addGestureRecognizer(tap)
         tap.delegate = self // Remember to extend your class with UIGestureRecognizerDelegate
 

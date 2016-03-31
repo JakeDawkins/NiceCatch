@@ -19,10 +19,10 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     @IBOutlet weak var roomNumField: UITextField!
     
-    var buildings: Array<String> = []
-    var jsonArray:NSMutableArray?
-    var campusBuildingNames:Array<String> = []
-    var departmentNames:Array<String> = []
+    //var buildings: Array<String> = []
+    //var jsonArray:NSMutableArray?
+    //var campusBuildingNames:Array<String> = []
+    //var departmentNames:Array<String> = []
     
     @IBOutlet weak var buildingSearch: UISearchBar!
     @IBOutlet weak var buildingTable: UITableView!
@@ -70,34 +70,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         center.addObserver(self, selector: #selector(locationController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
         useFilteredData = false
-        
-        //------------------------ LOAD BUILDING NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/buildings").responseJSON { response in
-            if let JSON = response.result.value {
-                self.jsonArray = JSON["data"] as? NSMutableArray
-                if(self.jsonArray != nil){
-                    for item in self.jsonArray! {
-                        let string = item["buildingName"]!
-                        self.campusBuildingNames.append(string! as! String)
-                    }
-                }
-                //print("BuildingNames array is \(self.campusBuildingNames)")
-            }
-        }
-        
-        //------------------------ LOAD DEPARTMENT NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/departments").responseJSON { response in
-            if let JSON = response.result.value {
-                self.jsonArray = JSON["data"] as? NSMutableArray
-                if(self.jsonArray != nil){
-                    for item in self.jsonArray! {
-                        let string = item["departmentName"]!
-                        self.departmentNames.append(string! as! String)
-                    }
-                }
-                //print("departmentNames array is \(self.departmentNames)")
-            }
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -163,10 +135,10 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             if locSwitch.on {
                 filteredOtherBuildings = otherBuildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
             } else {
-                filteredCampusBuildings = campusBuildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
+                filteredCampusBuildings = preloadedData.buildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
             }
         } else {
-            filteredDepartNames = departmentNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
+            filteredDepartNames = preloadedData.departmentNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
         }
     }
     
@@ -238,14 +210,14 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                 if locSwitch.on {
                     return otherBuildingNames.count
                 } else {
-                    return campusBuildingNames.count
+                    return preloadedData.buildingNames.count
                 }
             }
         } else {
             if useFilteredData {
                 return filteredDepartNames.count
             } else {
-                return departmentNames.count
+                return preloadedData.departmentNames.count
             }
         }
     }
@@ -263,7 +235,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                 if locSwitch.on {
                     cell.textLabel?.text = otherBuildingNames[indexPath.row]
                 } else {
-                    cell.textLabel?.text = campusBuildingNames[indexPath.row]
+                    cell.textLabel?.text = preloadedData.buildingNames[indexPath.row]
                 }
             }
             return cell
@@ -272,7 +244,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             if useFilteredData {
                 cell2.textLabel?.text = filteredDepartNames[indexPath.row]
             } else {
-                cell2.textLabel?.text = departmentNames[indexPath.row]
+                cell2.textLabel?.text = preloadedData.departmentNames[indexPath.row]
             }
             return cell2
         }
@@ -290,7 +262,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
                 if locSwitch.on {
                     buildingSearch.text = otherBuildingNames[indexPath.row]
                 } else {
-                    buildingSearch.text = campusBuildingNames[indexPath.row]
+                    buildingSearch.text = preloadedData.buildingNames[indexPath.row]
                 }
             }
             useFilteredData = false
@@ -300,7 +272,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
             if useFilteredData {
                 departmentSearch.text = filteredDepartNames[indexPath.row]
             } else {
-                departmentSearch.text = departmentNames[indexPath.row]
+                departmentSearch.text = preloadedData.departmentNames[indexPath.row]
             }
             useFilteredData = false
             departmentTable.hidden = true
@@ -315,6 +287,26 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
 
         let deliveryTime = NSDateFormatter.localizedStringFromDate(datePicker.date, dateStyle: .ShortStyle, timeStyle: .ShortStyle)
         finalReportData.time = deliveryTime
+    }
+    
+    //---------------- VALIDATION ----------------
+    //determine whether to block segue or not
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        if ((buildingSearch.text == "")
+            || (departmentSearch.text == "")
+            ){
+            let alertController = UIAlertController(title: "Invalid Input", message: "You must select a building and Department", preferredStyle: .Alert)
+            
+            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+            alertController.addAction(OKAction)
+            
+            self.presentViewController(alertController, animated: true) {}
+            
+            return false
+        }
+        
+        // by default, transition
+        return true
     }
 
 }

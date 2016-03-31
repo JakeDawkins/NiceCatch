@@ -385,10 +385,10 @@ class NiceCatchAPI extends API {
 
         $location->setBuildingID($buildingID);
 
-        //handle reports with no room set
-        if(isset($this->request['room'])){
-            $location->setRoom($this->request['room']);    
-        } else $location->setRoom('null');
+        //handle reports with no room or blank room set
+        if(isset($this->request['room']) && strtolower($this->request['room']) != 'null' && $this->request['room'] != ''){
+            $location->setRoom($this->request['room']);
+        }
         
         $location->save(); //creates new location if necessary. sets id
 

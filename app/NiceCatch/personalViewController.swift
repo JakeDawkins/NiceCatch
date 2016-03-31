@@ -191,82 +191,22 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         //self.presentThankYou()
     }
     
-    //popup window that appears after submission
-    func presentThankYou() {
-        let alert = UIAlertController(title: "Thank You!", message: "Thank you for submitting a Nice Catch! report. The Research Safety office will review your report.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func uploadPhoto(){
-        print("photo upload")
-        
-        let myUrl = NSURL(string: "https://people.cs.clemson.edu/~jacksod/api/v1/reports/\(finalReportData.remoteID)/photo");
-        
-        let request = NSMutableURLRequest(URL:myUrl!);
-        request.HTTPMethod = "POST";
-        
-        let param = [
-            "description":finalReportData.incidentDesc,
-            "involvementKind":finalReportData.involveKind,
-            "reportKind":finalReportData.reportKind,
-            "buildingName":finalReportData.buildingName,
-            "room":finalReportData.roomNum,
-            "personKind":finalReportData.designation,
-            "name":finalReportData.name,
-            "username":finalReportData.username,
-            "phone":finalReportData.phoneNum,
-            "department":finalReportData.departmentName,
-            "dateTime":"2016-03-29 16:48:01",
-            "statusID":"1", //open report id (for all new reports)
-            "actionTaken":""
-        ]
-        
-        let boundary = "Boundary-\(NSUUID().UUIDString)"
-        
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        
-        //let imageData = UIImageJPEGRepresentation(finalReportData.image, 1)
-        let imageData = UIImagePNGRepresentation(finalReportData.image)
-        
-        //no image, return
-        if(imageData==nil)  { return; }
-        
-        request.HTTPBody = createBodyWithParameters(param, filePathKey: "photo", imageDataKey: imageData!, boundary: boundary)
-        
-        
-        
-        //myActivityIndicator.startAnimating();
-        
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
-            data, response, error in
+    func addToDatabase() {
+        //-------- VALIDATION --------
+        if ((designSelection == "Other" && designTextField.text == "")
+            || (nameField.text == "")
+            || (usernameField.text == "")
+            ){
+            let alertController = UIAlertController(title: "Invalid Input", message: "Missing Required Fields", preferredStyle: .Alert)
             
-            print("Task completed")
-            if let data = data {
-                do {
-                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
-                        dispatch_async(dispatch_get_main_queue(), {
-                            print(jsonResult)
-                            self.activityIndicator.stopAnimating()
-                            self.presentThankYou()
-                        })
-                    } //if let jsonResult
-                } catch let error as NSError {
-                    print(error.localizedDescription)
-                }
-            } else if let error = error {
-                print(error.localizedDescription)
-            }
+            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+            alertController.addAction(OKAction)
+            
+            self.presentViewController(alertController, animated: true) {}
+            
+            return
         }
         
-        task.resume()
-
-    }//func
-
-    //------------------------ HELPER METHODS ------------------------
- 
-    func addToDatabase() {
         //animate until uploaded
         activityIndicator.startAnimating()
         
@@ -286,7 +226,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "username":finalReportData.username,
             "phone":finalReportData.phoneNum,
             "department":finalReportData.departmentName,
-            "dateTime":"2016-03-29 16:48:01",
+            "dateTime":self.getDateTimeString(),
             "statusID":"1", //open report id (for all new reports)
             "actionTaken":""
         ]
@@ -316,6 +256,74 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }//request
     }//func
     
+    func uploadPhoto(){
+        print("photo upload")
+        
+        let myUrl = NSURL(string: "https://people.cs.clemson.edu/~jacksod/api/v1/reports/\(finalReportData.remoteID)/photo");
+        
+        let request = NSMutableURLRequest(URL:myUrl!);
+        request.HTTPMethod = "POST";
+        
+        let param = [
+            "description":finalReportData.incidentDesc,
+            "involvementKind":finalReportData.involveKind,
+            "reportKind":finalReportData.reportKind,
+            "buildingName":finalReportData.buildingName,
+            "room":finalReportData.roomNum,
+            "personKind":finalReportData.designation,
+            "name":finalReportData.name,
+            "username":finalReportData.username,
+            "phone":finalReportData.phoneNum,
+            "department":finalReportData.departmentName,
+            "dateTime":self.getDateTimeString(),
+            "statusID":"1", //open report id (for all new reports)
+            "actionTaken":""
+        ]
+        
+        let boundary = "Boundary-\(NSUUID().UUIDString)"
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        //let imageData = UIImageJPEGRepresentation(finalReportData.image, 1)
+        let imageData = UIImagePNGRepresentation(finalReportData.image)
+        
+        //no image, return
+        if(imageData==nil)  { return; }
+        
+        request.HTTPBody = createBodyWithParameters(param, filePathKey: "photo", imageDataKey: imageData!, boundary: boundary)
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            
+            print("Task completed")
+            if let data = data {
+                do {
+                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            print(jsonResult)
+                            self.activityIndicator.stopAnimating()
+                            self.presentThankYou()
+                        })
+                    } //if let jsonResult
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
+    }//func
+
+    //------------------------ HELPER METHODS ------------------------
+    
+    //popup window that appears after submission
+    func presentThankYou() {
+        let alert = UIAlertController(title: "Thank You!", message: "Thank you for submitting a Nice Catch! report. The Research Safety office will review your report.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: NSData, boundary: String) -> NSData {
         let body = NSMutableData();
         
@@ -337,12 +345,19 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         body.appendData(imageDataKey)
         body.appendString("\r\n")
         
-        
-        
         body.appendString("--\(boundary)--\r\n")
         
         return body
     }//func
+    
+    func getDateTimeString() -> String{
+        let now = NSDate()
+        
+        let dayTimePeriodFormatter = NSDateFormatter()
+        dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        
+        return dayTimePeriodFormatter.stringFromDate(now)
+    }
 }
 
 extension NSMutableData {

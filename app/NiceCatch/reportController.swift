@@ -250,4 +250,25 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
             return 30.0
         }
     }
+    
+    //---------------- VALIDATION ----------------
+    //determine whether to block segue or not
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        if (incidentView.text.isEmpty
+            || (reportSelection == "Other" && reportTextBox.text == "")
+            || (involveSelection == "Other" && involveTextBox.text == "")
+            ){
+            let alertController = UIAlertController(title: "Invalid Input", message: "All fields must be filled", preferredStyle: .Alert)
+            
+            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+            alertController.addAction(OKAction)
+            
+            self.presentViewController(alertController, animated: true) {}
+            
+            return false
+        }
+        
+        // by default, transition
+        return true
+    }
 }

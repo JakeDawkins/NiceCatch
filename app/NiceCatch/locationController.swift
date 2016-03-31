@@ -272,4 +272,25 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         finalReportData.time = deliveryTime
     }
 
+    //---------------- VALIDATION ----------------
+    //determine whether to block segue or not
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        if ((buildingSearch.text == "")
+            || (departmentSearch.text == "")
+            ){
+            let alertController = UIAlertController(title: "Invalid Input", message: "You must select a building and Department", preferredStyle: .Alert)
+            
+            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+            alertController.addAction(OKAction)
+            
+            self.presentViewController(alertController, animated: true) {}
+            
+            return false
+        }
+        
+        // by default, transition
+        return true
+    }
+
+    
 }

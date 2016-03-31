@@ -13,10 +13,6 @@ import Alamofire
 
 class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
-    var reportData: Array<String> = []
-    var involveData: Array<String> = []
-    var jsonArray:NSMutableArray?
-
     @IBOutlet weak var reportPicker: UIPickerView!
     @IBOutlet weak var involvePicker: UIPickerView!
     
@@ -49,42 +45,55 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
         
-        //-------- LOAD REPORT KINDS FROM DB --------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/reportKinds").responseJSON { response in
-            if let JSON = response.result.value {
-                self.jsonArray = JSON["data"] as? NSMutableArray
-                if(self.jsonArray != nil){
-                    for item in self.jsonArray! {
-                        let string = item["reportKind"]!
-                        self.reportData.append(string! as! String)
-                    }
-                }
-                //print("reportData array is \(self.reportData)")
-            }
-            //update the picker
-            self.reportPicker.reloadAllComponents()
+        //not loaded. load manually and refresh
+        if(preloadedData.reportKinds.count == 0){
+            self.loadReportKinds()
         }
         
-        //-------- LOAD INVOLVEMENT NAMES FROM DB --------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/involvements").responseJSON { response in
-            if let JSON = response.result.value {
-                self.jsonArray = JSON["data"] as? NSMutableArray
-                if(self.jsonArray != nil){
-                    for item in self.jsonArray! {
-                        let string = item["involvementKind"]!
-                        self.involveData.append(string! as! String)
-                    }
-                }
-                //print("involveData array is \(self.involveData)")
-            }
-            //update the picker
-            self.involvePicker.reloadAllComponents()
+        //not loaded. load manually and refresh
+        if(preloadedData.involvementKinds.count == 0){
+            self.loadInvolvementKinds()
         }
     }//end viewDidLoad
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //------------------------ DATA LOADING ------------------------
+    func loadReportKinds(){
+        Alamofire.request(.GET, "https://people.cs.clemson.edu/~jacksod/api/v1/reportKinds").responseJSON { response in
+            if let JSON = response.result.value {
+                let jsonArray = JSON["data"] as? NSMutableArray
+                if(jsonArray != nil){
+                    for item in jsonArray! {
+                        let string = item["reportKind"]!
+                        preloadedData.reportKinds.append(string! as! String)
+                    }
+                }
+                print("reportKinds array is \(preloadedData.reportKinds)")
+            }
+            //update the picker
+            self.reportPicker.reloadAllComponents()
+        }
+    }
+    
+    func loadInvolvementKinds(){
+        Alamofire.request(.GET, "https://people.cs.clemson.edu/~jacksod/api/v1/involvements").responseJSON { response in
+            if let JSON = response.result.value {
+                let jsonArray = JSON["data"] as? NSMutableArray
+                if(jsonArray != nil){
+                    for item in jsonArray! {
+                        let string = item["involvementKind"]!
+                        preloadedData.involvementKinds.append(string! as! String)
+                    }
+                }
+                print("involvementKinds array is \(preloadedData.involvementKinds)")
+            }
+            //update the picker
+            self.involvePicker.reloadAllComponents()
+        }
     }
     
     //------------------------ KEYBOARD METHODS ------------------------
@@ -150,7 +159,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
             finalReportData.reportKind = reportTextBox.text!
         } else {
             if reportSelection == "" {
-                reportSelection = reportData[0]
+                reportSelection = preloadedData.reportKinds[0]
             }
             finalReportData.reportKind = reportSelection
         }
@@ -158,7 +167,7 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
             finalReportData.involveKind = involveTextBox.text!
         } else {
             if involveSelection == "" {
-                involveSelection = involveData[0]
+                involveSelection = preloadedData.involvementKinds[0]
             }
             finalReportData.involveKind = involveSelection
         }
@@ -177,18 +186,18 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     //determines how many rows of data are in the picker
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == reportPicker {
-            return reportData.count
+            return preloadedData.reportKinds.count
         } else {
-            return involveData.count
+            return preloadedData.involvementKinds.count
         }
     }
     
     //populates picker, depending on which picker view calls the method
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == reportPicker {
-            return reportData[row]
+            return preloadedData.reportKinds[row]
         } else {
-            return involveData[row]
+            return preloadedData.involvementKinds[row]
         }
     }
     
@@ -197,19 +206,19 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
     var involveSelection: String = ""
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == reportPicker {
-            if reportData[row] == "Other" {
+            if preloadedData.reportKinds[row] == "Other" {
                 reportTextBox.hidden = false
             } else {
                 reportTextBox.hidden = true
             }
-            reportSelection = reportData[row]
+            reportSelection = preloadedData.reportKinds[row]
         } else {
-            if involveData[row] == "Other" {
+            if preloadedData.involvementKinds[row] == "Other" {
                 involveTextBox.hidden = false
             } else {
                 involveTextBox.hidden = true
             }
-            involveSelection = involveData[row]
+            involveSelection = preloadedData.involvementKinds[row]
         }
     }
     
@@ -217,9 +226,9 @@ class reportController: UIViewController, UIPickerViewDataSource, UIPickerViewDe
         let pickerLabel = UILabel()
         var titleData:String
         if pickerView == reportPicker {
-            titleData = reportData[row]
+            titleData = preloadedData.reportKinds[row]
         } else {
-            titleData = involveData[row]
+            titleData = preloadedData.involvementKinds[row]
         }
         if (self.view.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.Regular) {
             let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 36.0)!,NSForegroundColorAttributeName:UIColor.blackColor()])

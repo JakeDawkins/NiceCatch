@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E64a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Efe-Wd-Trm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Efe-Wd-Trm">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -969,7 +969,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     <rect key="frame" x="93" y="377" width="196" height="30"/>
                                 </variation>
                             </textField>
-                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="749" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Iqy-t2-7Yc">
+                            <pickerView contentMode="scaleToFill" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="Iqy-t2-7Yc">
                                 <rect key="frame" x="129" y="265" width="290" height="81"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="81" id="O7Z-3x-xH2"/>
@@ -1082,6 +1082,9 @@ Please share your experiences with us so that we may continue to improve the saf
                                     <rect key="frame" x="188" y="569" width="175" height="30"/>
                                 </variation>
                             </textField>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="y4p-t0-izj">
+                                <rect key="frame" x="290" y="133" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -1095,6 +1098,7 @@ Please share your experiences with us so that we may continue to improve the saf
                             <constraint firstItem="FWO-9A-tzv" firstAttribute="top" secondItem="Wc0-fS-uA7" secondAttribute="bottom" constant="78" id="EOF-e5-BFY"/>
                             <constraint firstItem="fMN-hY-J7L" firstAttribute="leading" secondItem="s7g-ky-7zt" secondAttribute="trailing" constant="97" id="EoL-Ih-g4w"/>
                             <constraint firstAttribute="leadingMargin" secondItem="s7g-ky-7zt" secondAttribute="leading" id="HY0-Wx-3Ep"/>
+                            <constraint firstItem="y4p-t0-izj" firstAttribute="centerX" secondItem="EMJ-cR-orn" secondAttribute="centerX" id="IMU-GL-FPK"/>
                             <constraint firstItem="Wc0-fS-uA7" firstAttribute="top" secondItem="s7g-ky-7zt" secondAttribute="bottom" constant="18" id="KME-wX-aCC"/>
                             <constraint firstItem="B48-Cb-mLt" firstAttribute="trailing" secondItem="Iqy-t2-7Yc" secondAttribute="trailing" constant="-19" id="SWk-o4-qn0"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Wc0-fS-uA7" secondAttribute="leading" id="WNz-bF-JVy"/>
@@ -1107,6 +1111,7 @@ Please share your experiences with us so that we may continue to improve the saf
                             <constraint firstItem="FWO-9A-tzv" firstAttribute="top" secondItem="B48-Cb-mLt" secondAttribute="bottom" constant="8" id="eOl-HH-cHc"/>
                             <constraint firstAttribute="leadingMargin" secondItem="yOT-0X-6VE" secondAttribute="leading" id="fcc-Mj-IYQ"/>
                             <constraint firstItem="jqZ-tP-CNT" firstAttribute="top" secondItem="Iqy-t2-7Yc" secondAttribute="bottom" constant="8" id="fl5-HB-jpH"/>
+                            <constraint firstItem="y4p-t0-izj" firstAttribute="centerY" secondItem="EMJ-cR-orn" secondAttribute="centerY" id="hvp-kH-paz"/>
                             <constraint firstAttribute="leadingMargin" secondItem="nyF-bH-eg1" secondAttribute="leading" id="k5C-bm-JmO"/>
                             <constraint firstItem="Dun-gg-EXh" firstAttribute="top" secondItem="EMJ-cR-orn" secondAttribute="bottom" constant="8" id="kfT-bl-UZk"/>
                             <constraint firstAttribute="leadingMargin" secondItem="EMJ-cR-orn" secondAttribute="leading" id="nWm-lL-Plb"/>
@@ -1120,6 +1125,7 @@ Please share your experiences with us so that we may continue to improve the saf
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="y4p-t0-izj" id="2Tm-n0-Bn9"/>
                         <outlet property="designPicker" destination="Iqy-t2-7Yc" id="1VV-eK-bMN"/>
                         <outlet property="designTextField" destination="jqZ-tP-CNT" id="Lka-2m-Viu"/>
                         <outlet property="myImageView" destination="EMJ-cR-orn" id="4hG-dQ-qQ5"/>

@@ -14,16 +14,13 @@ import SwiftyJSON
 
 class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var designTextField: UITextField!
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var phoneNumField: UITextField!
     
     @IBOutlet weak var designPicker: UIPickerView!
-    
-    var designData:Array<String> = []
-    var jsonArray:NSMutableArray?
-    
     
     //------------------------ UI METHODS ------------------------
     
@@ -46,20 +43,12 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         center.addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
-        //------------------------ LOAD DESIGNATION NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/personKinds").responseJSON { response in
-            if let JSON = response.result.value {
-                self.jsonArray = JSON["data"] as? NSMutableArray
-                if(self.jsonArray != nil){
-                    for item in self.jsonArray! {
-                        let string = item["personKind"]!
-                        self.designData.append(string! as! String)
-                    }
-                }
-                //print("BuildingNames array is \(self.campusBuildingNames)")
-                self.designPicker.reloadAllComponents()
-            }
+        //not loaded. load manually
+        if(preloadedData.personKinds.count == 0){
+            self.loadPersonKinds()
         }
+        
+        activityIndicator.stopAnimating()
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,6 +59,23 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    //------------------------ DATA LOADING ------------------------
+    func loadPersonKinds(){
+        Alamofire.request(.GET, "https://people.cs.clemson.edu/~jacksod/api/v1/personKinds").responseJSON { response in
+            if let JSON = response.result.value {
+                let jsonArray = JSON["data"] as? NSMutableArray
+                if(jsonArray != nil){
+                    for item in jsonArray! {
+                        let string = item["personKind"]!
+                        preloadedData.personKinds.append(string! as! String)
+                    }
+                }
+                print("personKinds array is \(preloadedData.personKinds)")
+                self.designPicker.reloadAllComponents()
+            }
+        }
     }
     
     //Images
@@ -142,23 +148,23 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return designData.count
+        return preloadedData.personKinds.count
     }
     
     //MARK: Delegates
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return designData[row]
+        return preloadedData.personKinds[row]
     }
     
     var designSelection: String = ""
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if designData[row] == "Other" {
+        if preloadedData.personKinds[row] == "Other" {
             designTextField.hidden = false;
         } else {
             designTextField.hidden = true;
         }
-        designSelection = designData[row]
+        designSelection = preloadedData.personKinds[row]
     }
     
     func addPersonalInfo() {
@@ -182,7 +188,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBAction func submitClicked(sender: AnyObject) {
         self.addPersonalInfo()
         self.addToDatabase()
-        self.presentThankYou()
+        //self.presentThankYou()
     }
     
     //popup window that appears after submission
@@ -195,7 +201,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     func uploadPhoto(){
         print("photo upload")
         
-        let myUrl = NSURL(string: "https://http://people.cs.clemson.edu/~jacksod/api/v1/report/\(finalReportData.remoteID)/photo");
+        let myUrl = NSURL(string: "https://people.cs.clemson.edu/~jacksod/api/v1/reports/\(finalReportData.remoteID)/photo");
         
         let request = NSMutableURLRequest(URL:myUrl!);
         request.HTTPMethod = "POST";
@@ -242,6 +248,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                     if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
                         dispatch_async(dispatch_get_main_queue(), {
                             print(jsonResult)
+                            self.activityIndicator.stopAnimating()
+                            self.presentThankYou()
                         })
                     } //if let jsonResult
                 } catch let error as NSError {
@@ -250,49 +258,23 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             } else if let error = error {
                 print(error.localizedDescription)
             }
-            /*
-            if error != nil {
-                print("error=\(error)")
-                return
-            }
-            
-            // You can print out response object
-            print("******* response = \(response)")
-            
-            // Print out reponse body
-            let responseString = NSString(data: data!, encoding: NSUTF8StringEncoding)
-            print("****** response data = \(responseString!)")
-            
-            do {
-                var json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as? NSDictionary
-            } catch error as NSError {
-                 print(error.localizedDescription)
-            }
-            
-            
-            
-            dispatch_async(dispatch_get_main_queue(),{
-                //self.myActivityIndicator.stopAnimating()
-                //self.myImageView.image = nil;
-            });
-            
-            print(json)*/
-            /*
-             if let parseJSON = json {
-             var firstNameValue = parseJSON["firstName"] as? String
-             println("firstNameValue: \(firstNameValue)")
-             }
-             */
         }
         
         task.resume()
 
     }//func
-    
 
     //------------------------ HELPER METHODS ------------------------
-    
+ 
     func addToDatabase() {
+        //animate until uploaded
+        activityIndicator.startAnimating()
+        
+        //there is an image to upload.
+        if(myImageView.image != nil){
+            myImageView.alpha = 0.5
+        }
+        
         let params = [
             "description":finalReportData.incidentDesc,
             "involvementKind":finalReportData.involveKind,
@@ -309,7 +291,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "actionTaken":""
         ]
         
-        Alamofire.request(.POST, "http://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
+        Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
             if let _ = response.result.value {
                 let json = JSON(data: response.data!)
                 //print(json)
@@ -320,7 +302,12 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 if let remoteID = Int(jsonData["id"].stringValue){
                     print("remote id: \(remoteID)")
                     finalReportData.remoteID = remoteID
-                    self.uploadPhoto()
+                    if(self.myImageView.image != nil){
+                        self.uploadPhoto()
+                    } else {
+                        self.activityIndicator.stopAnimating()
+                        self.presentThankYou()
+                    }
                 } else {
                     print("error getting remote ID")
                     return

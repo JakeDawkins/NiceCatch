@@ -12,6 +12,7 @@ class mainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearData()
         preload() //load the pickers for the next views
         definesPresentationContext = true
         // Do any additional setup after loading the view, typically from a nib.
@@ -25,8 +26,9 @@ class mainViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if MyVariables.isSubmitted {
-            presentThankYou()
             //clearData()
+            //preload()
+            //presentThankYou()
             MyVariables.isSubmitted = false
         }
     }
@@ -36,21 +38,10 @@ class mainViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
-    func clearData() {
-        finalReportData.reportKind = ""
-        finalReportData.involveKind = ""
-        finalReportData.incidentDesc = ""
-        finalReportData.image = UIImage()
-        finalReportData.departmentName = ""
-        finalReportData.buildingName = ""
-        finalReportData.roomNum = ""
-        finalReportData.time = ""
-        finalReportData.designation = ""
-        finalReportData.name = ""
-        finalReportData.username = ""
-        finalReportData.phoneNum = ""
-        finalReportData.remoteID = -1
+
+    //BUG REPORTING
+    @IBAction func didTapGoogle(sender: AnyObject) {
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://www.google.com")!)
     }
     
 }

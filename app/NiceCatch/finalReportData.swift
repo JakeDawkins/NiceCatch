@@ -34,6 +34,28 @@ struct preloadedData {
     static var personKinds: [String] = []
 }
 
+
+func clearData() {
+    finalReportData.reportKind = ""
+    finalReportData.involveKind = ""
+    finalReportData.incidentDesc = ""
+    finalReportData.image = UIImage()
+    finalReportData.departmentName = ""
+    finalReportData.buildingName = ""
+    finalReportData.roomNum = ""
+    finalReportData.time = ""
+    finalReportData.designation = ""
+    finalReportData.name = ""
+    finalReportData.username = ""
+    finalReportData.phoneNum = ""
+    
+    preloadedData.involvementKinds = []
+    preloadedData.reportKinds = []
+    preloadedData.buildingNames = []
+    preloadedData.departmentNames = []
+    preloadedData.personKinds = []
+}
+
 func preload(){
     //-------- LOAD INVOLVEMENT NAMES FROM DB --------
     Alamofire.request(.GET, "https://people.cs.clemson.edu/~jacksod/api/v1/involvements").responseJSON { response in

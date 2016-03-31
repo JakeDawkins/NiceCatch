@@ -63,6 +63,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
         
         activityIndicator.stopAnimating()
+        
+        loadUserDefaults()
     }
     
     override func didReceiveMemoryWarning() {
@@ -84,6 +86,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                     for item in jsonArray! {
                         let string = item["personKind"]!
                         preloadedData.personKinds.append(string! as! String)
+                        self.loadUserDefaults()
                     }
                 }
                 print("personKinds array is \(preloadedData.personKinds)")
@@ -224,18 +227,19 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     //This submits the form and calls method to save to DB
     @IBAction func submitClicked(sender: AnyObject) {
         MyVariables.isSubmitted = true
+        self.saveUserDefaults()
         self.addPersonalInfo()
         self.addToDatabase()
     }
     
-    //------------------------ HELPER METHODS ------------------------
+    //------------------------ REMOTE DB METHODS ------------------------
     
     func addToDatabase() {
+        //reset remote id
+        finalReportData.remoteID = -1
+        
         //-------- VALIDATION --------
-        if ((designSelection == "Other" && designTextField.text == "")
-            || (nameField.text == "")
-            || (usernameField.text == "")
-            ){
+        if(!fieldsAreValid()){
             let alertController = UIAlertController(title: "Invalid Input", message: "Missing Required Fields", preferredStyle: .Alert)
             
             let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
@@ -359,7 +363,9 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     //popup window that appears after submission
     func presentThankYou() {
         let alert = UIAlertController(title: "Thank You!", message: "Thank you for submitting a Nice Catch! report. The Research Safety office will review your report.", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
@@ -396,6 +402,53 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
         
         return dayTimePeriodFormatter.stringFromDate(now)
+    }
+    
+    //---------------- VALIDATION ----------------
+    func fieldsAreValid() -> Bool {
+        if ((designSelection == "Other" && designTextField.text == "")
+            || (nameField.text == "")
+            || (usernameField.text == "")
+            ){
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    //determine whether to block segue or not
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
+        return fieldsAreValid()
+    }
+    
+    func loadUserDefaults(){
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let defaultFullName = defaults.stringForKey("reportUserFullName"){
+            nameField.text = defaultFullName
+        }
+        if let defaultUserUsername = defaults.stringForKey("reportUserUsername"){
+            usernameField.text = defaultUserUsername
+        }
+        if let defaultUserPhone = defaults.stringForKey("reportUserPhone"){
+            phoneNumField.text = defaultUserPhone
+        }
+        if let defaultUserDesignationPicker = defaults.stringForKey("reportUserDesignationPicker"){
+            if let pickerIndex = preloadedData.personKinds.indexOf(defaultUserDesignationPicker){
+                designPicker.selectRow(pickerIndex, inComponent: 0, animated: true)
+            }
+        }
+        if let defaultUserDesignationTextField = defaults.stringForKey("reportUserDesignationTextField"){
+            designTextField.text = defaultUserDesignationTextField
+        }
+    }
+    
+    func saveUserDefaults(){
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(nameField.text, forKey: "reportUserFullName")
+        defaults.setObject(usernameField.text, forKey: "reportUserUsername")
+        defaults.setObject(phoneNumField.text, forKey: "reportUserPhone")
+        defaults.setObject(designSelection, forKey: "reportUserDesignationPicker")
+        defaults.setObject(designTextField.text, forKey: "reportUserDesignationTextField")
     }
 }
 

@@ -1434,7 +1434,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                             </textField>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-SB-MJL">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-SB-MJL">
                                 <rect key="frame" x="290" y="111" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>

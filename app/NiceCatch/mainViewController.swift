@@ -12,6 +12,7 @@ class mainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        preload() //load the pickers for the next views
         definesPresentationContext = true
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -25,7 +26,7 @@ class mainViewController: UIViewController {
         super.viewDidAppear(animated)
         if MyVariables.isSubmitted {
             presentThankYou()
-            clearData()
+            //clearData()
             MyVariables.isSubmitted = false
         }
     }
@@ -49,6 +50,7 @@ class mainViewController: UIViewController {
         finalReportData.name = ""
         finalReportData.username = ""
         finalReportData.phoneNum = ""
+        finalReportData.remoteID = -1
     }
     
 }

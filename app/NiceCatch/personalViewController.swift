@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 import Alamofire
+import SwiftyJSON
 
 struct MyVariables {
     static var isSubmitted = false
@@ -17,15 +18,14 @@ struct MyVariables {
 
 class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var designTextField: UITextField!
     @IBOutlet weak var nameField: UITextField!
     
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var phoneNumField: UITextField!
     @IBOutlet weak var designPicker: UIPickerView!
-    
-    var designData:Array<String> = []
-    var jsonArray:NSMutableArray?
     
     //------------------------ UI METHODS ------------------------
     
@@ -57,20 +57,12 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         center.addObserver(self, selector: #selector(personalViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         center.addObserver(self, selector: #selector(personalViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         
-        //------------------------ LOAD DESIGNATION NAMES FROM DB ------------------------
-        Alamofire.request(.GET, "http://people.cs.clemson.edu/~jacksod/api/v1/personKinds").responseJSON { response in
-            if let JSON = response.result.value {
-                self.jsonArray = JSON["data"] as? NSMutableArray
-                if(self.jsonArray != nil){
-                    for item in self.jsonArray! {
-                        let string = item["personKind"]!
-                        self.designData.append(string! as! String)
-                    }
-                }
-                //print("BuildingNames array is \(self.campusBuildingNames)")
-                self.designPicker.reloadAllComponents()
-            }
+        //not loaded. load manually
+        if(preloadedData.personKinds.count == 0){
+            self.loadPersonKinds()
         }
+        
+        activityIndicator.stopAnimating()
     }
     
     override func didReceiveMemoryWarning() {
@@ -81,6 +73,23 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    //------------------------ DATA LOADING ------------------------
+    func loadPersonKinds(){
+        Alamofire.request(.GET, "https://people.cs.clemson.edu/~jacksod/api/v1/personKinds").responseJSON { response in
+            if let JSON = response.result.value {
+                let jsonArray = JSON["data"] as? NSMutableArray
+                if(jsonArray != nil){
+                    for item in jsonArray! {
+                        let string = item["personKind"]!
+                        preloadedData.personKinds.append(string! as! String)
+                    }
+                }
+                print("personKinds array is \(preloadedData.personKinds)")
+                self.designPicker.reloadAllComponents()
+            }
+        }
     }
     
     //Images
@@ -153,28 +162,28 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return designData.count
+        return preloadedData.personKinds.count
     }
     
     //MARK: Delegates
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return designData[row]
+        return preloadedData.personKinds[row]
     }
     
     var designSelection: String = ""
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if designData[row] == "Other" {
+        if preloadedData.personKinds[row] == "Other" {
             designTextField.hidden = false;
         } else {
             designTextField.hidden = true;
         }
-        designSelection = designData[row]
+        designSelection = preloadedData.personKinds[row]
     }
     
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
         let pickerLabel = UILabel()
-        let titleData = designData[row]
+        let titleData = preloadedData.personKinds[row]
         if (self.view.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClass.Regular) {
             let myTitle = NSAttributedString(string: titleData, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 36.0)!,NSForegroundColorAttributeName:UIColor.blackColor()])
             pickerLabel.attributedText = myTitle
@@ -222,6 +231,29 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     //------------------------ HELPER METHODS ------------------------
     
     func addToDatabase() {
+        //-------- VALIDATION --------
+        if ((designSelection == "Other" && designTextField.text == "")
+            || (nameField.text == "")
+            || (usernameField.text == "")
+            ){
+            let alertController = UIAlertController(title: "Invalid Input", message: "Missing Required Fields", preferredStyle: .Alert)
+            
+            let OKAction = UIAlertAction(title: "OK", style: .Default) { (action) in }
+            alertController.addAction(OKAction)
+            
+            self.presentViewController(alertController, animated: true) {}
+            
+            return
+        }
+        
+        //animate until uploaded
+        activityIndicator.startAnimating()
+        
+        //there is an image to upload.
+        if(myImageView.image != nil){
+            myImageView.alpha = 0.5
+        }
+        
         let params = [
             "description":finalReportData.incidentDesc,
             "involvementKind":finalReportData.involveKind,
@@ -233,15 +265,144 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "username":finalReportData.username,
             "phone":finalReportData.phoneNum,
             "department":finalReportData.departmentName,
-            "dateTime":"2016-02-25 11:13:01",
+            "dateTime":self.getDateTimeString(),
             "statusID":"1", //open report id (for all new reports)
             "actionTaken":""
         ]
         
-        Alamofire.request(.POST, "http://people.cs.clemson.edu/~jacksod/api/?controller=report", parameters: params).responseJSON { response in
-            if let JSON = response.result.value {
-                print(JSON)
+        Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
+            if let _ = response.result.value {
+                let json = JSON(data: response.data!)
+                //print(json)
+                
+                let jsonData = json["data"]
+                //print(jsonData)
+                
+                if let remoteID = Int(jsonData["id"].stringValue){
+                    print("remote id: \(remoteID)")
+                    finalReportData.remoteID = remoteID
+                    if(self.myImageView.image != nil){
+                        self.uploadPhoto()
+                    } else {
+                        self.activityIndicator.stopAnimating()
+                        self.presentThankYou()
+                    }
+                } else {
+                    print("error getting remote ID")
+                    return
+                }
+            }//if let _
+        }//request
+    }//func
+    
+    func uploadPhoto(){
+        print("photo upload")
+        
+        let myUrl = NSURL(string: "https://people.cs.clemson.edu/~jacksod/api/v1/reports/\(finalReportData.remoteID)/photo");
+        
+        let request = NSMutableURLRequest(URL:myUrl!);
+        request.HTTPMethod = "POST";
+        
+        let param = [
+            "description":finalReportData.incidentDesc,
+            "involvementKind":finalReportData.involveKind,
+            "reportKind":finalReportData.reportKind,
+            "buildingName":finalReportData.buildingName,
+            "room":finalReportData.roomNum,
+            "personKind":finalReportData.designation,
+            "name":finalReportData.name,
+            "username":finalReportData.username,
+            "phone":finalReportData.phoneNum,
+            "department":finalReportData.departmentName,
+            "dateTime":self.getDateTimeString(),
+            "statusID":"1", //open report id (for all new reports)
+            "actionTaken":""
+        ]
+        
+        let boundary = "Boundary-\(NSUUID().UUIDString)"
+        
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        //let imageData = UIImageJPEGRepresentation(finalReportData.image, 1)
+        let imageData = UIImagePNGRepresentation(finalReportData.image)
+        
+        //no image, return
+        if(imageData==nil)  { return; }
+        
+        request.HTTPBody = createBodyWithParameters(param, filePathKey: "photo", imageDataKey: imageData!, boundary: boundary)
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {
+            data, response, error in
+            
+            print("Task completed")
+            if let data = data {
+                do {
+                    if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
+                        dispatch_async(dispatch_get_main_queue(), {
+                            print(jsonResult)
+                            self.activityIndicator.stopAnimating()
+                            self.presentThankYou()
+                        })
+                    } //if let jsonResult
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            } else if let error = error {
+                print(error.localizedDescription)
             }
         }
+        task.resume()
+    }//func
+    
+    //------------------------ HELPER METHODS ------------------------
+    
+    //popup window that appears after submission
+    func presentThankYou() {
+        let alert = UIAlertController(title: "Thank You!", message: "Thank you for submitting a Nice Catch! report. The Research Safety office will review your report.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func createBodyWithParameters(parameters: [String: String]?, filePathKey: String?, imageDataKey: NSData, boundary: String) -> NSData {
+        let body = NSMutableData();
+        
+        if parameters != nil {
+            for (key, value) in parameters! {
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                body.appendString("\(value)\r\n")
+            }
+        }
+        
+        let filename = "report-image.png"
+        
+        let mimetype = "image/png"
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"\(filePathKey!)\"; filename=\"\(filename)\"\r\n")
+        body.appendString("Content-Type: \(mimetype)\r\n\r\n")
+        body.appendData(imageDataKey)
+        body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)--\r\n")
+        
+        return body
+    }//func
+    
+    func getDateTimeString() -> String{
+        let now = NSDate()
+        
+        let dayTimePeriodFormatter = NSDateFormatter()
+        dayTimePeriodFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        
+        return dayTimePeriodFormatter.stringFromDate(now)
+    }
+}
+
+extension NSMutableData {
+    
+    func appendString(string: String) {
+        let data = string.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        appendData(data!)
     }
 }

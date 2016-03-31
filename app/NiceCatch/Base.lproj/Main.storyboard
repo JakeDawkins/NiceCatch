@@ -1434,6 +1434,9 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                             </textField>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-SB-MJL">
+                                <rect key="frame" x="290" y="111" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -1454,6 +1457,7 @@ Please share your experiences with us so that we may continue to improve the saf
                             <constraint firstItem="FWO-9A-tzv" firstAttribute="top" secondItem="Wc0-fS-uA7" secondAttribute="bottom" constant="78" id="EOF-e5-BFY"/>
                             <constraint firstItem="fMN-hY-J7L" firstAttribute="leading" secondItem="s7g-ky-7zt" secondAttribute="trailing" constant="55" id="EoL-Ih-g4w"/>
                             <constraint firstAttribute="leadingMargin" secondItem="flV-Dp-vI3" secondAttribute="leading" id="FMz-1D-ekF"/>
+                            <constraint firstItem="obZ-SB-MJL" firstAttribute="centerX" secondItem="EMJ-cR-orn" secondAttribute="centerX" id="G3T-PA-4fM"/>
                             <constraint firstAttribute="leadingMargin" secondItem="s7g-ky-7zt" secondAttribute="leading" id="HY0-Wx-3Ep"/>
                             <constraint firstItem="Wc0-fS-uA7" firstAttribute="top" secondItem="s7g-ky-7zt" secondAttribute="bottom" constant="18" id="KME-wX-aCC"/>
                             <constraint firstItem="Iqy-t2-7Yc" firstAttribute="leading" secondItem="yOT-0X-6VE" secondAttribute="trailing" constant="30" id="NHn-ft-IuO"/>
@@ -1480,6 +1484,7 @@ Please share your experiences with us so that we may continue to improve the saf
                             <constraint firstAttribute="leadingMargin" secondItem="nyF-bH-eg1" secondAttribute="leading" id="k5C-bm-JmO"/>
                             <constraint firstItem="Dun-gg-EXh" firstAttribute="top" secondItem="EMJ-cR-orn" secondAttribute="bottom" constant="8" id="kfT-bl-UZk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fMN-hY-J7L" secondAttribute="trailing" id="mCd-mx-sdv"/>
+                            <constraint firstItem="obZ-SB-MJL" firstAttribute="centerY" secondItem="EMJ-cR-orn" secondAttribute="centerY" id="mSW-1x-zBF"/>
                             <constraint firstAttribute="leadingMargin" secondItem="EMJ-cR-orn" secondAttribute="leading" id="nWm-lL-Plb"/>
                             <constraint firstItem="EMJ-cR-orn" firstAttribute="top" secondItem="hoE-vI-tFI" secondAttribute="bottom" constant="8" id="o50-Y0-qDz"/>
                             <constraint firstItem="FWO-9A-tzv" firstAttribute="top" secondItem="B48-Cb-mLt" secondAttribute="bottom" constant="8" id="pJ3-QB-VBO">
@@ -1567,6 +1572,7 @@ Please share your experiences with us so that we may continue to improve the saf
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="obZ-SB-MJL" id="ROR-Av-hTi"/>
                         <outlet property="designPicker" destination="Iqy-t2-7Yc" id="1VV-eK-bMN"/>
                         <outlet property="designTextField" destination="jqZ-tP-CNT" id="Lka-2m-Viu"/>
                         <outlet property="myImageView" destination="EMJ-cR-orn" id="4hG-dQ-qQ5"/>

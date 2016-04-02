@@ -41,7 +41,7 @@ class mainViewController: UIViewController {
 
     //BUG REPORTING
     @IBAction func didTapGoogle(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: "https://www.google.com")!)
+        UIApplication.sharedApplication().openURL(NSURL(string: "https://people.cs.clemson.edu/~jacksod/feedback.php")!)
     }
     
 }

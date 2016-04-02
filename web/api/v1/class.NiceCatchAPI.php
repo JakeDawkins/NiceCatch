@@ -155,7 +155,10 @@ class NiceCatchAPI extends API {
 
     //handler for API call to the reports collection
     private function reportsCollection(){
-        if($this->method == 'POST'){
+        if($this->method == 'GET'){
+            //return list of reports
+            return $this->reportsGet();
+        } else if($this->method == 'POST'){
             if(!$this->requestFieldsSubmitted(["description","involvementKind","reportKind","buildingName","personKind","username","name","phone","department","dateTime","statusID","actionTaken"]))
                 $this->response['message'] = "error: missing report information";
                 $this->response['code'] = 400;
@@ -165,6 +168,25 @@ class NiceCatchAPI extends API {
             $this->response['code'] = 405;
         }
     }
+
+    //return a list of reports, filtered by filter arg
+    private function reportsGet(){
+        if(!isset($this->request['filter'])){
+            return getReports(null);
+        } else {
+            switch($this->request['filter']){
+                case 'new':
+                    return getReports(1);
+                case 'closed':
+                    return getReports(2);
+                case 'all':
+                    return getReports(null);
+                default:
+                    $this->response['message'] = 'Incorrect filter';
+                    $this->response['code'] = 400;
+            }
+        }//else
+    }//reportsGet
 
     //------------------------ REPORT ENDPOINT (invisible) <1.6> ------------------------
 

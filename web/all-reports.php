@@ -1,6 +1,24 @@
 <?php
-	require_once(dirname(dirname(__FILE__)) . '/models/config.php');
+	require_once(dirname(__FILE__) . '/models/config.php');
 	
+	//check PIN (very simple auth)
+	if($_SERVER['REQUEST_METHOD'] == 'GET'){
+		if(isset($_GET['pin'])){
+			$pin = test_input($_GET['pin']);
+
+			$db = new Database();
+			$sql = 'SELECT pin FROM preferences WHERE id=1';
+			$results = $db->select($sql);
+			$savedPin = $results[0]['pin'];
+
+			if($pin != $savedPin) exit();
+		} else {
+			exit();
+		}
+	} else {
+		exit();
+	}
+
 	$reports = json_decode(CallAPI("GET","https://people.cs.clemson.edu/~jacksod/api/v1/reports?filter=new"), true)['data'];
 
 	//expand report location and person to show details, not just ID
@@ -22,12 +40,10 @@
 			$reports[$i]['locationRoom'] = $location->getRoom(); 
 		}
 	}
-
-	//var_dump($reports);
 ?>
 
 
-<?php include('header.php'); ?>
+<?php include('templates/header.php'); ?>
 <!-- in .container div -->
 
 <div class='row'>
@@ -44,6 +60,7 @@
 		  		<th>Description</th>
 		  		<th>Location</th>
 		  		<th>Person</th>
+		  		<th>Image</th>
 		  	</tr>
 			</thead>
 			<tbody>
@@ -60,8 +77,15 @@
 							'<td>' . 
 								$report['personName'] . '<br />' . 
 								$report['personUsername'] . ' (' . $report['personKind'] . ')<br />' . 
-								$report['personPhone'] . '</td>' .
-							'</tr>';
+								$report['personPhone'] . 
+							'</td>' .
+							'<td>';
+						if($report['photoPath'] != 'null' && $report['photoPath'] != ''){
+							echo '<a href="people.cs.clemson.edu/~jacksod/api/v1/reports/' . $report['id'] . '/photo">' . 
+								'<img src="people.cs.clemson.edu/~jacksod/api/v1/reports/' . $report['id'] . '/photo" height="50px">' . 
+								'</a>';
+						}	
+						echo '</td> </tr>';
 					}
 				}
 				?>
@@ -70,5 +94,4 @@
 	</div> <!-- end col -->
 </div> <!-- end row -->
 
-
-<?php include('footer.php'); ?>
+<?php include('templates/footer.php'); ?>

@@ -15,6 +15,13 @@ class Location {
 		return $this->buildingID;
 	}
 
+	public function getBuildingName(){
+		$db = new Database();
+		$sql = 'SELECT buildingName FROM buildings WHERE id=?';
+		$sql = $db->prepareQuery($sql, $this->buildingID);
+		$results = $db->select($sql);
+		return $results[0]['buildingName']; 
+	}
 
 	public function getRoom(){
 		return $this->room;

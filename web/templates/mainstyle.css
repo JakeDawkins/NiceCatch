@@ -1,0 +1,55 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+nav .container-fluid {
+	background-color: #F66733;
+}
+
+nav, .navbar-default {
+	background-color: #F66733;
+	background-image: none;	
+}
+
+.navbar-default .navbar-nav>li>a {
+	color: white;
+}
+
+.navbar-default .navbar-brand {
+	color: white;
+}
+
+#paw {
+	display: inline-block;
+	margin-bottom: 5px;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+	background-image: none;
+	background-color: white;
+	color: #522D80;	
+}
+
+#navbar {
+	background-color: #F66733;
+}
+
+body {
+	margin-bottom: 60px;
+	padding-top: 60px; /* for fixed nav */
+}
+
+footer {
+	height: 60px;
+	position: absolute;
+	bottom: 0;
+	background-color: #F66733;
+	color: white;
+	text-align: center;
+	width: 100%;
+	padding-top: 20px;
+}
+
+.no-left-padding {
+	padding-left: 0px !important;
+}

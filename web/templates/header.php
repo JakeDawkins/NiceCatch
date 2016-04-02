@@ -14,6 +14,9 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
+	<!-- my stylesheet -->
+	<link rel='stylesheet' href='templates/mainstyle.css' />
+
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
@@ -21,25 +24,6 @@
 	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
-	<style>
-		html {
-			position: relative;
-			min-height: 100%;
-		}
-
-		body {
-			margin-bottom: 60px;
-			padding-top: 60px; /* for fixed nav */
-		}
-
-		footer {
-			height: 60px;
-			position: absolute;
-			bottom: 0;
-		}
-
-
-	</style>
 </head>
 <body>
     <!-- Fixed navbar -->
@@ -52,10 +36,10 @@
 				    <span class="icon-bar"></span>
 				    <span class="icon-bar"></span>
 				</button>
-			  	<a class="navbar-brand" href="#">Nice Catch</a>
+			  	<a class="navbar-brand" href="#">Nice Catch <img id='paw' src='templates/tigerpaw-64.png' width='24px' /></a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
-			  	<ul class="nav navbar-nav">
+			  	<ul class="nav navbar-nav navbar-right">
 			    	<li class="active"><a href="#">All</a></li>
 			    	<li><a href="#about">New</a></li>
 			    	<li><a href="#contact">Closed</a></li>

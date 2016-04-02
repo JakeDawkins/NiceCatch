@@ -19,6 +19,14 @@ class Person {
 		return $this->personKindID;
 	}
 
+	public function getPersonKindName(){
+		$db = new Database();
+		$sql = 'SELECT personKind FROM personKinds WHERE id=?';
+		$sql = $db->prepareQuery($sql, $this->personKindID);
+		$results = $db->select($sql);
+		return $results[0]['personKind']; 
+	}
+
 	public function getUsername(){
 		return $this->username;
 	}

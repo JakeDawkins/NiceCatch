@@ -64,8 +64,14 @@ class Location {
 			$results = $db->query($sql);
 
 			//get id of location
-			$sql = "SELECT * FROM locations WHERE buildingID=? AND room=?";
-			$sql = $db->prepareQuery($sql, $this->buildingID, $this->room);
+			if(is_null($this->room) || empty($this->room)){
+				$sql = "SELECT * FROM locations WHERE buildingID=? AND room IS NULL";	
+				$sql = $db->prepareQuery($sql, $this->buildingID);
+			} else {
+				$sql = "SELECT * FROM locations WHERE buildingID=? AND room=?";	
+				$sql = $db->prepareQuery($sql, $this->buildingID, $this->room);
+			}
+			
 			$results = $db->select($sql);
 			if(isset($results[0]['id'])){
 				$this->setID($results[0]['id']);	

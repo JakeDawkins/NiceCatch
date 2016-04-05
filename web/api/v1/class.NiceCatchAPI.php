@@ -159,9 +159,10 @@ class NiceCatchAPI extends API {
             //return list of reports
             return $this->reportsGet();
         } else if($this->method == 'POST'){
-            if(!$this->requestFieldsSubmitted(["description","involvementKind","reportKind","buildingName","personKind","username","name","phone","department","dateTime","statusID","actionTaken"]))
+            if(!$this->requestFieldsSubmitted(["description","involvementKind","reportKind","buildingName","personKind","username","name","phone","department","dateTime","statusID","actionTaken"])){
                 $this->response['message'] = "error: missing report information";
                 $this->response['code'] = 400;
+            }
             return $this->reportPost();
         } else {
             $this->response['message'] = "endpoint does not recognize " . $this->method . " requests";

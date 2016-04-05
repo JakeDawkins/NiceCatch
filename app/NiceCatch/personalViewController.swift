@@ -19,6 +19,8 @@ struct MyVariables {
 class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var progressText: UILabel!
     
     @IBOutlet weak var designTextField: UITextField!
     @IBOutlet weak var nameField: UITextField!
@@ -238,6 +240,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         //reset remote id
         finalReportData.remoteID = -1
         
+        print("in add to database")
+        
         //-------- VALIDATION --------
         if(!fieldsAreValid()){
             let alertController = UIAlertController(title: "Invalid Input", message: "Missing Required Fields", preferredStyle: .Alert)
@@ -249,6 +253,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             
             return
         }
+        
+        print("past validation")
         
         //animate until uploaded
         activityIndicator.startAnimating()
@@ -274,7 +280,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "actionTaken":""
         ]
         
-        Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
+        //Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
+        Alamofire.request(.POST, "http://thrownote.com/api/v1/reports", parameters: params).responseJSON { response in
             if let _ = response.result.value {
                 let json = JSON(data: response.data!)
                 //print(json)
@@ -293,6 +300,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                     }
                 } else {
                     print("error getting remote ID")
+                    self.activityIndicator.stopAnimating()
                     return
                 }
             }//if let _
@@ -357,6 +365,18 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         }
         task.resume()
     }//func
+    
+//    //to show progress
+//    func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64)
+//    {
+//        print("didSendBodyData")
+//        let uploadProgress:Float = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
+//        
+//        progressBar.progress = uploadProgress
+//        let progressPercent = Int(uploadProgress*100)
+//        progressText.text = "\(progressPercent)%"
+//        print(uploadProgress)
+//    }
     
     //------------------------ HELPER METHODS ------------------------
     

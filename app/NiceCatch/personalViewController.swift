@@ -16,7 +16,7 @@ struct MyVariables {
     static var isSubmitted = false
 }
 
-class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var progressBar: UIProgressView!
@@ -257,7 +257,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         print("past validation")
         
         //animate until uploaded
-        activityIndicator.startAnimating()
+        //activityIndicator.startAnimating()
         
         //there is an image to upload.
         if(myImageView.image != nil){
@@ -280,11 +280,11 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "actionTaken":""
         ]
         
-        //Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
-        Alamofire.request(.POST, "http://thrownote.com/api/v1/reports", parameters: params).responseJSON { response in
+        Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
+        //Alamofire.request(.POST, "http://thrownote.com/api/v1/reports", parameters: params).responseJSON { response in
             if let _ = response.result.value {
                 let json = JSON(data: response.data!)
-                //print(json)
+                print(json)
                 
                 let jsonData = json["data"]
                 //print(jsonData)
@@ -295,7 +295,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                     if(self.myImageView.image != nil){
                         self.uploadPhoto()
                     } else {
-                        self.activityIndicator.stopAnimating()
+                        //self.activityIndicator.stopAnimating()
                         self.presentThankYou()
                     }
                 } else {
@@ -309,6 +309,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     func uploadPhoto(){
         print("photo upload")
+        
+        activityIndicator.startAnimating()
         
         let myUrl = NSURL(string: "https://people.cs.clemson.edu/~jacksod/api/v1/reports/\(finalReportData.remoteID)/photo");
         
@@ -366,17 +368,17 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         task.resume()
     }//func
     
-//    //to show progress
-//    func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64)
-//    {
-//        print("didSendBodyData")
-//        let uploadProgress:Float = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
-//        
-//        progressBar.progress = uploadProgress
-//        let progressPercent = Int(uploadProgress*100)
-//        progressText.text = "\(progressPercent)%"
-//        print(uploadProgress)
-//    }
+    //to show progress
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64)
+    {
+        print("didSendBodyData")
+        let uploadProgress:Float = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
+        
+        progressBar.progress = uploadProgress
+        let progressPercent = Int(uploadProgress*100)
+        progressText.text = "\(progressPercent)%"
+        print(uploadProgress)
+    }
     
     //------------------------ HELPER METHODS ------------------------
     

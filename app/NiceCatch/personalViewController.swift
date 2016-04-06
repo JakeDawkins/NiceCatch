@@ -54,6 +54,10 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         usernameField.delegate = self
         phoneNumField.delegate = self
         
+        //hide progress bar and text
+        progressBar.hidden = true;
+        progressText.hidden = true;
+        
         // Keyboard stuff.
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: #selector(personalViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)

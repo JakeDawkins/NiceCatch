@@ -235,11 +235,97 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         MyVariables.isSubmitted = true
         self.saveUserDefaults()
         self.addPersonalInfo()
-        self.addToDatabase()
+        //self.addToDatabase()
+        self.submitReport() //test
     }
     
     //------------------------ REMOTE DB METHODS ------------------------
+    func submitReport(){
+        let session = NSURLSession.sharedSession()
+        let myUrl:String = "https://people.cs.clemson.edu/~jacksod/api/v1/reports"
+        let url:NSURL = NSURL(string: myUrl)!
+        
+        let request = NSMutableURLRequest(URL:url)
+        request.HTTPMethod="POST"
+        request.cachePolicy = NSURLRequestCachePolicy.ReloadIgnoringCacheData
+        
+        print ("DEPT: \(finalReportData.departmentName)")
+        //PARAMETERS
+        let paramString = "description=\(finalReportData.incidentDesc)" +
+            "&involvementKind=\(finalReportData.involveKind)" +
+            "&reportKind=\(finalReportData.reportKind)" +
+            "&buildingName=\(finalReportData.buildingName)" +
+            "&room=\(finalReportData.roomNum)" +
+            "&personKind=\(finalReportData.designation)" +
+            "&name=\(finalReportData.name)" +
+            "&username=\(finalReportData.username)" +
+            "&phone=\(finalReportData.phoneNum)" +
+            "&department=\(finalReportData.departmentName)" +
+            "&dateTime=\(self.getDateTimeString())" +
+            "&statusID=1" +
+            "&actionTaken="
+        request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        //Actual request task
+        let task = session.dataTaskWithRequest(request){
+            (let data, let response, let error) in
+            guard let _:NSData = data, let _:NSURLResponse = response where error == nil else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    print("NETWORK ERROR")
+                    print(error)
+                    self.myImageView.alpha = 1.0 //make image opaque again
+                    self.activityIndicator.stopAnimating()
+                    self.presentNetworkError()
+                })
+                return
+            }
+            //no error, process response
+            //let dataString = NSString(data: data!, encoding:NSUTF8StringEncoding)
+            let json = JSON(data: data!)
+            
+            let jsonData = json["data"]
+            print(jsonData)
+            
+            //make sure successful by checking for remote id in response
+            if let remoteID = Int(jsonData["id"].stringValue){
+                print("remote id: \(remoteID)")
+                finalReportData.remoteID = remoteID
+                if(self.myImageView.image != nil){
+                    self.uploadPhoto()
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.myImageView.alpha = 1.0
+                        self.activityIndicator.stopAnimating()
+                        self.presentThankYou()
+                    })
+                }
+            } else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    print("error getting remote ID")
+                    self.myImageView.alpha = 1.0 //make image opaque again
+                    self.activityIndicator.stopAnimating()
+                    self.presentSubmitError()
+                })
+                return
+            }
+            
+        }
+        
+        //---- prepare to send data ----
+        //animate until uploaded
+        activityIndicator.startAnimating()
+        
+        //there is an image to upload.
+        if(myImageView.image != nil){
+            dispatch_async(dispatch_get_main_queue(), {
+                self.myImageView.alpha = 0.5
+            })
+        }
+        
+        task.resume()
+    }
     
+    /*
     func addToDatabase() {
         //reset remote id
         finalReportData.remoteID = -1
@@ -285,7 +371,6 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         ]
         
         Alamofire.request(.POST, "https://people.cs.clemson.edu/~jacksod/api/v1/reports", parameters: params).responseJSON { response in
-        //Alamofire.request(.POST, "http://thrownote.com/api/v1/reports", parameters: params).responseJSON { response in
             if let _ = response.result.value {
                 let json = JSON(data: response.data!)
                 print(json)
@@ -309,7 +394,7 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 }
             }//if let _
         }//request
-    }//func
+    }//func*/
     
     func uploadPhoto(){
         print("photo upload")
@@ -358,15 +443,22 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
                     if let jsonResult = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as? NSDictionary {
                         dispatch_async(dispatch_get_main_queue(), {
                             print(jsonResult)
+                            self.myImageView.alpha = 1.0
                             self.activityIndicator.stopAnimating()
                             self.presentThankYou()
                         })
                     } //if let jsonResult
                 } catch let error as NSError {
                     print(error.localizedDescription)
+                    self.myImageView.alpha = 1.0 //make image opaque again
+                    self.activityIndicator.stopAnimating()
+                    self.presentSubmitError()
                 }
             } else if let error = error {
                 print(error.localizedDescription)
+                self.myImageView.alpha = 1.0 //make image opaque again
+                self.activityIndicator.stopAnimating()
+                self.presentSubmitError()
             }
         }
         task.resume()
@@ -392,6 +484,18 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction!) in
             self.navigationController?.popToRootViewControllerAnimated(true)
         }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func presentNetworkError(){
+        let alert = UIAlertController(title: "Whoops!", message: "There was a network error. Please try submitting again.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func presentSubmitError(){
+        let alert = UIAlertController(title: "Whoops!", message: "There was as error submitting your report. Please try submitting again.", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     

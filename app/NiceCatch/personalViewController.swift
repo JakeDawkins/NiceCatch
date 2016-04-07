@@ -19,8 +19,8 @@ struct MyVariables {
 class personalViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate, NSURLSessionDataDelegate {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var progressBar: UIProgressView!
-    @IBOutlet weak var progressText: UILabel!
+    //@IBOutlet weak var progressBar: UIProgressView!
+    //@IBOutlet weak var progressText: UILabel!
     
     @IBOutlet weak var designTextField: UITextField!
     @IBOutlet weak var nameField: UITextField!
@@ -55,8 +55,8 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
         phoneNumField.delegate = self
         
         //hide progress bar and text
-        progressBar.hidden = true;
-        progressText.hidden = true;
+        //progressBar.hidden = true;
+        //progressText.hidden = true;
         
         // Keyboard stuff.
         let center: NSNotificationCenter = NSNotificationCenter.defaultCenter()
@@ -465,16 +465,17 @@ class personalViewController: UIViewController, UIPickerViewDataSource, UIPicker
     }//func
     
     //to show progress
+    /*
     func URLSession(session: NSURLSession, task: NSURLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64)
     {
         print("didSendBodyData")
         let uploadProgress:Float = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
         
-        progressBar.progress = uploadProgress
+        //progressBar.progress = uploadProgress
         let progressPercent = Int(uploadProgress*100)
-        progressText.text = "\(progressPercent)%"
+        //progressText.text = "\(progressPercent)%"
         print(uploadProgress)
-    }
+    }*/
     
     //------------------------ HELPER METHODS ------------------------
     

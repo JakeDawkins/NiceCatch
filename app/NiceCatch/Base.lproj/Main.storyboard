@@ -209,9 +209,8 @@ Please share your experiences with us so that we may continue to improve the saf
                                         <exclude reference="wS6-Dd-cKY"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                <variation key="heightClass=regular-widthClass=regular">
                                     <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                    <rect key="frame" x="160.5" y="490" width="280" height="90"/>
                                     <mask key="constraints">
                                         <exclude reference="5Fo-Ri-Jh8"/>
                                         <include reference="7Zp-ki-upx"/>
@@ -358,7 +357,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="20" y="427" width="565" height="350"/>
+                                    <rect key="frame" x="20" y="427" width="765" height="350"/>
                                     <mask key="constraints">
                                         <include reference="gd1-jG-Qnp"/>
                                         <exclude reference="vdi-ma-kDb"/>
@@ -727,7 +726,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <textInputTraits key="textInputTraits"/>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                    <rect key="frame" x="259" y="214" width="84" height="30"/>
+                                    <rect key="frame" x="259" y="214" width="284" height="30"/>
                                     <mask key="constraints">
                                         <exclude reference="X9z-C5-n05"/>
                                         <exclude reference="hSF-3S-4P1"/>
@@ -791,7 +790,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="305" y="548" width="54" height="44"/>
+                                    <rect key="frame" x="305" y="748" width="54" height="44"/>
                                     <mask key="constraints">
                                         <exclude reference="W02-Mz-v0t"/>
                                         <include reference="yBw-GI-EB3"/>
@@ -834,7 +833,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="543" y="24" width="50" height="45.5"/>
+                                    <rect key="frame" x="743" y="24" width="50" height="45.5"/>
                                     <mask key="constraints">
                                         <exclude reference="EmE-PV-h1X"/>
                                         <exclude reference="PBY-sK-tDd"/>
@@ -863,7 +862,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="543" y="257" width="50" height="45.5"/>
+                                    <rect key="frame" x="743" y="257" width="50" height="45.5"/>
                                     <mask key="constraints">
                                         <exclude reference="Hcy-WA-IZZ"/>
                                         <exclude reference="Uba-WW-4X6"/>
@@ -887,7 +886,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="34" y="59" width="512" height="147"/>
+                                    <rect key="frame" x="34" y="59" width="712" height="147"/>
                                     <mask key="constraints">
                                         <exclude reference="rFg-jp-2UB"/>
                                         <include reference="t6F-f3-jfX"/>
@@ -1138,26 +1137,6 @@ Please share your experiences with us so that we may continue to improve the saf
                                     <rect key="frame" x="245" y="434" width="535" height="30"/>
                                 </variation>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B48-Cb-mLt">
-                                <rect key="frame" x="200" y="548" width="200" height="44"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="4dD-Nb-iTE"/>
-                                    <constraint firstAttribute="height" constant="44" id="IMm-zG-C6R"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <state key="normal" title="Submit"/>
-                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <fontDescription key="fontDescription" type="system" pointSize="34"/>
-                                    <rect key="frame" x="160" y="500" width="280" height="80"/>
-                                    <mask key="constraints">
-                                        <exclude reference="4dD-Nb-iTE"/>
-                                    </mask>
-                                </variation>
-                                <connections>
-                                    <action selector="submitClicked:" destination="nB1-Ic-bSO" eventType="touchUpInside" id="wrE-Jt-H7W"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dun-gg-EXh">
                                 <rect key="frame" x="443" y="221" width="137" height="36"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
@@ -1179,7 +1158,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                    <rect key="frame" x="340" y="165.5" width="240" height="63"/>
+                                    <rect key="frame" x="540" y="165.5" width="240" height="63"/>
                                     <mask key="constraints">
                                         <exclude reference="6jT-NK-kEd"/>
                                         <include reference="FZG-03-8Qr"/>
@@ -1249,7 +1228,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
-                                    <rect key="frame" x="20" y="72" width="560" height="78.5"/>
+                                    <rect key="frame" x="20" y="72" width="760" height="78.5"/>
                                     <mask key="constraints">
                                         <exclude reference="IlH-rK-CEP"/>
                                         <include reference="usz-gt-fuy"/>
@@ -1381,25 +1360,34 @@ Please share your experiences with us so that we may continue to improve the saf
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="obZ-SB-MJL">
                                 <rect key="frame" x="290" y="132" width="20" height="20"/>
                             </activityIndicatorView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="IIa-Yo-oiO">
-                                <rect key="frame" x="200" y="538" width="161.5" height="2"/>
-                            </progressView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ghh-du-RCq">
-                                <rect key="frame" x="369.5" y="531.5" width="30.5" height="14.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B48-Cb-mLt">
+                                <rect key="frame" x="200" y="548" width="200" height="44"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="4dD-Nb-iTE"/>
+                                    <constraint firstAttribute="height" constant="44" id="IMm-zG-C6R"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" title="Submit"/>
+                                <variation key="heightClass=regular-widthClass=regular" misplaced="YES">
+                                    <fontDescription key="fontDescription" type="system" pointSize="34"/>
+                                    <rect key="frame" x="260" y="700" width="280" height="80"/>
+                                    <mask key="constraints">
+                                        <exclude reference="4dD-Nb-iTE"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="submitClicked:" destination="nB1-Ic-bSO" eventType="touchUpInside" id="wrE-Jt-H7W"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95155391229999997" green="0.69469469640000003" blue="0.1961131267" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="ghh-du-RCq" firstAttribute="centerY" secondItem="IIa-Yo-oiO" secondAttribute="centerY" id="0Cz-o2-rTY"/>
                             <constraint firstItem="s7g-ky-7zt" firstAttribute="top" secondItem="flV-Dp-vI3" secondAttribute="bottom" constant="18" id="1HW-RJ-Key"/>
                             <constraint firstItem="flV-Dp-vI3" firstAttribute="top" secondItem="yOT-0X-6VE" secondAttribute="bottom" constant="88" id="1aZ-mw-338"/>
                             <constraint firstItem="jqZ-tP-CNT" firstAttribute="width" secondItem="Iqy-t2-7Yc" secondAttribute="width" id="3OS-78-0CH">
                                 <variation key="heightClass=regular-widthClass=regular" constant="7"/>
                             </constraint>
-                            <constraint firstItem="IIa-Yo-oiO" firstAttribute="leading" secondItem="B48-Cb-mLt" secondAttribute="leading" id="40F-D2-CbD"/>
                             <constraint firstItem="gbi-QG-P7d" firstAttribute="top" secondItem="fMN-hY-J7L" secondAttribute="bottom" constant="14" id="4uC-Mv-vPv"/>
                             <constraint firstAttribute="leadingMargin" secondItem="flV-Dp-vI3" secondAttribute="leading" id="5uE-mp-FcK"/>
                             <constraint firstItem="fMN-hY-J7L" firstAttribute="top" secondItem="hsk-V9-4Ew" secondAttribute="bottom" constant="24" id="7Ri-Tm-uyH">
@@ -1413,6 +1401,7 @@ Please share your experiences with us so that we may continue to improve the saf
                             <constraint firstItem="fMN-hY-J7L" firstAttribute="leading" secondItem="s7g-ky-7zt" secondAttribute="trailing" constant="55" id="EoL-Ih-g4w"/>
                             <constraint firstAttribute="leadingMargin" secondItem="flV-Dp-vI3" secondAttribute="leading" id="FMz-1D-ekF"/>
                             <constraint firstItem="obZ-SB-MJL" firstAttribute="centerX" secondItem="EMJ-cR-orn" secondAttribute="centerX" id="G3T-PA-4fM"/>
+                            <constraint firstItem="FWO-9A-tzv" firstAttribute="top" secondItem="B48-Cb-mLt" secondAttribute="bottom" constant="20" id="GNe-Vm-Cxn"/>
                             <constraint firstAttribute="leadingMargin" secondItem="s7g-ky-7zt" secondAttribute="leading" id="HY0-Wx-3Ep"/>
                             <constraint firstItem="Wc0-fS-uA7" firstAttribute="top" secondItem="s7g-ky-7zt" secondAttribute="bottom" constant="18" id="KME-wX-aCC"/>
                             <constraint firstItem="Iqy-t2-7Yc" firstAttribute="leading" secondItem="yOT-0X-6VE" secondAttribute="trailing" constant="30" id="NHn-ft-IuO"/>
@@ -1430,7 +1419,6 @@ Please share your experiences with us so that we may continue to improve the saf
                             <constraint firstItem="nyF-bH-eg1" firstAttribute="top" secondItem="EMJ-cR-orn" secondAttribute="bottom" constant="8" id="csm-nq-2yw"/>
                             <constraint firstItem="gbi-QG-P7d" firstAttribute="leading" secondItem="Wc0-fS-uA7" secondAttribute="trailing" constant="11" id="d80-wL-NW9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="EMJ-cR-orn" secondAttribute="trailing" id="dDs-go-7Mt"/>
-                            <constraint firstItem="ghh-du-RCq" firstAttribute="leading" secondItem="IIa-Yo-oiO" secondAttribute="trailing" constant="8" id="e2P-tS-fRJ"/>
                             <constraint firstItem="FWO-9A-tzv" firstAttribute="top" secondItem="B48-Cb-mLt" secondAttribute="bottom" constant="8" id="eOl-HH-cHc"/>
                             <constraint firstAttribute="leadingMargin" secondItem="yOT-0X-6VE" secondAttribute="leading" id="fcc-Mj-IYQ"/>
                             <constraint firstItem="jqZ-tP-CNT" firstAttribute="leading" secondItem="quJ-F7-bSN" secondAttribute="leadingMargin" constant="90" id="fkU-3z-9kX">
@@ -1448,8 +1436,6 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <variation key="heightClass=regular-widthClass=regular" constant="30"/>
                             </constraint>
                             <constraint firstItem="gbi-QG-P7d" firstAttribute="leading" secondItem="quJ-F7-bSN" secondAttribute="leadingMargin" constant="148" id="rQU-n2-6ua"/>
-                            <constraint firstItem="ghh-du-RCq" firstAttribute="trailing" secondItem="B48-Cb-mLt" secondAttribute="trailing" id="sSo-mz-jEo"/>
-                            <constraint firstItem="B48-Cb-mLt" firstAttribute="top" secondItem="IIa-Yo-oiO" secondAttribute="bottom" constant="8" id="tsG-q6-4oN"/>
                             <constraint firstItem="gbi-QG-P7d" firstAttribute="top" secondItem="fMN-hY-J7L" secondAttribute="bottom" constant="25" id="vnQ-sQ-Gmz">
                                 <variation key="heightClass=regular-widthClass=regular" constant="26"/>
                             </constraint>
@@ -1485,6 +1471,7 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <exclude reference="coe-xZ-XzC"/>
                                 <exclude reference="RYd-wD-9P8"/>
                                 <exclude reference="vnQ-sQ-Gmz"/>
+                                <exclude reference="GNe-Vm-Cxn"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=regular">
@@ -1518,8 +1505,9 @@ Please share your experiences with us so that we may continue to improve the saf
                                 <exclude reference="rQU-n2-6ua"/>
                                 <include reference="vnQ-sQ-Gmz"/>
                                 <exclude reference="CoN-Td-gjF"/>
-                                <exclude reference="SWk-o4-qn0"/>
+                                <include reference="SWk-o4-qn0"/>
                                 <exclude reference="EOF-e5-BFY"/>
+                                <include reference="GNe-Vm-Cxn"/>
                                 <exclude reference="eOl-HH-cHc"/>
                             </mask>
                         </variation>
@@ -1531,8 +1519,6 @@ Please share your experiences with us so that we may continue to improve the saf
                         <outlet property="myImageView" destination="EMJ-cR-orn" id="4hG-dQ-qQ5"/>
                         <outlet property="nameField" destination="hsk-V9-4Ew" id="L93-ve-OwA"/>
                         <outlet property="phoneNumField" destination="gbi-QG-P7d" id="d6A-jq-gPq"/>
-                        <outlet property="progressBar" destination="IIa-Yo-oiO" id="21U-dG-MU3"/>
-                        <outlet property="progressText" destination="ghh-du-RCq" id="Gw8-4e-DZr"/>
                         <outlet property="usernameField" destination="fMN-hY-J7L" id="2HN-Jg-OiC"/>
                     </connections>
                 </viewController>

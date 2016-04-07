@@ -10,9 +10,5 @@ import Foundation
 import UIKit
 
 class navigationController: UINavigationController {
-    override func shouldAutorotate() -> Bool {
-        
-        return false
-        
-    }
+    
 }

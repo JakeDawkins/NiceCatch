@@ -25,7 +25,6 @@ class infoViewController: UIViewController, UIGestureRecognizerDelegate {
         let tap:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(infoViewController.labelAction(_:)))
         hyperlink.addGestureRecognizer(tap)
         tap.delegate = self // Remember to extend your class with UIGestureRecognizerDelegate
-
     }
     
     override func didReceiveMemoryWarning() {

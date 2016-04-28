@@ -19,16 +19,9 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     @IBOutlet weak var roomNumField: UITextField!
     
-    //var buildings: Array<String> = []
-    //var jsonArray:NSMutableArray?
-    //var campusBuildingNames:Array<String> = []
-    //var departmentNames:Array<String> = []
-    
     @IBOutlet weak var buildingSearch: UISearchBar!
     @IBOutlet weak var buildingTable: UITableView!
     var filteredCampusBuildings = [String]()
-    let otherBuildingNames = ["AMRL", "Ansell", "CETL", "Cherry Farm", "Endocrine Lab", "Environmental Tox", "Griffith", "HP Cooper", "ICAR", "Lashch Lab", "Patewood", "Pee Dee", "Pesticide Bldg", "Rich Lab", "Vet Diagnostic Center"]
-    var filteredOtherBuildings = [String]()
     
     @IBOutlet weak var departmentSearch: UISearchBar!
     @IBOutlet weak var departmentTable: UITableView!
@@ -59,8 +52,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         
         buildingTable.hidden = true
         departmentTable.hidden = true
-        
-        locSwitch.addTarget(self, action: #selector(locationController.stateChanged(_:)), forControlEvents: UIControlEvents.ValueChanged)
         
         roomNumField.delegate = self
         
@@ -132,11 +123,7 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     
     func filterContentForSearchText(searchText: String) {
         if buildingTable.hidden == false {
-            if locSwitch.on {
-                filteredOtherBuildings = otherBuildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
-            } else {
-                filteredCampusBuildings = preloadedData.buildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
-            }
+            filteredCampusBuildings = preloadedData.buildingNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
         } else {
             filteredDepartNames = preloadedData.departmentNames.filter() { $0.lowercaseString.hasPrefix(searchText.lowercaseString) }
         }
@@ -167,8 +154,6 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         }
         return true
     }
-    
-    @IBOutlet weak var locSwitch: UISwitch!
     
     func stateChanged(switchState: UISwitch) {
         buildingTable.reloadData()
@@ -201,17 +186,9 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == buildingTable {
             if useFilteredData {
-                if locSwitch.on {
-                    return filteredOtherBuildings.count
-                } else {
-                    return filteredCampusBuildings.count
-                }
+                return filteredCampusBuildings.count
             } else {
-                if locSwitch.on {
-                    return otherBuildingNames.count
-                } else {
-                    return preloadedData.buildingNames.count
-                }
+                return preloadedData.buildingNames.count
             }
         } else {
             if useFilteredData {
@@ -226,17 +203,9 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
         if tableView == buildingTable {
             let cell:UITableViewCell = buildingTable.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
             if useFilteredData {
-                if locSwitch.on {
-                    cell.textLabel?.text = filteredOtherBuildings[indexPath.row]
-                } else {
-                    cell.textLabel?.text = filteredCampusBuildings[indexPath.row]
-                }
+                cell.textLabel?.text = filteredCampusBuildings[indexPath.row]
             } else {
-                if locSwitch.on {
-                    cell.textLabel?.text = otherBuildingNames[indexPath.row]
-                } else {
-                    cell.textLabel?.text = preloadedData.buildingNames[indexPath.row]
-                }
+                cell.textLabel?.text = preloadedData.buildingNames[indexPath.row]
             }
             return cell
         } else {
@@ -253,17 +222,9 @@ UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, UISe
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if tableView == buildingTable {
             if useFilteredData {
-                if locSwitch.on {
-                    buildingSearch.text = filteredOtherBuildings[indexPath.row]
-                } else {
-                    buildingSearch.text = filteredCampusBuildings[indexPath.row]
-                }
+                buildingSearch.text = filteredCampusBuildings[indexPath.row]
             } else {
-                if locSwitch.on {
-                    buildingSearch.text = otherBuildingNames[indexPath.row]
-                } else {
-                    buildingSearch.text = preloadedData.buildingNames[indexPath.row]
-                }
+                buildingSearch.text = preloadedData.buildingNames[indexPath.row]
             }
             useFilteredData = false
             buildingTable.hidden = true

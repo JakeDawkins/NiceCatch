@@ -3,8 +3,8 @@
 //Database Information
 
 //CLEM
-//$db_host = ""; //Host address (most likely localhost)
-//$db_name = ""; //Name of Database
+//$db_host = ""; //Host address
+//$db_name = "NiceCatch"; //Name of Database
 //$db_user = ""; //Name of database user
 //$db_pass = ""; //Password for database user
 
